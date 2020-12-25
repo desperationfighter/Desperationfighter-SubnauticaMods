@@ -10,6 +10,14 @@ using HarmonyLib;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// WARNING THIS IS A COPY OF "RandyKnapp"´s MOD "LongLockerNames"
+/// https://github.com/RandyKnapp/SubnauticaModSystem/tree/master/SubnauticaModSystem
+/// IT IS ONLY FOR DEBUG PURPOS AND SHOULD NOT BE USED. ALL CHANGES WILL GO TO THE ORIGINAL MOD AFTER FINISHED
+/// THE ONLY REASON WHY I BUILD IT THIS WAY IS: BUILDING IT FROM SCRATCH IS EASIER AS CHANING THE ORIGINAL BECAUSE THERE ARE SOME MAJOR CHANGES.
+/// WARNING DON`T USE THIS MOD
+/// </summary>
+
 namespace TestMod.Patches
 {
     [HarmonyPatch(typeof(uGUI_SignInput))]
@@ -54,7 +62,7 @@ namespace TestMod.Patches
 		{
 			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN PatchSmallLocker Methode begin");
 			__instance.inputField.lineType = InputField.LineType.MultiLineNewline;
-			__instance.inputField.characterLimit = 60;
+			__instance.inputField.characterLimit = 54;
 
 			var rt = __instance.inputField.transform as RectTransform;
 			RectTransformExtensions.SetSize(rt, rt.rect.width, TextFieldHeight);
@@ -69,7 +77,7 @@ namespace TestMod.Patches
 		private static void PatchSign(uGUI_SignInput __instance)
 		{
 			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN PatchSign Methode begin");
-			__instance.inputField.characterLimit = 100;			
+			__instance.inputField.characterLimit = 90;			
 		}
 
 	}
