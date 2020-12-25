@@ -15,6 +15,14 @@ using QModManager.API;
 //for Logging
 using QModManager.Utility;
 
+/// <summary>
+/// WARNING THIS IS A COPY OF "RandyKnapp"´s MOD "LongLockerNames"
+/// https://github.com/RandyKnapp/SubnauticaModSystem/tree/master/SubnauticaModSystem
+/// IT IS ONLY FOR DEBUG PURPOS AND SHOULD NOT BE USED. ALL CHANGES WILL GO TO THE ORIGINAL MOD AFTER FINISHED
+/// THE ONLY REASON WHY I BUILD IT THIS WAY IS: BUILDING IT FROM SCRATCH IS EASIER AS CHANING THE ORIGINAL BECAUSE THERE ARE SOME MAJOR CHANGES.
+/// WARNING DON`T USE THIS MOD
+/// </summary>
+
 namespace TestMod
 {
     [QModCore]
