@@ -11,11 +11,8 @@ using UnityEngine;
 
 using QModManager.API;
 
-
-	using MoreCyclopsUpgrades.API;
-	using MoreCyclopsUpgrades.API.General;
-	using MoreCyclopsUpgrades.API.Upgrades;
 using System.Reflection;
+using CyclopsEngineOverheatMonitor.Management;
 
 namespace CyclopsEngineOverheatMonitor.Patches
 {
@@ -27,10 +24,83 @@ namespace CyclopsEngineOverheatMonitor.Patches
 		[HarmonyPrefix]
 		private static bool PreFix(SubFire __instance,MethodBase __originalMethod)
 		{
-			EngineOverheatSimulation(__instance, __originalMethod);
+			//EngineOverheatSimulation(__instance, __originalMethod);
+			EngineOverheatSimulation_Patch(__instance, __originalMethod);
 			return false;
 		}
-		
+
+		private static CyclopsEngineOverheatMonitorConfigIngameMenu OHM_Config = new CyclopsEngineOverheatMonitorConfigIngameMenu();
+		private static int engineOverheatValue_Patched;
+		public static int EngineOverheatValue_Patched { get => engineOverheatValue_Patched; }
+
+		private static void EngineOverheatSimulation_Patch(SubFire __instance, MethodBase __originalMethod)
+		{
+			if (!__instance.LOD.IsFull())
+			{
+				return;
+			}
+
+			if(OHM_Config.CyclopsHeat_general_disable == false)
+            {
+				if (__instance.subControl.cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank && __instance.subControl.appliedThrottle && __instance.cyclopsMotorMode.engineOn)
+				{
+					int maxheatlimit = OHM_Config.CyclopsHeat_TempMaxHeat;
+
+					__instance.engineOverheatValue = Mathf.Min(__instance.engineOverheatValue + 1, maxheatlimit);
+					int num = 0;
+
+					if (__instance.engineOverheatValue > 5)
+					{
+						num = UnityEngine.Random.Range(1, 4);
+						if (!OHM_Config.CyclopsHeat_mainwarning_disable)
+						{
+							__instance.subRoot.voiceNotificationManager.PlayVoiceNotification(__instance.subRoot.engineOverheatCriticalNotification, true, false);
+						}
+					}
+					else if (__instance.engineOverheatValue > 3)
+					{
+						num = UnityEngine.Random.Range(1, 6);
+						if(!OHM_Config.CyclopsHeat_prewarning_disable)
+						{
+							__instance.subRoot.voiceNotificationManager.PlayVoiceNotification(__instance.subRoot.engineOverheatNotification, true, false);
+						}
+					}
+
+					if (num == 1)
+					{
+						if(!OHM_Config.CyclopsHeat_FireonOverheat_disable)
+                        {
+							__instance.CreateFire(__instance.roomFires[CyclopsRooms.EngineRoom]);
+							QModServices.Main.AddCriticalMessage("Fire started");
+						}
+						else
+                        {
+							QModServices.Main.AddCriticalMessage("Fire not started");
+						}
+						return;
+					}
+				}
+				else
+				{
+					int cooling = 1;
+					if(OHM_Config.CyclopsHeat_coolingrecover_double)
+                    {
+						cooling = 2;
+					}
+					
+					if (__instance.subControl.cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank)
+					{
+						__instance.engineOverheatValue = Mathf.Max(1, __instance.engineOverheatValue - cooling);
+						return;
+					}
+					__instance.engineOverheatValue = Mathf.Max(0, __instance.engineOverheatValue - cooling);
+				}
+			}
+			else
+            {
+				QModServices.Main.AddCriticalMessage("skip that shit");
+			}
+		} //EDNE private static void EngineOverheatSimulation_Patch
 
 		private static void EngineOverheatSimulation(SubFire __instance, MethodBase __originalMethod)
         {
@@ -93,22 +163,24 @@ namespace CyclopsEngineOverheatMonitor.Patches
 
 				__instance.engineOverheatValue = Mathf.Min(__instance.engineOverheatValue + 1, 10);
 				int num = 0;
+
 				if (__instance.engineOverheatValue > 5)
 				{
+					//QModServices.Main.AddCriticalMessage("Überhitzung");
 					num = UnityEngine.Random.Range(1, 4);
 					__instance.subRoot.voiceNotificationManager.PlayVoiceNotification(__instance.subRoot.engineOverheatCriticalNotification, true, false);
-					QModServices.Main.AddCriticalMessage("Überhitzung");
 				}
 				else if (__instance.engineOverheatValue > 3)
 				{
-					QModServices.Main.AddCriticalMessage("Kritisch");
+					//QModServices.Main.AddCriticalMessage("Kritisch");
 					num = UnityEngine.Random.Range(1, 6);
 					__instance.subRoot.voiceNotificationManager.PlayVoiceNotification(__instance.subRoot.engineOverheatNotification, true, false);
 				}
+				
 				if (num == 1)
 				{
 					//__instance.CreateFire(__instance.roomFires[CyclopsRooms.EngineRoom]);
-					QModServices.Main.AddCriticalMessage("Boom ein Feuer wäre ausgebrochen");
+					//QModServices.Main.AddCriticalMessage("Boom ein Feuer wäre ausgebrochen");
 					return;
 				}
 			}
@@ -123,5 +195,6 @@ namespace CyclopsEngineOverheatMonitor.Patches
 			}
 			
 		}
-    }
-}
+    
+	} // ende Class
+} //ende Namespace
