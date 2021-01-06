@@ -1,10 +1,10 @@
 ﻿/*
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 */
+using System;
 
 using HarmonyLib;
 using UnityEngine;
@@ -40,16 +40,26 @@ namespace CyclopsEngineOverheatMonitor.Patches
 				return;
 			}
 
-			if(OHM_Config.CyclopsHeat_general_disable == false)
+			int makeitbigger = 2;
+			int maxheatlimit = OHM_Config.CyclopsHeat_TempMaxHeat;
+
+			float watertemp_float = WaterTemperatureSimulation.main.GetTemperature(__instance.subRoot.transform.position);
+			int watertemp = (int)Math.Round(watertemp_float);
+			
+			int heatincreasepertik = 1 * makeitbigger;
+			if(watertemp > 55 && OHM_Config.CyclopsHeat_coolingontemp == true)
+            {
+				heatincreasepertik++;
+            }
+
+			if (OHM_Config.CyclopsHeat_general_disable == false)
             {
 				if (__instance.subControl.cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank && __instance.subControl.appliedThrottle && __instance.cyclopsMotorMode.engineOn)
 				{
-					int maxheatlimit = OHM_Config.CyclopsHeat_TempMaxHeat;
-
-					__instance.engineOverheatValue = Mathf.Min(__instance.engineOverheatValue + 1, maxheatlimit);
+					__instance.engineOverheatValue = Mathf.Min(__instance.engineOverheatValue + heatincreasepertik, (maxheatlimit*makeitbigger));
 					int num = 0;
 
-					if (__instance.engineOverheatValue > 5)
+					if (__instance.engineOverheatValue > (5*makeitbigger))
 					{
 						num = UnityEngine.Random.Range(1, 4);
 						if (!OHM_Config.CyclopsHeat_mainwarning_disable)
@@ -57,7 +67,7 @@ namespace CyclopsEngineOverheatMonitor.Patches
 							__instance.subRoot.voiceNotificationManager.PlayVoiceNotification(__instance.subRoot.engineOverheatCriticalNotification, true, false);
 						}
 					}
-					else if (__instance.engineOverheatValue > 3)
+					else if (__instance.engineOverheatValue > (3*makeitbigger))
 					{
 						num = UnityEngine.Random.Range(1, 6);
 						if(!OHM_Config.CyclopsHeat_prewarning_disable)
@@ -71,21 +81,20 @@ namespace CyclopsEngineOverheatMonitor.Patches
 						if(!OHM_Config.CyclopsHeat_FireonOverheat_disable)
                         {
 							__instance.CreateFire(__instance.roomFires[CyclopsRooms.EngineRoom]);
-							QModServices.Main.AddCriticalMessage("Fire started");
-						}
-						else
-                        {
-							QModServices.Main.AddCriticalMessage("Fire not started");
 						}
 						return;
 					}
 				}
 				else
 				{
-					int cooling = 1;
+					int cooling = 1 * makeitbigger;
+					if(watertemp < 20 && OHM_Config.CyclopsHeat_fastheat == true)
+                    {
+						cooling++;
+                    }
 					if(OHM_Config.CyclopsHeat_coolingrecover_double)
                     {
-						cooling = 2;
+						cooling = cooling * 2;
 					}
 					
 					if (__instance.subControl.cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank)
@@ -95,10 +104,6 @@ namespace CyclopsEngineOverheatMonitor.Patches
 					}
 					__instance.engineOverheatValue = Mathf.Max(0, __instance.engineOverheatValue - cooling);
 				}
-			}
-			else
-            {
-				QModServices.Main.AddCriticalMessage("skip that shit");
 			}
 		} //EDNE private static void EngineOverheatSimulation_Patch
 

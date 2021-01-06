@@ -35,6 +35,12 @@ namespace CyclopsEngineOverheatMonitor.Management
         [Slider("2. Temperatur above Max Heat", 10, 50, DefaultValue = 10)]
         public int CyclopsHeat_TempMaxHeat = 10;
 
+        [Toggle("2. Enable better cooling on low Temp")]
+        public bool CyclopsHeat_coolingontemp = false;
+
+        [Toggle("2. Enable faster heating on high Temp")]
+        public bool CyclopsHeat_fastheat = false;
+
         /*
         [Slider("My slider", 0, 50, DefaultValue = 25)]
         public int SliderValue = 25;
