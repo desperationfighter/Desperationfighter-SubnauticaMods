@@ -13,13 +13,13 @@ using CyclopsEngineOverheatMonitor.Items;
 
 namespace CyclopsEngineOverheatMonitor.Management
 {
-    class CyclopsEngineOverheatMonitorHandler : UpgradeHandler
+    class CyclopsEngineOverheatHandler : UpgradeHandler
     {
-        private readonly CylopsEngineOverheatMonitorModule cylopsEngineOverheatMonitorModule;
+        private readonly CylopsEngineOverheatModule cylopsEngineOverheatMonitorModule;
         private CyclopsMotorMode motorMode;
         private CyclopsMotorMode MotorMode => motorMode ?? (motorMode = base.Cyclops.GetComponentInChildren<CyclopsMotorMode>());
         
-        public CyclopsEngineOverheatMonitorHandler(CylopsEngineOverheatMonitorModule cylopsEngineOverheatMonitorModule, SubRoot cyclops) : base(cylopsEngineOverheatMonitorModule.TechType, cyclops)
+        public CyclopsEngineOverheatHandler(CylopsEngineOverheatModule cylopsEngineOverheatMonitorModule, SubRoot cyclops) : base(cylopsEngineOverheatMonitorModule.TechType, cyclops)
         {
 
 

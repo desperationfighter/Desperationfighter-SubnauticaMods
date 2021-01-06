@@ -29,7 +29,7 @@ namespace CyclopsEngineOverheatMonitor.Patches
 			return false;
 		}
 
-		private static CyclopsEngineOverheatMonitorConfigIngameMenu OHM_Config = new CyclopsEngineOverheatMonitorConfigIngameMenu();
+		private static CyclopsEngineOverheatConfigIngameMenu OHM_Config = new CyclopsEngineOverheatConfigIngameMenu();
 		private static int engineOverheatValue_Patched;
 		public static int EngineOverheatValue_Patched { get => engineOverheatValue_Patched; }
 

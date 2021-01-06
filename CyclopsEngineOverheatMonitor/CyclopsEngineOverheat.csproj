@@ -7,8 +7,8 @@
     <ProjectGuid>{28981319-7831-4B4A-B2A7-C36106F25B08}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CyclopsEngineOverheatMonitor</RootNamespace>
-    <AssemblyName>CyclopsEngineOverheatMonitor</AssemblyName>
+    <RootNamespace>CyclopsEngineOverheat</RootNamespace>
+    <AssemblyName>CyclopsEngineOverheat</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -63,17 +63,17 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CyclopsEngineOverheatMonitor.cs" />
-    <Compile Include="Items\CylopsEngineOverheatMonitorModule.cs" />
-    <Compile Include="Management\CyclopsEngineOverheatMonitorConfigIngameMenu.cs" />
-    <Compile Include="Management\CyclopsEngineOverheatMonitorHandler.cs" />
-    <Compile Include="Management\CyclopsEngineOverheatMonitorIconOverlay.cs" />
+    <Compile Include="CyclopsEngineOverheat.cs" />
+    <Compile Include="Items\CylopsEngineOverheatModule.cs" />
+    <Compile Include="Management\CyclopsEngineOverheatConfigIngameMenu.cs" />
+    <Compile Include="Management\CyclopsEngineOverheatHandler.cs" />
+    <Compile Include="Management\CyclopsEngineOverheatIconOverlay.cs" />
     <Content Include="Patches\Subfire_Patch - Copy.txt" />
     <Compile Include="Patches\Subfire_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CyclopsEngineOverheatMonitor\mod.json" />
+    <None Include="CyclopsEngineOverheat\mod.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -4,9 +4,9 @@
 
 namespace CyclopsEngineOverheatMonitor.Management
 {
-    internal class CyclopsEngineOverheatMonitorIconOverlay : IconOverlay
+    internal class CyclopsEngineOverheatIconOverlay : IconOverlay
     {
-        public CyclopsEngineOverheatMonitorIconOverlay(uGUI_ItemIcon icon, InventoryItem upgradeModule) : base(icon, upgradeModule)
+        public CyclopsEngineOverheatIconOverlay(uGUI_ItemIcon icon, InventoryItem upgradeModule) : base(icon, upgradeModule)
         {
 
         }

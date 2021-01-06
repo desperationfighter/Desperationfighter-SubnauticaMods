@@ -11,9 +11,9 @@ using SMLHelper.V2.Options.Attributes;
 namespace CyclopsEngineOverheatMonitor.Management
 {
     [Menu("Cyclops Engine Over Heat Monitor")]
-    public class CyclopsEngineOverheatMonitorConfigIngameMenu : ConfigFile
+    public class CyclopsEngineOverheatConfigIngameMenu : ConfigFile
     {
-        public CyclopsEngineOverheatMonitorConfigIngameMenu() : base("config") { }
+        public CyclopsEngineOverheatConfigIngameMenu() : base("config") { }
 
         [Toggle("1. Disable Complete Heat Meachanic")]
         public bool CyclopsHeat_general_disable = false;
