@@ -1,0 +1,9 @@
+{
+  "Id": "CyclopsEngineOverheatMonitor",
+  "DisplayName": "CyclopsEngineOverheatMonitor",
+  "Author": "Desperationfighter",
+  "Version": "1.0",
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "CyclopsEngineOverheatMonitor.dll"
+}
