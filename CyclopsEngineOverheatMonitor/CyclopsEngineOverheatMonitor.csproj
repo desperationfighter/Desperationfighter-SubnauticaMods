@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -34,8 +35,8 @@
     <Reference Include="0Harmony">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\core\0Harmony.dll</HintPath>
     </Reference>
-    <Reference Include="Assembly-CSharp">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\Assembly-CSharp.dll</HintPath>
+    <Reference Include="Assembly-CSharp_publicized">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
     </Reference>
     <Reference Include="MoreCyclopsUpgrades">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\MoreCyclopsUpgrades\MoreCyclopsUpgrades.dll</HintPath>
@@ -64,8 +65,10 @@
   <ItemGroup>
     <Compile Include="CyclopsEngineOverheatMonitor.cs" />
     <Compile Include="Items\CylopsEngineOverheatMonitorModule.cs" />
+    <Compile Include="Management\CyclopsEngineOverheatMonitorConfigIngameMenu.cs" />
     <Compile Include="Management\CyclopsEngineOverheatMonitorHandler.cs" />
     <Compile Include="Management\CyclopsEngineOverheatMonitorIconOverlay.cs" />
+    <Content Include="Patches\Subfire_Patch - Copy.txt" />
     <Compile Include="Patches\Subfire_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
