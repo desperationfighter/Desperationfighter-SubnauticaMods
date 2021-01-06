@@ -1,0 +1,9 @@
+{
+  "Id": "Desp_TestMod_BZ",
+  "DisplayName": "Desp_TestMod_BZ",
+  "Author": "Desperationfighter",
+  "Version": "1.0",
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "Desp_TestMod_BZ.dll"
+}

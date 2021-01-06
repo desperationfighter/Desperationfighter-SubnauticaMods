@@ -5,6 +5,10 @@ VisualStudioVersion = 16.0.30804.86
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desp_TestMod_SN", "TestMod\Desp_TestMod_SN.csproj", "{E787CA51-1C85-48A9-B514-E7DD61FB426D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclopsEngineOverheatMonitor", "CyclopsEngineOverheatMonitor\CyclopsEngineOverheatMonitor.csproj", "{28981319-7831-4B4A-B2A7-C36106F25B08}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Desp_TestMod_BZ", "Desp_TestMod_BZ\Desp_TestMod_BZ.csproj", "{9B588644-EFC8-4D82-B814-74939ACC9930}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{E787CA51-1C85-48A9-B514-E7DD61FB426D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E787CA51-1C85-48A9-B514-E7DD61FB426D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E787CA51-1C85-48A9-B514-E7DD61FB426D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{28981319-7831-4B4A-B2A7-C36106F25B08}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{28981319-7831-4B4A-B2A7-C36106F25B08}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{28981319-7831-4B4A-B2A7-C36106F25B08}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{28981319-7831-4B4A-B2A7-C36106F25B08}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B588644-EFC8-4D82-B814-74939ACC9930}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B588644-EFC8-4D82-B814-74939ACC9930}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B588644-EFC8-4D82-B814-74939ACC9930}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B588644-EFC8-4D82-B814-74939ACC9930}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

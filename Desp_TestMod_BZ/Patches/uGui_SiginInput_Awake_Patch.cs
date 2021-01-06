@@ -18,38 +18,38 @@ using UnityEngine.UI;
 /// WARNING DON`T USE THIS MOD
 /// </summary>
 
-namespace TestMod.Patches
+namespace Desp_TestMod_BZ.Patches
 {
-    [HarmonyPatch(typeof(uGUI_SignInput))]
-    [HarmonyPatch("Awake")]
-    public static class uGui_SignInput_Awake_Patch
-    {
+	[HarmonyPatch(typeof(uGUI_SignInput))]
+	[HarmonyPatch("Awake")]
+	public static class uGui_SignInput_Awake_Patch
+	{
 		private static void Postfix(uGUI_SignInput __instance)
-        {
-			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN Start Postfix");
+		{
+			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_BZ Start Postfix");
 			if (IsOnSmallLocker(__instance))
 			{
-				QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN Postfix IsOnSmallLocker");
+				QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_BZ Postfix IsOnSmallLocker");
 				PatchSmallLocker(__instance);
-				QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN Postfix IsOnSmallLocker Patched");
+				QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_BZ Postfix IsOnSmallLocker Patched");
 			}
 			else if (IsOnSign(__instance))
 			{
-				QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN Postfix IsOnSign");
+				QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_BZ Postfix IsOnSign");
 				PatchSign(__instance);
-				QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN Postfix IsOnSign Patched");
+				QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_BZ Postfix IsOnSign Patched");
 			}
 		}
 
 		private static bool IsOnSmallLocker(uGUI_SignInput __instance)
 		{
-			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN IsOnSmallLocker");
+			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_BZ IsOnSmallLocker");
 			var root = __instance.gameObject.GetComponentInParent<Constructable>();
 			return root.gameObject.name.Contains("SmallLocker");
 		}
 		private static bool IsOnSign(uGUI_SignInput __instance)
 		{
-			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN IsOnSmallLocker");
+			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_BZ IsOnSmallLocker");
 			var root = __instance.gameObject.GetComponentInParent<Constructable>();
 			return root.gameObject.name.Contains("Sign");
 		}
@@ -60,8 +60,8 @@ namespace TestMod.Patches
 
 		private static void PatchSmallLocker(uGUI_SignInput __instance)
 		{
-			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN PatchSmallLocker Methode begin");
-			__instance.inputField.lineType = InputField.LineType.MultiLineNewline;
+			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_BZ PatchSmallLocker Methode begin");
+			__instance.inputField.lineType = TMPro.TMP_InputField.LineType.MultiLineNewline; //InputField.LineType.MultiLineNewline;
 			__instance.inputField.characterLimit = 60;
 
 			var rt = __instance.inputField.transform as RectTransform;
@@ -73,13 +73,15 @@ namespace TestMod.Patches
 			RectTransformExtensions.SetSize(rt, rt.rect.width, TextFieldHeight);
 			//RectTransformExtensions.SetSize(rt, 50, rt.rect.height);
 
-			__instance.inputField.textComponent.alignment = TextAnchor.MiddleCenter;
+			//__instance.inputField.textComponent.alignment = TextAnchor.MiddleCenter;
+			//__instance.inputField.textComponent.alignment = TMPro.TextAlignmentOptions.CenterGeoAligned;
+			__instance.inputField.textComponent.alignment = TMPro.TextAlignmentOptions.Center;
 		}
 
 		private static void PatchSign(uGUI_SignInput __instance)
 		{
-			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_SN PatchSign Methode begin");
-			__instance.inputField.characterLimit = 100;			
+			QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "Desp_TestMod_BZ PatchSign Methode begin");
+			__instance.inputField.characterLimit = 100;
 		}
 
 	}
