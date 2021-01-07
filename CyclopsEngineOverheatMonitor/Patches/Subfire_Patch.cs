@@ -1,7 +1,6 @@
 ﻿using System;
 using HarmonyLib;
 using UnityEngine;
-using QModManager.API;
 using System.Reflection;
 using CyclopsEngineOverheatMonitor.Management;
 
@@ -31,16 +30,21 @@ namespace CyclopsEngineOverheatMonitor.Patches
 				return;
 			}
 
-			int makeitbigger = 2;
-			int maxheatlimit = CEO.CyclopsHeat_TempMaxHeat * makeitbigger;
+			int makeitbigger = 3;
+			int maxheatlimit = CEO.CyclopsHeat_TempMaxHeat * makeitbigger;			
+			int heatincreasepertik = 1 * makeitbigger;
+			int cooling = 1 * makeitbigger;
 
 			float watertemp_float = WaterTemperatureSimulation.main.GetTemperature(__instance.subRoot.transform.position);
 			int watertemp = (int)Math.Round(watertemp_float);
-			
-			int heatincreasepertik = 1 * makeitbigger;
-			if(watertemp > 55 && CEO.CyclopsHeat_coolingontemp == true)
+
+			if (watertemp > CEO.CyclopsHeat_coolingrefertemp && CEO.CyclopsHeat_fastcooling == true)
             {
-				heatincreasepertik++;
+				heatincreasepertik=+2;
+            }
+			if(watertemp < 20 && CEO.CyclopsHeat_slowheat == true)
+            {
+				heatincreasepertik--;
             }
 
 			if (CEO.CyclopsHeat_general_disable == false)
@@ -50,11 +54,14 @@ namespace CyclopsEngineOverheatMonitor.Patches
 					__instance.engineOverheatValue = Mathf.Min(__instance.engineOverheatValue + heatincreasepertik,maxheatlimit);
 					int num = 0;
 
-					string str = maxheatlimit.ToString();
-					str = "max lim =" + str;
-					QModServices.Main.AddCriticalMessage(str); 
-
-					if (__instance.engineOverheatValue > (5*makeitbigger))
+					if (__instance.engineOverheatValue > (8 * makeitbigger) && CEO.CyclopsHeat_createthirdchance == true)
+					{
+						if (CEO.CyclopsHeat_randomevent_disable == true)
+						{
+							num = UnityEngine.Random.Range(1, 2);
+						}
+					}
+					else if (__instance.engineOverheatValue > (5*makeitbigger))
 					{
 						if (CEO.CyclopsHeat_randomevent_disable == true)
 						{
@@ -88,10 +95,14 @@ namespace CyclopsEngineOverheatMonitor.Patches
 				}
 				else
 				{
-					int cooling = 1 * makeitbigger;
-					if(watertemp < 20 && CEO.CyclopsHeat_fastheat == true)
+					
+					if(watertemp < CEO.CyclopsHeat_heatingrefertemp && CEO.CyclopsHeat_fastheat == true)
                     {
-						cooling++;
+						cooling=+2;
+                    }
+					if(watertemp > CEO.CyclopsHeat_coolingrefertemp && CEO.CyclopsHeat_slowheat == true)
+                    {
+						cooling--;
                     }
 					if(CEO.CyclopsHeat_coolingrecover_double)
                     {
