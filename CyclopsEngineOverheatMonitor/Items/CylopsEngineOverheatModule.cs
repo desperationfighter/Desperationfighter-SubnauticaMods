@@ -7,8 +7,7 @@ using SMLHelper.V2.Crafting;
 namespace CyclopsEngineOverheatMonitor.Items
 {
     internal class CylopsEngineOverheatModule : CyclopsUpgrade
-    {
-        
+    {     
          public CylopsEngineOverheatModule() : base("CyclopsOverheatMonitorModule",
             "Cyclops Overheat Module",
             "Displays Engine Heat State for better Monitoring.")

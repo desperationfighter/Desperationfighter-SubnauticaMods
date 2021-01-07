@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-//for Assembly info
+﻿//for Assembly info
 using System.Reflection;
 //Loading Harmony for Patching
 using HarmonyLib;
@@ -16,9 +10,7 @@ using QModManager.API;
 using QModManager.Utility;
 
 //working space
-using MoreCyclopsUpgrades.API;
 using SMLHelper.V2.Handlers;
-using CyclopsEngineOverheatMonitor.Items;
 using CyclopsEngineOverheatMonitor.Management;
 
 namespace CyclopsEngineOverheatMonitor
@@ -33,23 +25,14 @@ namespace CyclopsEngineOverheatMonitor
         {
             Logger.Log(Logger.Level.Debug, "Cyclops Engine Overheat Moniter by desperationfighter start patching");
 
+            //Patch the Mod itself
             Harmony harmony = new Harmony("CyclopsEngineOverheat");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
+            //Add the Ingame Config for User
             Config = OptionsPanelHandler.Main.RegisterModOptions<CyclopsEngineOverheatConfigIngameMenu>();
+            
             Logger.Log(Logger.Level.Info, "Patched successfully!");
-
-        //var OverheadMonitor = new CylopsEngineOverheatMonitorModule();
-        //OverheadMonitor.Patch();
-
-        /*
-        return new UpgradeHandler(TechType.CyclopsOverheatMonitorModule, cyclops)
-        {
-            OnClearUpgrades = () => { cyclops.shieldUpgrade = false; },
-            OnUpgradeCounted = () => { cyclops.shieldUpgrade = true; }
-        };
-        */
-        QModServices.Main.AddCriticalMessage("The Cyclops mod was loaded");
         }
     }
 }

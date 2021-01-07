@@ -68,7 +68,6 @@
     <Compile Include="Management\CyclopsEngineOverheatConfigIngameMenu.cs" />
     <Compile Include="Management\CyclopsEngineOverheatHandler.cs" />
     <Compile Include="Management\CyclopsEngineOverheatIconOverlay.cs" />
-    <Content Include="Patches\Subfire_Patch - Copy.txt" />
     <Compile Include="Patches\Subfire_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
