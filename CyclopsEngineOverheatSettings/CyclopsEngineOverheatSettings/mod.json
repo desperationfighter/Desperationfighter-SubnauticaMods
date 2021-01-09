@@ -1,0 +1,13 @@
+{
+  "Id": "CyclopsEngineOverheatSettings",
+  "DisplayName": "CyclopsEngineOverheatSettings",
+  "Author": "Desperationfighter",
+  "Version": "0.9",
+  "VersionDependencies:": {
+    "SMLHelper": "2.9.2"
+  },
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "CyclopsEngineOverheat.dll",
+  "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/CyclopsEngineOverheatSettings/CyclopsEngineOverheatSettings/mod.json" }
+}

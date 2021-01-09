@@ -13,22 +13,22 @@ using CyclopsEngineOverheatMonitor.Management;
 namespace CyclopsEngineOverheatMonitor
 {
     [QModCore]
-    public class CyclopsEngineOverheat
+    public class CyclopsEngineOverheatSettings
     {
-        internal static CyclopsEngineOverheatConfigIngameMenu Config { get; private set; }
-        
+        internal static CyclopsEngineOverheatSettings_ConfigIngameMenu Config { get; private set; }
+
         [QModPatch]
         public static void Patch()
         {
-            Logger.Log(Logger.Level.Debug, "Cyclops Engine Overheat Moniter by desperationfighter start patching");
+            Logger.Log(Logger.Level.Debug, "Cyclops Engine Overheat Settings start patching");
 
             //Patch the Mod itself
-            Harmony harmony = new Harmony("CyclopsEngineOverheat");
+            Harmony harmony = new Harmony("CyclopsEngineOverheatSettings");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             //Add the Ingame Config for User
-            Config = OptionsPanelHandler.Main.RegisterModOptions<CyclopsEngineOverheatConfigIngameMenu>();
-            
+            Config = OptionsPanelHandler.Main.RegisterModOptions<CyclopsEngineOverheatSettings_ConfigIngameMenu>();
+
             Logger.Log(Logger.Level.Info, "Patched successfully!");
         }
     }

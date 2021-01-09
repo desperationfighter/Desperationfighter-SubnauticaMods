@@ -19,7 +19,7 @@ namespace CyclopsEngineOverheatMonitor.Patches
 			return false;
 		}
 
-		private static CyclopsEngineOverheatConfigIngameMenu CEO = new CyclopsEngineOverheatConfigIngameMenu();
+		private static CyclopsEngineOverheatSettings_ConfigIngameMenu CEO = new CyclopsEngineOverheatSettings_ConfigIngameMenu();
 
 		//If somebody ask.....
 		//yes i am very bad at algorithm, math and shit.....

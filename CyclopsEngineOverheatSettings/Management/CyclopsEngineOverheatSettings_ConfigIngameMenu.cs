@@ -4,9 +4,9 @@ using SMLHelper.V2.Options.Attributes;
 namespace CyclopsEngineOverheatMonitor.Management
 {
     [Menu("Cyclops Engine Overheat (Change Require restart)")]
-    public class CyclopsEngineOverheatConfigIngameMenu : ConfigFile
+    public class CyclopsEngineOverheatSettings_ConfigIngameMenu : ConfigFile
     {
-        public CyclopsEngineOverheatConfigIngameMenu() : base("config") { }
+        public CyclopsEngineOverheatSettings_ConfigIngameMenu() : base("config") { }
 
         [Toggle("Complete Heat Meachanic",Tooltip = "This option Disable the Complete Heat System! No Fire, No Warnings. Nothing will ever happen. Drive Flank Speed as long as you want")]
         public bool CyclopsHeat_generalmechanism = true;
