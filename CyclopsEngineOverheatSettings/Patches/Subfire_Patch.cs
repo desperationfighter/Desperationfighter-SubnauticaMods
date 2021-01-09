@@ -3,6 +3,8 @@ using HarmonyLib;
 using UnityEngine;
 using System.Reflection;
 using CyclopsEngineOverheatMonitor.Management;
+//for Logging
+using quickloger = QModManager.Utility;
 
 namespace CyclopsEngineOverheatMonitor.Patches
 {
@@ -12,10 +14,10 @@ namespace CyclopsEngineOverheatMonitor.Patches
 	class Subfire_Patch
     {
 		[HarmonyPrefix]
-		private static bool PreFix(SubFire __instance,MethodBase __originalMethod)
+		private static bool PreFix(SubFire __instance)
 		{
 			//EngineOverheatSimulation(__instance, __originalMethod);
-			EngineOverheatSimulation_Patch(__instance, __originalMethod);
+			EngineOverheatSimulation_Patch(__instance);
 			return false;
 		}
 
@@ -23,7 +25,7 @@ namespace CyclopsEngineOverheatMonitor.Patches
 
 		//If somebody ask.....
 		//yes i am very bad at algorithm, math and shit.....
-		private static void EngineOverheatSimulation_Patch(SubFire __instance, MethodBase __originalMethod)
+		private static void EngineOverheatSimulation_Patch(SubFire __instance)
 		{
 			if (!__instance.LOD.IsFull())
 			{
@@ -34,6 +36,10 @@ namespace CyclopsEngineOverheatMonitor.Patches
             {
 				//--- Startup ----------------------------------------
 				
+				quickloger.Logger.Log(quickloger.Logger.Level.Error, CEO.CyclopsHeat_damagefirst.ToString());
+				quickloger.Logger.Log(quickloger.Logger.Level.Error, CEO.CyclopsHeat_prewarning.ToString());
+				quickloger.Logger.Log(quickloger.Logger.Level.Error, CEO.CyclopsHeat_createthirdchance.ToString());
+
 				int makeitbigger = 3;
 				int Warning_first = 3 * makeitbigger;
 				int Warning_second = 5 * makeitbigger;
