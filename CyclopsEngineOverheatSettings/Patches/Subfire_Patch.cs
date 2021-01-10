@@ -114,8 +114,11 @@ namespace CyclopsEngineOverheatMonitor.Patches
 				{
 					if(CEO.CyclopsHeat_standardspeedheating && __instance.subControl.cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Standard && __instance.subControl.appliedThrottle && __instance.cyclopsMotorMode.engineOn)
                     {
-
-                    }
+						if(__instance.engineOverheatValue < lowspeedmax)
+                        {
+							__instance.engineOverheatValue =+ lowspeedheat;
+                        }
+					}
 
 					if (watertemp < CEO.CyclopsHeat_heatingrefertemp && CEO.CyclopsHeat_fastheat == true)
                     {

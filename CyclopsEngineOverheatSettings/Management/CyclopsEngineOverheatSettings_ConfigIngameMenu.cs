@@ -24,7 +24,7 @@ namespace CyclopsEngineOverheatMonitor.Management
         [Toggle("First Overheat Damage possibility" , Tooltip = "At each warning there is already a Small chance for a Fire Breach Out. This will be disable this chance so no File will occour. WARNING DISABLING THIS AND THE MAIN WARNING WILL RESULT IN NO FIRE UNDER ANY CIRCUMSTACES")]
         public bool CyclopsHeat_damagefirst = true;
 
-        [Slider("First Damage possiblity randomrange", 1, 100, DefaultValue = 3, Tooltip = "After how many Gametiks (this is not in Real Time Seconds !) get this event triggered")]
+        [Slider("First Damage possiblity after Tik", 1, 100, DefaultValue = 3, Tooltip = "After how many Gametiks (this is not in Real Time Seconds !) get this event triggered")]
         public int CyclopsHeat_aftertik_first = 3;
 
         [Slider("First Damage possiblity randomrange", 1, 100, DefaultValue = 6, Tooltip = "Random generator if a fire occurs per Gametik [x/100: 1 = instand fire, Default = 6 , 100 = 1/100 chance of Fire")]
@@ -38,7 +38,7 @@ namespace CyclopsEngineOverheatMonitor.Management
         [Toggle("Second Overheat Damage possibility", Tooltip = "At each warning there is already a Small chance for a Fire Breach Out. This will be disable this chance so no File will occour. WARNING DISABLING THIS AND THE MAIN WARNING WILL RESULT IN NO FIRE UNDER ANY CIRCUMSTACES")]
         public bool CyclopsHeat_damagesecond = true;
 
-        [Slider("First Damage possiblity randomrange", 1, 100, DefaultValue = 5, Tooltip = "After how many Gametiks (this is not in Real Time Seconds !) get this event triggered")]
+        [Slider("Second Damage possiblity after Tik", 1, 100, DefaultValue = 5, Tooltip = "After how many Gametiks (this is not in Real Time Seconds !) get this event triggered")]
         public int CyclopsHeat_aftertik_second = 5;
 
         [Slider("Second Damage possiblity randomrange", 1, 100, DefaultValue = 4, Tooltip = "Random generator if a fire occurs per Gametik [x/100: 1 = instand fire, Default = 4 , 100 = 1/100 chance of Fire ")]
@@ -52,11 +52,11 @@ namespace CyclopsEngineOverheatMonitor.Management
         [Toggle("New Third Overheat Warning", Tooltip = "This Creates a new Third if the Third Damage possibility is enabled.")]
         public bool CyclopsHeat_warning_third = true;
 
+        [Slider("Third Damage possiblity after Tik", 1, 100, DefaultValue = 8, Tooltip = "After how many Gametiks (this is not in Real Time Seconds !) get this event triggered")]
+        public int CyclopsHeat_aftertik_third = 8;
+
         [Slider("Third Damage possiblity randomrange", 1, 100, DefaultValue = 2, Tooltip = "Random generator if a fire occurs per Gametik base on [x/100]: 1 = instand fire, Default = 4 , 100 = 1/100 chance of Fire ")]
         public int CyclopsHeat_dmgchance_third = 2;
-
-        [Slider("First Damage possiblity randomrange", 1, 100, DefaultValue = 8, Tooltip = "After how many Gametiks (this is not in Real Time Seconds !) get this event triggered")]
-        public int CyclopsHeat_aftertik_third = 8;
 
         //---Linear----------------------------------------------------------------------------------
 
