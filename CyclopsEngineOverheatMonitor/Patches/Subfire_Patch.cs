@@ -12,10 +12,10 @@ namespace CyclopsEngineOverheatMonitor.Patches
 	class Subfire_Patch
     {
 		[HarmonyPrefix]
-		private static bool PreFix(SubFire __instance,MethodBase __originalMethod)
+		private static bool PreFix(SubFire __instance)
 		{
 			//EngineOverheatSimulation(__instance, __originalMethod);
-			EngineOverheatSimulation_Patch(__instance, __originalMethod);
+			EngineOverheatSimulation_Patch(__instance);
 			return false;
 		}
 
@@ -23,27 +23,31 @@ namespace CyclopsEngineOverheatMonitor.Patches
 
 		//If somebody ask.....
 		//yes i am very bad at algorithm, math and shit.....
-		private static void EngineOverheatSimulation_Patch(SubFire __instance, MethodBase __originalMethod)
+		private static void EngineOverheatSimulation_Patch(SubFire __instance)
 		{
+			CEO.Load();
+
 			if (!__instance.LOD.IsFull())
 			{
 				return;
 			}
 
 			if (CEO.CyclopsHeat_generalmechanism)
-            {
+			{
 				//--- Startup ----------------------------------------
-				
+
 				int makeitbigger = 3;
-				int Warning_first = 3 * makeitbigger;
-				int Warning_second = 5 * makeitbigger;
-				int Warning_third = 8 * makeitbigger;
-				int dmgchance_first = 6;
-				int dmgchance_second = 4;
-				int dmgchance_third = 2;
+				int Warning_first = CEO.CyclopsHeat_aftertik_first * makeitbigger;
+				int Warning_second = CEO.CyclopsHeat_aftertik_second * makeitbigger;
+				int Warning_third = CEO.CyclopsHeat_aftertik_third * makeitbigger;
+				int dmgchance_first = CEO.CyclopsHeat_dmgchance_first;
+				int dmgchance_second = CEO.CyclopsHeat_dmgchance_second;
+				int dmgchance_third = CEO.CyclopsHeat_dmgchance_third;
 				int maxheatlimit = CEO.CyclopsHeat_TempMaxHeat * makeitbigger;
 				int heatincreasepertik = 1 * makeitbigger;
 				int cooling = 1 * makeitbigger;
+				int lowspeedheat = 1;
+				int lowspeedmax = CEO.CyclopsHeat_dmgchance_first - 1;
 
 				float watertemp_float = WaterTemperatureSimulation.main.GetTemperature(__instance.subRoot.transform.position);
 				int watertemp = (int)Math.Round(watertemp_float);
@@ -54,19 +58,23 @@ namespace CyclopsEngineOverheatMonitor.Patches
 				{
 					heatincreasepertik = +2;
 				}
-				if (watertemp < 20 && CEO.CyclopsHeat_slowheat == true)
+				if (watertemp < CEO.CyclopsHeat_heatingrefertemp && CEO.CyclopsHeat_slowheat == true)
 				{
 					heatincreasepertik--;
 				}
 
 				if (__instance.subControl.cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank && __instance.subControl.appliedThrottle && __instance.cyclopsMotorMode.engineOn)
 				{
-					__instance.engineOverheatValue = Mathf.Min(__instance.engineOverheatValue + heatincreasepertik,maxheatlimit);
+					__instance.engineOverheatValue = Mathf.Min(__instance.engineOverheatValue + heatincreasepertik, maxheatlimit);
 					int num = 0;
 
 					if (__instance.engineOverheatValue > Warning_third && CEO.CyclopsHeat_createthirdchance == true)
 					{
 						num = UnityEngine.Random.Range(1, dmgchance_third);
+						if (CEO.CyclopsHeat_warning_third)
+						{
+							__instance.subRoot.voiceNotificationManager.PlayVoiceNotification(__instance.subRoot.engineOverheatCriticalNotification, true, false);
+						}
 					}
 					else if (__instance.engineOverheatValue > Warning_second)
 					{
@@ -85,16 +93,16 @@ namespace CyclopsEngineOverheatMonitor.Patches
 						{
 							num = UnityEngine.Random.Range(1, dmgchance_first);
 						}
-						if(CEO.CyclopsHeat_prewarning)
+						if (CEO.CyclopsHeat_prewarning)
 						{
 							__instance.subRoot.voiceNotificationManager.PlayVoiceNotification(__instance.subRoot.engineOverheatNotification, true, false);
 						}
 					}
 
-					if ( (num == 1 && CEO.CyclopsHeat_randomevent_disable == false) | (CEO.CyclopsHeat_randomevent_disable == true && __instance.engineOverheatValue > Warning_third) )
+					if ((num == 1 && CEO.CyclopsHeat_randomevent_disable == false) | (CEO.CyclopsHeat_randomevent_disable == true && __instance.engineOverheatValue > Warning_third))
 					{
-						if(CEO.CyclopsHeat_FireonOverheat)
-                        {
+						if (CEO.CyclopsHeat_FireonOverheat)
+						{
 							__instance.CreateFire(__instance.roomFires[CyclopsRooms.EngineRoom]);
 						}
 						return;
@@ -102,20 +110,27 @@ namespace CyclopsEngineOverheatMonitor.Patches
 				}
 				else
 				{
-					
-					if(watertemp < CEO.CyclopsHeat_heatingrefertemp && CEO.CyclopsHeat_fastheat == true)
-                    {
-						cooling=+2;
-                    }
-					if(watertemp > CEO.CyclopsHeat_coolingrefertemp && CEO.CyclopsHeat_slowheat == true)
-                    {
+					if (CEO.CyclopsHeat_standardspeedheating && __instance.subControl.cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Standard && __instance.subControl.appliedThrottle && __instance.cyclopsMotorMode.engineOn)
+					{
+						if (__instance.engineOverheatValue < lowspeedmax)
+						{
+							__instance.engineOverheatValue = +lowspeedheat;
+						}
+					}
+
+					if (watertemp < CEO.CyclopsHeat_heatingrefertemp && CEO.CyclopsHeat_fastheat == true)
+					{
+						cooling = +2;
+					}
+					if (watertemp > CEO.CyclopsHeat_coolingrefertemp && CEO.CyclopsHeat_slowheat == true)
+					{
 						cooling--;
-                    }
-					if(CEO.CyclopsHeat_coolingrecover_double)
-                    {
+					}
+					if (CEO.CyclopsHeat_coolingrecover_double)
+					{
 						cooling = cooling * 2;
 					}
-					
+
 					if (__instance.subControl.cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank)
 					{
 						__instance.engineOverheatValue = Mathf.Max(1, __instance.engineOverheatValue - cooling);
