@@ -1,9 +1,0 @@
-{
-  "Id": "Desp_TestMod_SN",
-  "DisplayName": "Desp_TestMod_SN",
-  "Author": "Desperationfighter",
-  "Version": "1.0",
-  "Enable": true,
-  "Game": "Subnautica",
-  "AssemblyName": "TestMod.dll"
-}
