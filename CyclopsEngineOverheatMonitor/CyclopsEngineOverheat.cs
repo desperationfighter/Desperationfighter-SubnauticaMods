@@ -17,7 +17,9 @@ namespace CyclopsEngineOverheatMonitor
     public class CyclopsEngineOverheat
     {
         internal static CyclopsEngineOverheatConfigIngameMenu Config { get; private set; }
-        
+
+        internal static TechType OverheatMonitorTechType { get; private set; }
+
         [QModPatch]
         public static void Patch()
         {
@@ -27,8 +29,11 @@ namespace CyclopsEngineOverheatMonitor
             Harmony harmony = new Harmony("CyclopsEngineOverheat");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
+            //Adding My module to the game
             var upgradeModule = new CylopsEngineOverheatModule();
             upgradeModule.Patch();
+
+            OverheatMonitorTechType = upgradeModule.TechType;
 
             //Add the Ingame Config for User
             Config = OptionsPanelHandler.Main.RegisterModOptions<CyclopsEngineOverheatConfigIngameMenu>();

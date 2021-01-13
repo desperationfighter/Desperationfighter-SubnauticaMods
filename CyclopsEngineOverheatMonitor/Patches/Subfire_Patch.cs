@@ -2,7 +2,10 @@
 using HarmonyLib;
 using UnityEngine;
 using System.Reflection;
+using CyclopsEngineOverheatMonitor;
 using CyclopsEngineOverheatMonitor.Management;
+using CyclopsEngineOverheatModule.Items;
+using MoreCyclopsUpgrades.API;
 
 namespace CyclopsEngineOverheatMonitor.Patches
 {
@@ -26,6 +29,9 @@ namespace CyclopsEngineOverheatMonitor.Patches
 		private static void EngineOverheatSimulation_Patch(SubFire __instance)
 		{
 			CEO.Load();
+
+			//import my module for Cooling purpose
+			bool hasUpgrade =  MCUServices.CrossMod.HasUpgradeInstalled(__instance.subRoot, CyclopsEngineOverheatMonitor.OverheatMonitorTechType);
 
 			if (!__instance.LOD.IsFull())
 			{
