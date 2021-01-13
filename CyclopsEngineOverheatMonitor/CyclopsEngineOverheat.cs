@@ -9,6 +9,7 @@ using QModManager.Utility;
 //working space
 using SMLHelper.V2.Handlers;
 using CyclopsEngineOverheatMonitor.Management;
+using CyclopsEngineOverheatModule.Items;
 
 namespace CyclopsEngineOverheatMonitor
 {
@@ -25,6 +26,9 @@ namespace CyclopsEngineOverheatMonitor
             //Patch the Mod itself
             Harmony harmony = new Harmony("CyclopsEngineOverheat");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+            var upgradeModule = new CylopsEngineOverheatModule();
+            upgradeModule.Patch();
 
             //Add the Ingame Config for User
             Config = OptionsPanelHandler.Main.RegisterModOptions<CyclopsEngineOverheatConfigIngameMenu>();
