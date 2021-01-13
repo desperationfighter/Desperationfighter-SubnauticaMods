@@ -31,7 +31,7 @@ namespace CyclopsEngineOverheatMonitor.Patches
 			CEO.Load();
 
 			//import my module for Cooling purpose
-			bool hasUpgrade =  MCUServices.CrossMod.HasUpgradeInstalled(__instance.subRoot, CyclopsEngineOverheatMonitor.OverheatMonitorTechType);
+			bool hasUpgrade =  MCUServices.CrossMod.HasUpgradeInstalled(__instance.subRoot, CyclopsEngineOverheat.OverheatMonitorTechType);
 
 			if (!__instance.LOD.IsFull())
 			{
