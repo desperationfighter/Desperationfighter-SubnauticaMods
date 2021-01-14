@@ -1,4 +1,5 @@
-﻿using MoreCyclopsUpgrades.API.Upgrades;
+﻿/*
+using MoreCyclopsUpgrades.API.Upgrades;
 using CyclopsEngineOverheatModule.Items;
 
 namespace CyclopsEngineOverheatMonitor.Management
@@ -21,3 +22,4 @@ namespace CyclopsEngineOverheatMonitor.Management
 
     }
 }
+*/

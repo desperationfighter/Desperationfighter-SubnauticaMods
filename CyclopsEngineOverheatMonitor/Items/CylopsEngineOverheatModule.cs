@@ -3,6 +3,7 @@ using System.Reflection;
 using MoreCyclopsUpgrades.API;
 using MoreCyclopsUpgrades.API.Upgrades;
 using SMLHelper.V2.Crafting;
+using CyclopsEngineOverheatMonitor.Management;
 
 namespace CyclopsEngineOverheatModule.Items
 {
@@ -10,15 +11,19 @@ namespace CyclopsEngineOverheatModule.Items
     {
         public CylopsEngineOverheatModule() : base("CyclopsOverheatMonitorModule",
            "Cyclops Overheat Module",
-           "Displays Engine Heat State for better Monitoring.")
+           "This Module adds an Engine Temperatur Overview to the Cyclops Bridge HUD.This Module is not Stackable.")
         {
             OnFinishedPatching += () =>
             {
                 MCUServices.Register.CyclopsUpgradeHandler((SubRoot cyclops) =>
                 { return new UpgradeHandler(this.TechType, cyclops) { MaxCount = 1 }; });
+
+                MCUServices.Register.PdaIconOverlay(this.TechType, (uGUI_ItemIcon icon, InventoryItem upgradeModule) =>
+                { return new CyclopsEngineOverheatIconOverlay(icon, upgradeModule); });
             };
         }
 
+        //public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public override string AssetsFolder => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
 
         public override CraftTree.Type FabricatorType { get; } = CraftTree.Type.CyclopsFabricator;

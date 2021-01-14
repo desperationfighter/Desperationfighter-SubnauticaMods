@@ -74,5 +74,8 @@
   <ItemGroup>
     <None Include="CyclopsEngineOverheat\mod.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="CyclopsEngineOverheat\CyclopsHeatMonitorModule.png" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
