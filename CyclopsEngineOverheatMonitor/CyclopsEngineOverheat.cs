@@ -10,6 +10,7 @@ using QModManager.Utility;
 using SMLHelper.V2.Handlers;
 using CyclopsEngineOverheatMonitor.Management;
 using CyclopsEngineOverheatMonitor.Items;
+using MoreCyclopsUpgrades.API;
 
 namespace CyclopsEngineOverheatMonitor
 {

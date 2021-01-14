@@ -22,8 +22,8 @@ namespace CyclopsEngineOverheatMonitor.Items
                 MCUServices.Register.PdaIconOverlay(this.TechType, (uGUI_ItemIcon icon, InventoryItem upgradeModule) =>
                 { return new CyclopsEngineOverheatIconOverlay(icon, upgradeModule); });
 
-                MCUServices.Register.CyclopsStatusIcon(CyclopsStatusIcon icon) =>
-                { return new ()};
+                MCUServices.Register.CyclopsStatusIcon<CyclopsEngineOverheatBridgeHUD>((SubRoot cyclops) =>
+                {return new CyclopsEngineOverheatBridgeHUD(cyclops); });
             };
         }
 

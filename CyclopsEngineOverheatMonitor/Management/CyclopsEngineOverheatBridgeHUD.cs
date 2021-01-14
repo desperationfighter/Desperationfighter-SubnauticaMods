@@ -3,23 +3,21 @@ using MoreCyclopsUpgrades.API;
 using CyclopsEngineOverheatMonitor.Items;
 using UnityEngine;
 
-namespace CyclopsEngineOverheat.Management
+namespace CyclopsEngineOverheatMonitor.Management
 {
     internal class CyclopsEngineOverheatBridgeHUD : CyclopsStatusIcon
     {
-        private CylopsEngineOverheatModule cyEOM = new CylopsEngineOverheatModule();
+        //private CylopsEngineOverheatModule cyEOM = new CylopsEngineOverheatModule();
 
-        public bool cyclopsEngineOverheatBridgeHUD(SubRoot cyclops, CyclopsStatusIcon icon)
+        //public CyclopsEngineOverheatBridgeHUD(SubRoot cyclops) : base(cyclops)
+        public CyclopsEngineOverheatBridgeHUD(SubRoot cyclops) : base(cyclops)
         {
-            bool hasUpgrade = MCUServices.CrossMod.HasUpgradeInstalled(cyclops,cyEOM.TechType);
-            return hasUpgrade;
-        }
 
-        
+        }
 
         public override string StatusText()
         {
-            throw new System.NotImplementedException();
+            return "23";
         }
 
         public override Color StatusTextColor()

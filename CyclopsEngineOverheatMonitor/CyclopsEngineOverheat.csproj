@@ -7,8 +7,8 @@
     <ProjectGuid>{28981319-7831-4B4A-B2A7-C36106F25B08}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CyclopsEngineOverheat</RootNamespace>
-    <AssemblyName>CyclopsEngineOverheat</AssemblyName>
+    <RootNamespace>CyclopsEngineOverheatMonitor</RootNamespace>
+    <AssemblyName>CyclopsEngineOverheatMonitor</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
