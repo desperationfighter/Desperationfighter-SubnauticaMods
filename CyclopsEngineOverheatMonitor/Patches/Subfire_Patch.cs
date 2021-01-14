@@ -23,6 +23,7 @@ namespace CyclopsEngineOverheatMonitor.Patches
 		}
 
 		private static CyclopsEngineOverheatConfigIngameMenu CEO = new CyclopsEngineOverheatConfigIngameMenu();
+		public static float EngineTemperatur;
 
 		//If somebody ask.....
 		//yes i am very bad at algorithm, math and shit.....

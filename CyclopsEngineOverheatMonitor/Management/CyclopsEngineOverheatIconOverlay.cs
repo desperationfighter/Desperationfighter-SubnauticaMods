@@ -1,6 +1,5 @@
-﻿    using MoreCyclopsUpgrades.API;
-    using MoreCyclopsUpgrades.API.PDA;
-    using UnityEngine;
+﻿using MoreCyclopsUpgrades.API.PDA;
+using CyclopsEngineOverheatMonitor.Patches;
 
 namespace CyclopsEngineOverheatMonitor.Management
 {
@@ -14,7 +13,7 @@ namespace CyclopsEngineOverheatMonitor.Management
         public override void UpdateText()
         {
             //base.LowerText.TextString = "DEV Text Lower";
-            base.MiddleText.TextString = "DEV Text Middle";
+            base.MiddleText.TextString = Subfire_Patch.EngineTemperatur.ToString();
             //base.UpperText.TextString = "DEV Text Upper";
         }
     }
