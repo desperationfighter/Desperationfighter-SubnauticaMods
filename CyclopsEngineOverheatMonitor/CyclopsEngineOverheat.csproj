@@ -66,7 +66,6 @@
     <Compile Include="CyclopsEngineOverheat.cs" />
     <Compile Include="Items\CylopsEngineOverheatModule.cs" />
     <Compile Include="Management\CyclopsEngineOverheatConfigIngameMenu.cs" />
-    <Compile Include="Management\CyclopsEngineOverheatHandler.cs" />
     <Compile Include="Management\CyclopsEngineOverheatIconOverlay.cs" />
     <Compile Include="Patches\Subfire_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -75,7 +74,7 @@
     <None Include="CyclopsEngineOverheat\mod.json" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="CyclopsEngineOverheat\CyclopsHeatMonitorModule.png" />
+    <Content Include="CyclopsEngineOverheat\CylopsEngineOverheatModule.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

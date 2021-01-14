@@ -25,6 +25,7 @@ namespace CyclopsEngineOverheatModule.Items
 
         //public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public override string AssetsFolder => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        public override string IconFileName => "CylopsEngineOverheatModule.png";
 
         public override CraftTree.Type FabricatorType { get; } = CraftTree.Type.CyclopsFabricator;
 
