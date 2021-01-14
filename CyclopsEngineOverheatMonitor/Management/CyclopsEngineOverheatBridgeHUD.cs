@@ -7,7 +7,7 @@ namespace CyclopsEngineOverheatMonitor.Management
 {
     internal class CyclopsEngineOverheatBridgeHUD : CyclopsStatusIcon
     {
-        //private CylopsEngineOverheatModule cyEOM = new CylopsEngineOverheatModule();
+        private CylopsEngineOverheatModule cyEOM = new CylopsEngineOverheatModule();
 
         //public CyclopsEngineOverheatBridgeHUD(SubRoot cyclops) : base(cyclops)
         public CyclopsEngineOverheatBridgeHUD(SubRoot cyclops) : base(cyclops)
