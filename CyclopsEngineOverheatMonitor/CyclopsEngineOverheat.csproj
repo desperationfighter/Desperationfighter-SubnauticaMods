@@ -38,7 +38,8 @@
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
     </Reference>
-    <Reference Include="MoreCyclopsUpgrades">
+    <Reference Include="MoreCyclopsUpgrades, Version=5.2.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\MoreCyclopsUpgrades\MoreCyclopsUpgrades.dll</HintPath>
     </Reference>
     <Reference Include="QModInstaller">
@@ -65,6 +66,7 @@
   <ItemGroup>
     <Compile Include="CyclopsEngineOverheat.cs" />
     <Compile Include="Items\CylopsEngineOverheatModule.cs" />
+    <Compile Include="Management\CyclopsEngineOverheatBridgeHUD.cs" />
     <Compile Include="Management\CyclopsEngineOverheatConfigIngameMenu.cs" />
     <Compile Include="Management\CyclopsEngineOverheatIconOverlay.cs" />
     <Compile Include="Patches\Subfire_Patch.cs" />

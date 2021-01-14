@@ -2,9 +2,7 @@
 using HarmonyLib;
 using UnityEngine;
 using System.Reflection;
-using CyclopsEngineOverheatMonitor;
 using CyclopsEngineOverheatMonitor.Management;
-using CyclopsEngineOverheatModule.Items;
 using MoreCyclopsUpgrades.API;
 
 namespace CyclopsEngineOverheatMonitor.Patches

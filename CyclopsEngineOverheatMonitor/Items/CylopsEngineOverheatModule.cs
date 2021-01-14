@@ -4,8 +4,9 @@ using MoreCyclopsUpgrades.API;
 using MoreCyclopsUpgrades.API.Upgrades;
 using SMLHelper.V2.Crafting;
 using CyclopsEngineOverheatMonitor.Management;
+using MoreCyclopsUpgrades.API.StatusIcons;
 
-namespace CyclopsEngineOverheatModule.Items
+namespace CyclopsEngineOverheatMonitor.Items
 {
     internal class CylopsEngineOverheatModule : CyclopsUpgrade
     {
@@ -20,6 +21,9 @@ namespace CyclopsEngineOverheatModule.Items
 
                 MCUServices.Register.PdaIconOverlay(this.TechType, (uGUI_ItemIcon icon, InventoryItem upgradeModule) =>
                 { return new CyclopsEngineOverheatIconOverlay(icon, upgradeModule); });
+
+                MCUServices.Register.CyclopsStatusIcon(CyclopsStatusIcon icon) =>
+                { return new ()};
             };
         }
 

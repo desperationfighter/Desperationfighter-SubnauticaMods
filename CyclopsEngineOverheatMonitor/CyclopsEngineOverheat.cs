@@ -9,7 +9,7 @@ using QModManager.Utility;
 //working space
 using SMLHelper.V2.Handlers;
 using CyclopsEngineOverheatMonitor.Management;
-using CyclopsEngineOverheatModule.Items;
+using CyclopsEngineOverheatMonitor.Items;
 
 namespace CyclopsEngineOverheatMonitor
 {
