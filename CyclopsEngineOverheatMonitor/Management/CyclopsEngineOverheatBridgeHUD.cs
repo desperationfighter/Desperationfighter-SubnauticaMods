@@ -1,5 +1,9 @@
-﻿using MoreCyclopsUpgrades.API.StatusIcons;
+﻿using System.IO;
+using System.Reflection;
 using MoreCyclopsUpgrades.API;
+using MoreCyclopsUpgrades.API.StatusIcons;
+using SMLHelper.V2.Utility;
+using CyclopsEngineOverheatMonitor.Patches;
 using CyclopsEngineOverheatMonitor.Items;
 using UnityEngine;
 
@@ -17,19 +21,27 @@ namespace CyclopsEngineOverheatMonitor.Management
 
         public override string StatusText()
         {
-            return "23";
+            return Subfire_Patch.EngineTemperatur.ToString() ;
         }
 
         public override Color StatusTextColor()
         {
-            throw new System.NotImplementedException();
+            Color color = new Color();
+            if(Subfire_Patch.EngineTemperatur > 70)
+            { color = Color.red; }
+            else if(Subfire_Patch.EngineTemperatur < 20)
+            { color = Color.green; }
+            else
+            { color = Color.yellow; }
+            return color;
         }
 
         public override Atlas.Sprite StatusSprite()
         {
-            throw new System.NotImplementedException();
+            string path = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"CylopsEngineOverheatModule.png");
+            return ImageUtils.LoadSpriteFromFile(path);
         }
 
-        public override bool ShowStatusIcon => throw new System.NotImplementedException();
+        public override bool ShowStatusIcon => MCUServices.CrossMod.HasUpgradeInstalled(base.Cyclops, cyEOM.TechType);
     }
 }
