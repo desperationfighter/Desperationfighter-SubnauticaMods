@@ -24,7 +24,7 @@ namespace DAATQS
 
             Logger.Log(Logger.Level.Info, "DAATQS Patched");
 
-            QModServices.Main.AddCriticalMessage("Warning the DAATQS Mod is in BETA Status !");
+            // QModServices.Main.AddCriticalMessage("Warning the DAATQS Mod is in BETA Status !");
         }
     }
 }
