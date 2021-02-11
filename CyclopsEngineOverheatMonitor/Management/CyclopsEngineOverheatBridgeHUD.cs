@@ -11,7 +11,7 @@ namespace CyclopsEngineOverheatMonitor.Management
 {
     internal class CyclopsEngineOverheatBridgeHUD : CyclopsStatusIcon
     {
-        private CylopsEngineOverheatModule cyEOM = new CylopsEngineOverheatModule();
+        private readonly CylopsEngineOverheatModule cyEOM = new CylopsEngineOverheatModule();
 
         //public CyclopsEngineOverheatBridgeHUD(SubRoot cyclops) : base(cyclops)
         public CyclopsEngineOverheatBridgeHUD(SubRoot cyclops) : base(cyclops)
@@ -27,9 +27,9 @@ namespace CyclopsEngineOverheatMonitor.Management
         public override Color StatusTextColor()
         {
             Color color = new Color();
-            if(Subfire_Patch.EngineTemperatur > 70)
+            if(Subfire_Patch.EngineTemperatur > 100)
             { color = Color.red; }
-            else if(Subfire_Patch.EngineTemperatur < 20)
+            else if(Subfire_Patch.EngineTemperatur < 50)
             { color = Color.green; }
             else
             { color = Color.yellow; }
@@ -42,6 +42,7 @@ namespace CyclopsEngineOverheatMonitor.Management
             return ImageUtils.LoadSpriteFromFile(path);
         }
 
+        //public override bool ShowStatusIcon => true;
         public override bool ShowStatusIcon => MCUServices.CrossMod.HasUpgradeInstalled(base.Cyclops, cyEOM.TechType);
     }
 }

@@ -21,13 +21,29 @@ namespace CyclopsEngineOverheatMonitor.Patches
 		}
 
 		private static CyclopsEngineOverheatConfigIngameMenu CEO = new CyclopsEngineOverheatConfigIngameMenu();
-		public static float EngineTemperatur = 33;
+		public static int EngineTemperatur { get => engineTemperatur; }
+		private static int engineTemperatur { get; set; }
 
+		private static int calculateEningeTemp(SubFire __instance)
+        {
+			int _return;
+			int _calc;
+			int lowest = 40;
+			int highest = 140;
+
+			_calc = __instance.engineOverheatValue;
+			
+
+			return 22;
+        }
 		//If somebody ask.....
 		//yes i am very bad at algorithm, math and shit.....
 		private static void EngineOverheatSimulation_Patch(SubFire __instance)
 		{
 			CEO.Load();
+
+			//Calculate Temperatur
+			calculateEningeTemp(__instance);
 
 			//import my module for Cooling purpose
 			bool hasUpgrade =  MCUServices.CrossMod.HasUpgradeInstalled(__instance.subRoot, CyclopsEngineOverheat.OverheatMonitorTechType);
@@ -41,7 +57,7 @@ namespace CyclopsEngineOverheatMonitor.Patches
 			{
 				//--- Startup ----------------------------------------
 
-				int makeitbigger = 3;
+				int makeitbigger = 3; //3 is minumum because of different functions
 				int Warning_first = CEO.CyclopsHeat_aftertik_first * makeitbigger;
 				int Warning_second = CEO.CyclopsHeat_aftertik_second * makeitbigger;
 				int Warning_third = CEO.CyclopsHeat_aftertik_third * makeitbigger;
@@ -61,12 +77,16 @@ namespace CyclopsEngineOverheatMonitor.Patches
 
 				if (watertemp > CEO.CyclopsHeat_coolingrefertemp && CEO.CyclopsHeat_fastcooling == true)
 				{
-					heatincreasepertik = +2;
+					heatincreasepertik =+ 2;
 				}
 				if (watertemp < CEO.CyclopsHeat_heatingrefertemp && CEO.CyclopsHeat_slowheat == true)
 				{
 					heatincreasepertik--;
 				}
+				if(hasUpgrade == true)
+                {
+					heatincreasepertik--;
+                }
 
 				if (__instance.subControl.cyclopsMotorMode.cyclopsMotorMode == CyclopsMotorMode.CyclopsMotorModes.Flank && __instance.subControl.appliedThrottle && __instance.cyclopsMotorMode.engineOn)
 				{
@@ -123,6 +143,10 @@ namespace CyclopsEngineOverheatMonitor.Patches
 						}
 					}
 
+					if(hasUpgrade ==true)
+                    {
+						cooling = +1;
+                    }
 					if (watertemp < CEO.CyclopsHeat_heatingrefertemp && CEO.CyclopsHeat_fastheat == true)
 					{
 						cooling = +2;

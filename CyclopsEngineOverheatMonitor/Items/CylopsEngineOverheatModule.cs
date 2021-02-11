@@ -12,7 +12,7 @@ namespace CyclopsEngineOverheatMonitor.Items
     {
         public CylopsEngineOverheatModule() : base("CyclopsOverheatMonitorModule",
            "Cyclops Overheat Module",
-           "This Module adds an Engine Temperatur Overview to the Cyclops Bridge HUD.This Module is not Stackable.")
+           "This Module adds an Engine Temperatur Overview to the Cyclops Bridge HUD. Also it adds an improved Cooling function.This Module is not Stackable.")
         {
             OnFinishedPatching += () =>
             {

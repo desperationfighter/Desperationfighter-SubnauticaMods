@@ -1,0 +1,9 @@
+{
+  "Id": "DAATQS",
+  "DisplayName": "Disable Auto-add to QuickSlot",
+  "Author": "Desperationfighter",
+  "Version": "1.0",
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "DAATQS.dll"
+}

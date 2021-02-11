@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclopsEngineOverheat", "Cy
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclopsEngineOverheatSettings", "CyclopsEngineOverheatSettings\CyclopsEngineOverheatSettings.csproj", "{8CC433CD-665C-4737-B283-67B55D02B05F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAATQS", "DAATQS\DAATQS.csproj", "{B63EB6D5-66F6-433B-9C7D-F6C436C0DE88}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{8CC433CD-665C-4737-B283-67B55D02B05F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8CC433CD-665C-4737-B283-67B55D02B05F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8CC433CD-665C-4737-B283-67B55D02B05F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B63EB6D5-66F6-433B-9C7D-F6C436C0DE88}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B63EB6D5-66F6-433B-9C7D-F6C436C0DE88}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B63EB6D5-66F6-433B-9C7D-F6C436C0DE88}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B63EB6D5-66F6-433B-9C7D-F6C436C0DE88}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
