@@ -1,0 +1,12 @@
+{
+  "Id": "DAATQS_BZ",
+  "DisplayName": "Disable Auto-add to QuickSlot BelowZero Version",
+  "Author": "Desperationfighter",
+  "Version": "1.0",
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "DAATQS_BZ.dll",
+  "NexusId": { "SubnauticaBelowZero": "639" },
+  "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/CyclopsEngineOverheatMonitor/CyclopsEngineOverheat/mod.json" },
+  "QModSAM": { "Wiki": "https://github.com/desperationfighter" }
+}
