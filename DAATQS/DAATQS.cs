@@ -8,12 +8,19 @@ using QModManager.API.ModLoading;
 using QModManager.API;
 //for Logging
 using QModManager.Utility;
+//For IngameConfig
+using SMLHelper.V2.Handlers;
+//working space
+using DAATQS.Managment;
 
 namespace DAATQS
 {
     [QModCore]
     public static class DAATQS_harmony
     {
+        internal static IngameConfigMenu Config { get; private set; }
+        internal static TechTypeAllowList allowList { get; private set; }
+
         [QModPatch]
         public static void DAATQS_InitializationMethod()
         {
@@ -21,6 +28,10 @@ namespace DAATQS
 
             Harmony harmony = new Harmony("DAATQS");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
+
+            //Add the Ingame Config for User
+            Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
+            allowList = OptionsPanelHandler.Main.RegisterModOptions<TechTypeAllowList>();
 
             Logger.Log(Logger.Level.Info, "DAATQS Patched");
 
