@@ -26,7 +26,7 @@ namespace MetalHands.Items
 
         public override Vector2int SizeInInventory => new Vector2int(2,2);
 
-        public override TechType RequiredForUnlock => TechType.ReinforcedDiveSuitBlueprint;
+        //public override TechType RequiredForUnlock => TechType.ReinforcedDiveSuitBlueprint;
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
 

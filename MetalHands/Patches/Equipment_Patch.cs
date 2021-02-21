@@ -18,10 +18,21 @@ namespace MetalHands.Patches
         [HarmonyPostfix]
         public static void Postfix(Equipment __instance, ref int __result, TechType techType)
         {
-            if( (techType == TechType.ReinforcedGloves) && (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType) )
+            if ((techType == TechType.ReinforcedGloves) && (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType))
             {
                 __result++;
             }
+
+
+        //---------------------------------------------
+            //Dictionary<TechType, int> equipCount = __instance.GetInstanceField("equippedCount", BindingFlags.NonPublic | BindingFlags.Instance) as Dictionary<TechType, int>;
+
+            //int c;
+            //if(equipCount.TryGetValue(MetalHands.GloveBlueprintTechType, out c))
+            //{
+            //    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, $"Equipment_GetCount_Patch: found {techType.ToString()} equipped");
+            //    __result++;
+            //}
         }
     }
 }
