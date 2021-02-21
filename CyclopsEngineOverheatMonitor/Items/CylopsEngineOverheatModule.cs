@@ -45,7 +45,7 @@ namespace CyclopsEngineOverheatMonitor.Items
                     new Ingredient(TechType.ComputerChip, 2),
                     new Ingredient(TechType.WiringKit, 4),
                     new Ingredient(TechType.CopperWire, 8),
-                    new Ingredient(TechType.Polyaniline, 1),
+                    new Ingredient(TechType.Polyaniline, 1)
                 }
             };
         }
