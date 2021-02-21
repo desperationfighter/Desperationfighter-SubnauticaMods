@@ -64,6 +64,7 @@
     <Compile Include="Managment\IngameConfigMenu.cs" />
     <Compile Include="MetalHands.cs" />
     <Compile Include="Patches\BreakableResource_Patch.cs" />
+    <Compile Include="Patches\Equipment_Patch.cs" />
     <Compile Include="Patches\Player_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

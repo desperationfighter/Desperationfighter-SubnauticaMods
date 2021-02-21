@@ -30,6 +30,9 @@ namespace MetalHands
             Harmony harmony = new Harmony("MetalHands");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
+            //Add new Workbbench space
+            CraftTreeHandler.AddTabNode(CraftTree.Type.Workbench, "BodyMenu", "Suit Upgrades", SpriteManager.Get(TechType.Stillsuit));
+
             //Adding My Glove to the game
             var GloveBlueprint = new MetalHands_Blueprint();
             GloveBlueprint.Patch();

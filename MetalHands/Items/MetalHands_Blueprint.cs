@@ -24,7 +24,14 @@ namespace MetalHands.Items
 
         public override EquipmentType EquipmentType { get; } = EquipmentType.Gloves;
 
+        public override Vector2int SizeInInventory => new Vector2int(2,2);
+
+        public override TechType RequiredForUnlock => TechType.ReinforcedDiveSuitBlueprint;
+
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
+
+        public override TechCategory CategoryForPDA => TechCategory.Equipment;
+
 
         public override GameObject GetGameObject()
         {
