@@ -26,9 +26,16 @@ namespace MetalHands.Items
 
         public override Vector2int SizeInInventory => new Vector2int(2,2);
 
-        //public override TechType RequiredForUnlock => TechType.ReinforcedDiveSuitBlueprint;
+        //On Work
+        /*
+        public override TechType RequiredForUnlock => TechType.ReinforcedDiveSuitBlueprint;
 
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
+
+        public override PDAEncyclopedia.EntryData EncyclopediaEntryData => base.EncyclopediaEntryData;
+        public override TechGroup GroupForPDA => base.GroupForPDA;
+        public override string DiscoverMessage => base.DiscoverMessage;
+        */
 
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
 
@@ -39,6 +46,8 @@ namespace MetalHands.Items
             GameObject gameobj = Object.Instantiate(originGlove_prefab);
             return gameobj;
         }
+        //public override string AssetsFolder => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
+        //public override string IconFileName => ".png";
 
         protected override TechData GetBlueprintRecipe()
         {

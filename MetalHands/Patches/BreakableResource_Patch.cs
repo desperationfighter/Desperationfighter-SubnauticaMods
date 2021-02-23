@@ -2,11 +2,13 @@
 using MetalHands.Managment;
 using MetalHands.Items;
 
+using UnityEngine;
+
 namespace MetalHands.Patches
 {
     [HarmonyPatch(typeof(BreakableResource))]
     [HarmonyPatch(nameof(BreakableResource.HitResource))]
-    public class BreakableResource_Patch
+    public static class BreakableResource_HitResource_Patch
     {
         private static IngameConfigMenu ICM = new IngameConfigMenu();
 
@@ -35,5 +37,92 @@ namespace MetalHands.Patches
                 __instance.BreakIntoResources();
             }
         }
+    }
+
+    [HarmonyPatch(typeof(BreakableResource))]
+    [HarmonyPatch(nameof(BreakableResource.BreakIntoResources))]
+    public static class BreakableResource_BreakIntoResources_Patch
+    {
+        private static IngameConfigMenu ICM = new IngameConfigMenu();
+
+        [HarmonyPrefix]
+        private static bool Prefix(BreakableResource __instance)
+        {
+            
+            BreakIntoResources_Patch(__instance);
+            return false;
+        }
+
+        private static void BreakIntoResources_Patch(BreakableResource __instance)
+        {
+            ICM.Load();
+            __instance.SendMessage("OnBreakResource", null, SendMessageOptions.DontRequireReceiver);
+            if (__instance.gameObject.GetComponent<VFXBurstModel>())
+            {
+                __instance.gameObject.BroadcastMessage("OnKill");
+            }
+            else
+            {
+                UnityEngine.Object.Destroy(__instance.gameObject);
+            }
+            if (__instance.customGoalText != "")
+            {
+                GoalManager.main.OnCustomGoalEvent(__instance.customGoalText);
+            }
+            bool flag = false;
+            for (int i = 0; i < __instance.numChances; i++)
+            {
+                GameObject gameObject = __instance.ChooseRandomResource();
+                if (gameObject)
+                {
+                    if(ICM.Config_DEV1 == true)
+                    {
+                        CraftData.AddToInventory(CraftData.GetTechType(gameObject));
+                    }
+                    else
+                    {
+                        __instance.SpawnResourceFromPrefab(gameObject);
+                    }                   
+                    flag = true;
+                }
+            }
+            if (!flag)
+            {
+                if (ICM.Config_DEV1 == true)
+                {
+                    CraftData.AddToInventory(CraftData.GetTechType(__instance.defaultPrefab));
+                }
+                else
+                {
+                    __instance.SpawnResourceFromPrefab(__instance.defaultPrefab);
+                }
+            }
+            FMODUWE.PlayOneShot(__instance.breakSound, __instance.transform.position, 1f);
+            if (__instance.hitFX)
+            {
+                Utils.PlayOneShotPS(__instance.breakFX, __instance.transform.position, Quaternion.Euler(new Vector3(270f, 0f, 0f)), null);
+            }
+        }
+
+        // If somebody ask me why i am doing that instead of getting the Techtype from the Prefab. THIS WAS JUST A TEST FOR AN IDEA FOR SOMETHING ELSE I WAS WORKING ON!
+        /*
+        private static (GameObject,TechType) Fake_ChooseRandomResource(BreakableResource __instance)
+        {
+            GameObject result1 = null;
+            TechType result2 = TechType.None;
+            for (int i = 0; i < __instance.prefabList.Count; i++)
+            {
+                BreakableResource.RandomPrefab randomPrefab = __instance.prefabList[i];
+                PlayerEntropy component = Player.main.gameObject.GetComponent<PlayerEntropy>();
+                TechType techType = CraftData.GetTechType(randomPrefab.prefab);
+                if (component.CheckChance(techType, randomPrefab.chance))
+                {
+                    result2 = techType;
+                    break;
+                }
+            }
+            return (result1,result2);
+        }
+        */
     }
 }
