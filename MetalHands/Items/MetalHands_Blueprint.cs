@@ -13,8 +13,6 @@ namespace MetalHands.Items
 {
     internal class MetalHands_Blueprint : Equipable
     {
-        private static IngameConfigMenu ICM = new IngameConfigMenu();
-
         public MetalHands_Blueprint() : base("MetalHands",
             "Metal Hand Gloves",
             "This Gloves have a Metal Improved Cover and allow Working with Hard Matrials without hurting the Person who wear it. Warning this Personal Safty Equiment is for Passive use avoiding severe injury . Do not use it as Tool")
@@ -48,8 +46,8 @@ namespace MetalHands.Items
 
         protected override TechData GetBlueprintRecipe()
         {
-            ICM.Load();
-            if(ICM.Config_Hardcore == false)
+            MetalHands.Config.Load();
+            if(MetalHands.Config.Config_Hardcore == false)
             {
                 return new TechData()
                 {

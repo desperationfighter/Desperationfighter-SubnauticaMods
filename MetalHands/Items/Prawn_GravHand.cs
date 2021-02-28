@@ -13,8 +13,6 @@ namespace MetalHands.Items
 {
     internal class Prawn_GravHand : Craftable
     {
-        private static IngameConfigMenu ICM = new IngameConfigMenu();
-
         public Prawn_GravHand() : base("GravHand",
             "Grav Hand Plugin",
             "This Plugin intregates a Gravitations function to the PRAWN Hands and allow a shortrange "
@@ -30,8 +28,8 @@ namespace MetalHands.Items
 
         protected override TechData GetBlueprintRecipe()
         {
-            ICM.Load();
-            if (ICM.Config_Hardcore == false)
+            MetalHands.Config.Load();
+            if (MetalHands.Config.Config_Hardcore == false)
             {
                 return new TechData()
                 {

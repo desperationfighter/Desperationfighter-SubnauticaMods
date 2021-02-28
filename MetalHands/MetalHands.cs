@@ -52,7 +52,7 @@ namespace MetalHands
 
             Logger.Log(Logger.Level.Info, "MetalHands Patched");
 
-            QModServices.Main.AddCriticalMessage("Warning theMetalHands Mod is in BETA Status !");
+            QModServices.Main.AddCriticalMessage("Warning the MetalHands Mod is in BETA Status !");
         }
     }
 }

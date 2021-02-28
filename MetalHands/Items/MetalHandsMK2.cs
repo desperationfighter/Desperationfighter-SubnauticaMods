@@ -13,8 +13,6 @@ namespace MetalHands.Items
 {
     internal class MetalHandsMK2 : Equipable
     {
-        private static IngameConfigMenu ICM = new IngameConfigMenu();
-
         public MetalHandsMK2() : base("MetalHandsMK2",
             "Metal Grav Hand Gloves",
             "This Gloves have a Metal Improved Cover and a additionally Gravsystem")
@@ -37,8 +35,8 @@ namespace MetalHands.Items
 
         protected override TechData GetBlueprintRecipe()
         {
-            ICM.Load();
-            if(ICM.Config_Hardcore == false)
+            MetalHands.Config.Load();
+            if(MetalHands.Config.Config_Hardcore == false)
             {
                 return new TechData()
                 {
