@@ -66,7 +66,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Items\MetalHandsMK2.cs" />
     <Compile Include="Items\MetalHands_Blueprint.cs" />
+    <Compile Include="Items\Prawn_GravHand.cs" />
     <Compile Include="Managment\IngameConfigMenu.cs" />
     <Compile Include="MetalHands.cs" />
     <Compile Include="Patches\BreakableResource_Patch.cs" />

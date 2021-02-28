@@ -21,6 +21,8 @@ namespace MetalHands
     {
         internal static IngameConfigMenu Config { get; private set; }
         internal static TechType GloveBlueprintTechType { get; private set; }
+        internal static TechType GloveMK2BlueprintTechType { get; private set; }
+        internal static TechType GRAVHANDBlueprintTechType { get; private set; }
 
         [QModPatch]
         public static void MetalHands_InitializationMethod()
@@ -36,8 +38,14 @@ namespace MetalHands
             //Adding My Glove to the game
             var GloveBlueprint = new MetalHands_Blueprint();
             GloveBlueprint.Patch();
+            var GloveMK2Blueprint = new MetalHandsMK2();
+            GloveMK2Blueprint.Patch();
+            var GRAVHANDBlueprint = new Prawn_GravHand();
+            GRAVHANDBlueprint.Patch();
 
             GloveBlueprintTechType = GloveBlueprint.TechType;
+            GloveMK2BlueprintTechType = GloveMK2Blueprint.TechType;
+            GRAVHANDBlueprintTechType = GRAVHANDBlueprint.TechType;
 
             //Add the Ingame Config for User
             Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();

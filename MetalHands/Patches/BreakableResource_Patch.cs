@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace MetalHands.Patches
 {
+    //Utils.GetLocalPlayerComp().GetInMechMode()
+
     [HarmonyPatch(typeof(BreakableResource))]
     [HarmonyPatch(nameof(BreakableResource.HitResource))]
     public static class BreakableResource_HitResource_Patch
@@ -22,7 +24,7 @@ namespace MetalHands.Patches
 
         private static void HitResource_Patch(BreakableResource __instance)
         {
-            if (ICM.Config_ModEnable == true && Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType )
+            if (ICM.Config_ModEnable == true && ( ( Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType ) | (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType)) )
             //if (ICM.Config_ModEnable == true)
             {
                 __instance.hitsToBreak = 0;
@@ -48,7 +50,6 @@ namespace MetalHands.Patches
         [HarmonyPrefix]
         private static bool Prefix(BreakableResource __instance)
         {
-            
             BreakIntoResources_Patch(__instance);
             return false;
         }
@@ -75,7 +76,18 @@ namespace MetalHands.Patches
                 GameObject gameObject = __instance.ChooseRandomResource();
                 if (gameObject)
                 {
-                    if(ICM.Config_DEV1 == true)
+                    if( Utils.GetLocalPlayerComp().GetInMechMode() )
+                    {
+                        //Vehicle vehicle = Player.main.GetVehicle();
+                        Exosuit exosuit = Player.main.currentMountedVehicle as Exosuit;
+                        if(exosuit.storageContainer.container.HasRoomFor(pickupable))
+                        {
+                            exosuit.storageContainer.container.UnsafeAdd(item);
+                        }
+
+
+                    }
+                    else if( Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType )
                     {
                         CraftData.AddToInventory(CraftData.GetTechType(gameObject));
                     }
@@ -88,7 +100,7 @@ namespace MetalHands.Patches
             }
             if (!flag)
             {
-                if (ICM.Config_DEV1 == true)
+                if (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType )
                 {
                     CraftData.AddToInventory(CraftData.GetTechType(__instance.defaultPrefab));
                 }
