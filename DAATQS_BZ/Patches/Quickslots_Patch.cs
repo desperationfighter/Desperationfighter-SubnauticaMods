@@ -19,26 +19,25 @@ namespace DAATQS_BZ.Patches
             {
                 __result = -1;
             }
-
-            ICM.Load();
-            
-            //Checklogic
-            //1. Check if Mod is active
-            //2. true if user use the custom list AND the item is found
-                //check using before checking item because && will increase performance when mod is not in use
-            //- 1 OR 2 musst be true
-
-            if ( (ICM.Config_ModEnable == false) | (ICM.Config_AllowCustomList && PlayerAllowBind(item)) )
-            {
-                __instance.Bind(firstEmpty, item);
-                __result = firstEmpty;
-            }  
             else
             {
-                //As i cannot stop the execute on a patch methode give back a result seperatly to skip the Slot Select on the calling function 
-                __result = -1;
+                ICM.Load();
+                //Checklogic
+                //1. Check if Mod is active
+                //2. true if user use the custom list AND the item is found
+                //check using before checking item because && will increase performance when mod is not in use
+                //- 1 OR 2 musst be true
+                if ( (ICM.Config_ModEnable == false) | (ICM.Config_AllowCustomList && PlayerAllowBind(item)) )
+                {
+                    __instance.Bind(firstEmpty, item);
+                    __result = firstEmpty;
+                }  
+                else
+                {
+                    //As i cannot stop the execute on a patch methode give back a result seperatly to skip the Slot Select on the calling function 
+                    __result = -1;
+                }
             }
-
             return false;
         }
 

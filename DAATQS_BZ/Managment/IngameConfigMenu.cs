@@ -3,7 +3,7 @@ using SMLHelper.V2.Options.Attributes;
 
 namespace DAATQS_BZ.Managment
 {
-    [Menu("DAATQS Settings")]
+    [Menu("DAATQS_BZ Settings")]
     public class IngameConfigMenu : ConfigFile
     {
         public IngameConfigMenu() : base("config") { }

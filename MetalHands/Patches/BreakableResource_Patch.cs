@@ -80,11 +80,21 @@ namespace MetalHands.Patches
                     {
                         //Vehicle vehicle = Player.main.GetVehicle();
                         Exosuit exosuit = Player.main.currentMountedVehicle as Exosuit;
-                        if(exosuit.storageContainer.container.HasRoomFor(pickupable))
-                        {
-                            exosuit.storageContainer.container.UnsafeAdd(item);
-                        }
+                        Vector2int size = CraftData.GetItemSize(CraftData.GetTechType(gameObject));
 
+                        Pickupable pickupable = new Pickupable( ??? gameObject);
+
+                        if (exosuit.storageContainer.container.HasRoomFor(pickupable))
+                        //if (exosuit.storageContainer.container.HasRoomFor(size.x,size.y))
+                        {
+                            //exosuit.storageContainer.container.UnsafeAdd(item);
+                            exosuit.storageContainer.container.AddItem(pickupable);
+                            
+                        }
+                        else
+                        {
+                            __instance.SpawnResourceFromPrefab(gameObject);
+                        }
 
                     }
                     else if( Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType )
