@@ -25,7 +25,6 @@ namespace MetalHands.Patches
         private static void HitResource_Patch(BreakableResource __instance)
         {
             if (MetalHands.Config.Config_ModEnable == true && ( ( Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType ) | (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType)) )
-            //if (ICM.Config_ModEnable == true)
             {
                 __instance.hitsToBreak = 0;
             }
@@ -118,26 +117,20 @@ namespace MetalHands.Patches
 
         private static void AddtoPrawn(BreakableResource __instance,Exosuit exosuit, GameObject gameObject)
         {
-            //---------------------------------------------------------------------------------------------------------
-            //Vehicle vehicle = Player.main.GetVehicle();
-            //Exosuit exosuit = Player.main.currentMountedVehicle as Exosuit;
-            //Exosuit exosuit = Player.main.GetVehicle() as Exosuit;
-            //QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, exosuit.GetName() ); 
-            //if( Utils.GetLocalPlayerComp().GetInMechMode() )
-            //if ( Utils.GetLocalPlayerComp().IsPiloting() )
-            //if ( exosuit.CanPilot() && exosuit.GetPilotingMode() )
-            //if (exosuit.GetPilotingMode())
-            //if (exosuit.CanPilot())
-            //if (exosuit.storageContainer.container.HasRoomFor(size.x,size.y))
-            //---------------------------------------------------------------------------------------------------------
-
             Pickupable pickupable = gameObject.GetComponent<Pickupable>();
 
             if (exosuit.storageContainer.container.HasRoomFor(pickupable))           
-            {           
-                InventoryItem item = new InventoryItem(pickupable);
-                exosuit.storageContainer.container.UnsafeAdd(item);
-                //exosuit.storageContainer.container.AddItem(pickupable);
+            {
+                //Main
+                InventoryItem item = pickupable.inventoryItem;
+                //exosuit.storageContainer.container.UnsafeAdd(item);
+                exosuit.storageContainer.container.AddItem(pickupable);
+
+                //old test
+                //ItemsContainer.ItemGroup icig;
+                //exosuit.storageContainer.container._items.TryGetValue(CraftData.GetTechType(gameObject), out icig);
+                //exosuit.storageContainer.container._items.Add(CraftData.GetTechType(gameObject), icig);
+
             }
             else
             {
@@ -146,3 +139,17 @@ namespace MetalHands.Patches
         }
     }
 }
+
+
+//---------------------------------------------------------------------------------------------------------
+//Vehicle vehicle = Player.main.GetVehicle();
+//Exosuit exosuit = Player.main.currentMountedVehicle as Exosuit;
+//Exosuit exosuit = Player.main.GetVehicle() as Exosuit;
+//QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, exosuit.GetName() ); 
+//if( Utils.GetLocalPlayerComp().GetInMechMode() )
+//if ( Utils.GetLocalPlayerComp().IsPiloting() )
+//if ( exosuit.CanPilot() && exosuit.GetPilotingMode() )
+//if (exosuit.GetPilotingMode())
+//if (exosuit.CanPilot())
+//if (exosuit.storageContainer.container.HasRoomFor(size.x,size.y))
+//---------------------------------------------------------------------------------------------------------

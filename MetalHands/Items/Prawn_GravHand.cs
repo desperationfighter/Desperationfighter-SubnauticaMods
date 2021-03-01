@@ -20,7 +20,7 @@ namespace MetalHands.Items
         { }
 
         public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
+        public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
         public override TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
         public override TechType RequiredForUnlock => MetalHands.GloveBlueprintTechType;
         public override float CraftingTime => 2.5f;

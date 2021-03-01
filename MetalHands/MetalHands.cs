@@ -27,15 +27,8 @@ namespace MetalHands
         [QModPatch]
         public static void MetalHands_InitializationMethod()
         {
-            Logger.Log(Logger.Level.Debug, "MetalHands Initialization");
+            Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
 
-            Harmony harmony = new Harmony("MetalHands");
-            harmony.PatchAll(Assembly.GetExecutingAssembly());
-
-            //Add new Workbbench space
-            //CraftTreeHandler.AddTabNode(CraftTree.Type.Workbench, "BodyMenu", "Suit Upgrades", SpriteManager.Get(TechType.Stillsuit));
-
-            //Adding My Glove to the game
             var GloveBlueprint = new MetalHands_Blueprint();
             GloveBlueprint.Patch();
             var GloveMK2Blueprint = new MetalHandsMK2();
@@ -47,9 +40,9 @@ namespace MetalHands
             GloveMK2BlueprintTechType = GloveMK2Blueprint.TechType;
             GRAVHANDBlueprintTechType = GRAVHANDBlueprint.TechType;
 
-            //Add the Ingame Config for User
-            Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
-
+            Logger.Log(Logger.Level.Debug, "MetalHands Initialization");
+            Harmony harmony = new Harmony("MetalHands");
+            harmony.PatchAll(Assembly.GetExecutingAssembly());
             Logger.Log(Logger.Level.Info, "MetalHands Patched");
 
             QModServices.Main.AddCriticalMessage("Warning the MetalHands Mod is in BETA Status !");
