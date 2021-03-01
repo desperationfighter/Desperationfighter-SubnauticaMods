@@ -75,15 +75,19 @@ namespace MetalHands.Patches
                 if (gameObject)
                 {
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "1 - Random Resouce is called");
+                    ErrorMessage.AddMessage("1 - Random Resouce is called");
                     if (Player.main.GetVehicle() is Exosuit exosuit)
                     {
                         QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "2 - Start AddToPrawn over randomress");
+                        ErrorMessage.AddMessage("2 - Start AddToPrawn over randomress");
                         AddtoPrawn(__instance, exosuit, gameObject);
                     }
                     else
                     {
                         if ( (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) )
                         {
+                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "6 - Player has glove - randomress");
+                            ErrorMessage.AddMessage("6 - Player has glove - randomress");
                             CraftData.AddToInventory(CraftData.GetTechType(gameObject));
                         }
                         else
@@ -97,13 +101,17 @@ namespace MetalHands.Patches
             if (!flag)
             {
                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "3 - default resouce is called");
+                ErrorMessage.AddMessage("3 - default resouce is called");
                 if (Player.main.GetVehicle() is Exosuit exosuit)
                 {
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "4 - Start AddToPrawn over defaultress");
+                    ErrorMessage.AddMessage("4 - Start AddToPrawn over defaultress");
                     AddtoPrawn(__instance, exosuit, __instance.defaultPrefab);
                 }
                 else if(Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType )
                 {
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "7 - Player has glove - defaultress");
+                    ErrorMessage.AddMessage("7 - Player has glove - defaultress");
                     CraftData.AddToInventory(CraftData.GetTechType(__instance.defaultPrefab));
                 }
                 else
@@ -120,9 +128,15 @@ namespace MetalHands.Patches
 
         private static void AddtoPrawn(BreakableResource __instance, Exosuit exosuit, GameObject gameObject)
         {
+            //QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "10");
+            //var pickupable = gameObject.GetComponent<Pickupable>();
+            //QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "11");
+
             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "10");
-            var pickupable = gameObject.GetComponent<Pickupable>();
+            GameObject prefab = GameObject.Instantiate(gameObject);
             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "11");
+            var pickupable = prefab.GetComponent<Pickupable>();
+
             if (exosuit.storageContainer.container.HasRoomFor(pickupable))
             {
                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "12");
