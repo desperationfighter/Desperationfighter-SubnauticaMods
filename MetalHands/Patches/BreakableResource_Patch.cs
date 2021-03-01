@@ -74,8 +74,10 @@ namespace MetalHands.Patches
                 GameObject gameObject = __instance.ChooseRandomResource();
                 if (gameObject)
                 {
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "1 - Random Resouce is called");
                     if (Player.main.GetVehicle() is Exosuit exosuit)
                     {
+                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "2 - Start AddToPrawn over randomress");
                         AddtoPrawn(__instance, exosuit, gameObject);
                     }
                     else
@@ -86,7 +88,6 @@ namespace MetalHands.Patches
                         }
                         else
                         {
-                            QModServices.Main.AddCriticalMessage("Is not piloting and no glove");
                             __instance.SpawnResourceFromPrefab(gameObject);
                         }
                     }           
@@ -95,8 +96,10 @@ namespace MetalHands.Patches
             }
             if (!flag)
             {
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "3 - default resouce is called");
                 if (Player.main.GetVehicle() is Exosuit exosuit)
                 {
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "4 - Start AddToPrawn over defaultress");
                     AddtoPrawn(__instance, exosuit, __instance.defaultPrefab);
                 }
                 else if(Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType )
@@ -115,18 +118,40 @@ namespace MetalHands.Patches
             }
         }
 
+        private static void AddtoPrawn(BreakableResource __instance, Exosuit exosuit, GameObject gameObject)
+        {
+            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "10");
+            var pickupable = gameObject.GetComponent<Pickupable>();
+            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "11");
+            if (exosuit.storageContainer.container.HasRoomFor(pickupable))
+            {
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "12");
+                pickupable = pickupable.Initialize();
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "13");
+                var item = new InventoryItem(pickupable);
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "14");
+                exosuit.storageContainer.container.UnsafeAdd(item);
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "15");
+                pickupable.Deactivate();
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "16");
+            }
+        }
+
+        /*
         private static void AddtoPrawn(BreakableResource __instance,Exosuit exosuit, GameObject gameObject)
         {
             Pickupable pickupable = gameObject.GetComponent<Pickupable>();
+            pickupable = pickupable.Initialize();
 
             if (exosuit.storageContainer.container.HasRoomFor(pickupable))           
             {
                 //Main
                 InventoryItem item = pickupable.inventoryItem;
-                //exosuit.storageContainer.container.UnsafeAdd(item);
-                exosuit.storageContainer.container.AddItem(pickupable);
+                exosuit.storageContainer.container.UnsafeAdd(item);
 
                 //old test
+                //exosuit.storageContainer.container.AddItem(pickupable);
+
                 //ItemsContainer.ItemGroup icig;
                 //exosuit.storageContainer.container._items.TryGetValue(CraftData.GetTechType(gameObject), out icig);
                 //exosuit.storageContainer.container._items.Add(CraftData.GetTechType(gameObject), icig);
@@ -137,6 +162,7 @@ namespace MetalHands.Patches
                 __instance.SpawnResourceFromPrefab(gameObject);
             }
         }
+        */
     }
 }
 
