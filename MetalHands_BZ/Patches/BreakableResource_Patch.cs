@@ -3,6 +3,8 @@ using MetalHands.Managment;
 using MetalHands.Items;
 using UnityEngine;
 using UnityEngine.AddressableAssets;
+using System.Collections;
+using UWE;
 //for Logging
 using QModManager.API;
 using QModManager.Utility;
@@ -77,7 +79,7 @@ namespace MetalHands.Patches
                     if (Player.main.GetVehicle() is Exosuit exosuit)
                     {
                         QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "2 - Start AddToPrawn over randomress");
-                        AddtoPrawn(__instance, exosuit, assetReferenceGameObject);
+                        CoroutineHost.StartCoroutine(AddtoPrawn(__instance, exosuit, assetReferenceGameObject));
                     }
                     //__instance.SpawnResourceFromPrefab(assetReferenceGameObject);
                     flag = true;
@@ -94,7 +96,24 @@ namespace MetalHands.Patches
             }
         }
 
-        private static void AddtoPrawn(BreakableResource __instance, Exosuit exosuit, AssetReferenceGameObject assetReferenceGameObject)
+        private static IEnumerator AddtoPrawn(BreakableResource __instance, Exosuit exosuit, AssetReferenceGameObject gameObject)
+        {
+            CoroutineTask<GameObject> task = AddressablesUtility.InstantiateAsync(gameObject.RuntimeKey as string);
+            yield return task;
+
+            GameObject prefab = task.GetResult();
+            var pickupable = prefab.GetComponent<Pickupable>();
+            if (exosuit.storageContainer.container.HasRoomFor(pickupable))
+            {
+                pickupable = pickupable.Initialize();
+                var item = new InventoryItem(pickupable);
+                exosuit.storageContainer.container.UnsafeAdd(item);
+            }
+            yield break;
+        }
+
+        /*
+        private static IEnumerator AddtoPrawn(BreakableResource __instance, Exosuit exosuit, AssetReferenceGameObject assetReferenceGameObject)
         {
             var installedmodule = exosuit.modules.GetCount(MetalHands.GRAVHANDBlueprintTechType);
             if ( (installedmodule > 0) | (MetalHands.Config.Config_fastcollect == true) )
@@ -102,9 +121,9 @@ namespace MetalHands.Patches
                 //AssetReferenceGameObject prefab = GameObject.Instantiate(assetReferenceGameObject);
                 //var pickupable = prefab.GetComponent<Pickupable>();
 
-                TaskResult<AssetReferenceGameObject> result = new TaskResult<AssetReferenceGameObject>();
+                //TaskResult<AssetReferenceGameObject> result = new TaskResult<AssetReferenceGameObject>();
                 yield return assetReferenceGameObject.InstantiateAsync(result);
-                var pickupable = result.Get();
+                assetReferenceGameObject = result.Get();
 
                 if (exosuit.storageContainer.container.HasRoomFor(pickupable))
                 {
@@ -117,5 +136,6 @@ namespace MetalHands.Patches
             }
             __instance.SpawnResourceFromPrefab(assetReferenceGameObject);
         }
+        */
     }
 }
