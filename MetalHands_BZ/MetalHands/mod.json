@@ -1,0 +1,13 @@
+{
+  "Id": "MetalHands",
+  "DisplayName": "MetalHands",
+  "Author": "Desperationfighter",
+  "Version": "1.0",
+  "VersionDependencies": { "SMLHelper": "2.9.2" },
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "MetalHands.dll",
+  "NexusId": { "Subnautica": "684" },
+  "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/MetalHands/MetalHands/mod.json" },
+  "QModSAM": { "Wiki": "https://github.com/desperationfighter" }
+}
