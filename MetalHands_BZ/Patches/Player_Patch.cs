@@ -11,28 +11,15 @@ namespace MetalHands.Patches
         [HarmonyPostfix]
         static void Postfix(Player __instance)
         {
-            if (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType)
+            if (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.GloveBlueprintTechType)
             {
                 __instance.temperatureDamage.minDamageTemperature += 3f;
             }
 
-            if (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType)
+            if (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.GloveMK2BlueprintTechType)
             {
                __instance.temperatureDamage.minDamageTemperature += 8f;
             }
         }
     }
-
-    /*
-    [HarmonyPatch(typeof(Player))]
-    [HarmonyPatch(nameof(Player.HasReinforcedGloves))]
-    public class Player_HasReinforcedGloves_Patch
-    {
-        [HarmonyPostfix]
-        static void Postfix(Player __instance, ref bool __result)
-        {
-            __result = Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType;
-        }
-    }
-    */
 }

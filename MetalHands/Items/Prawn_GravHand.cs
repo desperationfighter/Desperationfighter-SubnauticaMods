@@ -28,7 +28,13 @@ namespace MetalHands.Items
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override string[] StepsToFabricatorTab => new string[] { "ExosuitModules" };
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        public override string IconFileName => "reinforcedgloves.png";
+        public override string IconFileName => "GravClawModule.png";
+        public override GameObject GetGameObject()
+        {
+            GameObject originGlove_prefab = CraftData.GetPrefabForTechType(TechType.ExosuitJetUpgradeModule);
+            GameObject gameobj = Object.Instantiate(originGlove_prefab);
+            return gameobj;
+        }
 
         protected override TechData GetBlueprintRecipe()
         {

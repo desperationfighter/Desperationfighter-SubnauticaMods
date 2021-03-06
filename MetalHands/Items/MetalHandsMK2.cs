@@ -28,7 +28,7 @@ namespace MetalHands.Items
         public override TechType RequiredForUnlock => MetalHands.GloveBlueprintTechType;
         //public override string[] StepsToFabricatorTab => new string[] { "Personal"};
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        public override string IconFileName => "reinforcedgloves.png";
+        public override string IconFileName => "MetalHandsMK2.png";
 
         public override GameObject GetGameObject()
         {

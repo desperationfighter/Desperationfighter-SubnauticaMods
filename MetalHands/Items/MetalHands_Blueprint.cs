@@ -33,19 +33,17 @@ namespace MetalHands.Items
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
+        public override TechType RequiredForUnlock => TechType.None; //MetalHands.GloveBlueprintTechType;
         public override float CraftingTime => 2f;
         public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"Assets");
-        public override string IconFileName => "reinforcedgloves.png";
-
-        /*
+        public override string IconFileName => "MetalHands.png";
         public override GameObject GetGameObject()
         {
             GameObject originGlove_prefab = CraftData.GetPrefabForTechType(TechType.ReinforcedGloves);
             GameObject gameobj = Object.Instantiate(originGlove_prefab);
             return gameobj;
         }
-        */
 
         protected override TechData GetBlueprintRecipe()
         {

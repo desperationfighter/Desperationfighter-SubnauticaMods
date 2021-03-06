@@ -47,37 +47,38 @@ namespace MetalHands.Items
         }
         */
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            if(MetalHands.Config.Config_Hardcore == false)
+            if (MetalHands_BZ.Config.Config_Hardcore == false)
             {
-                return new TechData()
+                return new RecipeData()
                 {
                     craftAmount = 1,
                     Ingredients =
                     {
-                        new Ingredient(TechType.PlasteelIngot, 1),
-                        new Ingredient(TechType.Diamond, 2),
-                        new Ingredient(TechType.FiberMesh, 2),
-                        new Ingredient(TechType.Silicone, 1)
+                        new Ingredient(MetalHands_BZ.GloveBlueprintTechType, 1),
+                        new Ingredient(TechType.AramidFibers, 1),
+                        new Ingredient(TechType.CopperWire, 1),
+                        new Ingredient(TechType.Magnetite, 2),
+                        new Ingredient(TechType.ComputerChip, 1),
                     }
                 };
             }
             else
             {
-                return new TechData()
+                return new RecipeData()
                 {
                     craftAmount = 1,
                     Ingredients =
                     {
-                        new Ingredient(TechType.PlasteelIngot, 2),
-                        new Ingredient(TechType.Nickel,4),
+                        new Ingredient(MetalHands_BZ.GloveBlueprintTechType, 1),
                         new Ingredient(TechType.AramidFibers, 2),
-                        new Ingredient(TechType.Silicone, 2)
+                        new Ingredient(TechType.CopperWire, 2),
+                        new Ingredient(TechType.Magnetite, 4),
+                        new Ingredient(TechType.AdvancedWiringKit, 1)
                     }
                 };
             }
-
         }
     }
 }

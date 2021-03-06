@@ -26,7 +26,7 @@ namespace MetalHands.Patches
 
         private static void HitResource_Patch(BreakableResource __instance)
         {
-            if (MetalHands.Config.Config_fastbreak == true | ( MetalHands.Config.Config_ModEnable == true && ( ( Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType ) | (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) ) ) )
+            if (MetalHands_BZ.Config.Config_fastbreak == true | (MetalHands_BZ.Config.Config_ModEnable == true && ( ( Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.GloveBlueprintTechType ) | (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.GloveMK2BlueprintTechType) ) ) )
             {
                 __instance.hitsToBreak = 0;
             }
@@ -75,19 +75,50 @@ namespace MetalHands.Patches
                 AssetReferenceGameObject assetReferenceGameObject = __instance.ChooseRandomResource();
                 if (assetReferenceGameObject != null)
                 {
+                    __instance.SpawnResourceFromPrefab(assetReferenceGameObject);
+                    /*
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "1 - Random Resouce is called");
                     if (Player.main.GetVehicle() is Exosuit exosuit)
                     {
                         QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "2 - Start AddToPrawn over randomress");
                         CoroutineHost.StartCoroutine(AddtoPrawn(__instance, exosuit, assetReferenceGameObject));
                     }
-                    //__instance.SpawnResourceFromPrefab(assetReferenceGameObject);
+                    else
+                    {
+                        if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.GloveMK2BlueprintTechType) | (MetalHands_BZ.Config.Config_fastcollect == true))
+                        {
+                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "6 - Player has glove - randomress");
+                            //CraftData.AddToInventory(CraftData.GetTechType(gameObject));
+                        }
+                        else
+                        {
+                            __instance.SpawnResourceFromPrefab(assetReferenceGameObject);
+                        }
+                    }
+                    */
                     flag = true;
                 }
             }
             if (!flag)
             {
                 __instance.SpawnResourceFromPrefab(__instance.defaultPrefabReference);
+                /*
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "3 - default resouce is called");
+                if (Player.main.GetVehicle() is Exosuit exosuit)
+                {
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "4 - Start AddToPrawn over defaultress");
+                    AddtoPrawn(__instance, exosuit, __instance.defaultPrefabReference);
+                }
+                else if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.GloveMK2BlueprintTechType) | (MetalHands_BZ.Config.Config_fastcollect == true))
+                {
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "7 - Player has glove - defaultress");
+                    //CraftData.AddToInventory(CraftData.GetTechType(__instance.defaultPrefab));
+                }
+                else
+                {
+                    __instance.SpawnResourceFromPrefab(__instance.defaultPrefabReference);
+                }
+                */
             }
             FMODUWE.PlayOneShot(__instance.breakSound, __instance.transform.position, 1f);
             if (__instance.hitFX)
@@ -98,18 +129,30 @@ namespace MetalHands.Patches
 
         private static IEnumerator AddtoPrawn(BreakableResource __instance, Exosuit exosuit, AssetReferenceGameObject gameObject)
         {
-            CoroutineTask<GameObject> task = AddressablesUtility.InstantiateAsync(gameObject.RuntimeKey as string);
-            yield return task;
-
-            GameObject prefab = task.GetResult();
-            var pickupable = prefab.GetComponent<Pickupable>();
-            if (exosuit.storageContainer.container.HasRoomFor(pickupable))
+            var installedmodule = exosuit.modules.GetCount(MetalHands_BZ.GRAVHANDBlueprintTechType);
+            if ((installedmodule > 0) | (MetalHands_BZ.Config.Config_fastcollect == true))
             {
-                pickupable = pickupable.Initialize();
-                var item = new InventoryItem(pickupable);
-                exosuit.storageContainer.container.UnsafeAdd(item);
+                CoroutineTask<GameObject> task = AddressablesUtility.InstantiateAsync(gameObject.RuntimeKey as string);
+                yield return task;
+
+                GameObject prefab = task.GetResult();
+                var pickupable = prefab.GetComponent<Pickupable>();
+                if (exosuit.storageContainer.container.HasRoomFor(pickupable))
+                {
+                    pickupable.Initialize();
+                    var item = new InventoryItem(pickupable);
+                    exosuit.storageContainer.container.UnsafeAdd(item);
+                }
+                else
+                {
+                    __instance.SpawnResourceFromPrefab(gameObject);
+                }
+                yield break;
             }
-            yield break;
+            else
+            {
+                __instance.SpawnResourceFromPrefab(gameObject);
+            }
         }
 
         /*

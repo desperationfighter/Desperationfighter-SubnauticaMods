@@ -17,7 +17,7 @@ using MetalHands.Items;
 namespace MetalHands
 {
     [QModCore]
-    public class MetalHands
+    public class MetalHands_BZ
     {
         internal static IngameConfigMenu Config { get; private set; }
         internal static TechType GloveBlueprintTechType { get; private set; }
@@ -39,12 +39,12 @@ namespace MetalHands
             GRAVHANDBlueprint.Patch();
             GRAVHANDBlueprintTechType = GRAVHANDBlueprint.TechType;
 
-            Logger.Log(Logger.Level.Debug, "MetalHands Initialization");
-            Harmony harmony = new Harmony("MetalHands");
+            Logger.Log(Logger.Level.Debug, "MetalHands_BZ Initialization");
+            Harmony harmony = new Harmony("MetalHands_BZ");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-            Logger.Log(Logger.Level.Info, "MetalHands Patched");
+            Logger.Log(Logger.Level.Info, "MetalHands_BZ Patched");
 
-            QModServices.Main.AddCriticalMessage("Warning the MetalHands Mod is in BETA Status !");
+            //QModServices.Main.AddCriticalMessage("Warning the MetalHands Mod is in BETA Status !");
         }
     }
 }

@@ -25,28 +25,21 @@ namespace MetalHands.Items
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
         public override float CraftingTime => 3f;
-        public override TechType RequiredForUnlock => MetalHands.GloveBlueprintTechType;
+        public override TechType RequiredForUnlock => MetalHands_BZ.GloveBlueprintTechType;
         //public override string[] StepsToFabricatorTab => new string[] { "Personal"};
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public override string IconFileName => "reinforcedgloves.png";
 
-        public override GameObject GetGameObject()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            GameObject originGlove_prefab = CraftData.GetPrefabForTechType(TechType.ReinforcedGloves);
-            GameObject gameobj = Object.Instantiate(originGlove_prefab);
-            return gameobj;
-        }
-
-        protected override TechData GetBlueprintRecipe()
-        {
-            if(MetalHands.Config.Config_Hardcore == false)
+            if(MetalHands_BZ.Config.Config_Hardcore == false)
             {
-                return new TechData()
+                return new RecipeData()
                 {
                     craftAmount = 1,
                     Ingredients =
                     {
-                        new Ingredient(MetalHands.GloveBlueprintTechType, 1),
+                        new Ingredient(MetalHands_BZ.GloveBlueprintTechType, 1),
                         new Ingredient(TechType.AramidFibers, 1),
                         new Ingredient(TechType.CopperWire, 1),
                         new Ingredient(TechType.Magnetite, 2),
@@ -56,12 +49,12 @@ namespace MetalHands.Items
             }
             else
             {
-                return new TechData()
+                return new RecipeData()
                 {
                     craftAmount = 1,
                     Ingredients =
                     {
-                        new Ingredient(MetalHands.GloveBlueprintTechType, 1),
+                        new Ingredient(MetalHands_BZ.GloveBlueprintTechType, 1),
                         new Ingredient(TechType.AramidFibers, 2),
                         new Ingredient(TechType.CopperWire, 2),
                         new Ingredient(TechType.Magnetite, 4),

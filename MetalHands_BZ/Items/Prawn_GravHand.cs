@@ -22,7 +22,7 @@ namespace MetalHands.Items
         public override EquipmentType EquipmentType => EquipmentType.ExosuitModule;
         public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
         public override TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
-        public override TechType RequiredForUnlock => MetalHands.GloveBlueprintTechType;
+        public override TechType RequiredForUnlock => MetalHands_BZ.GloveBlueprintTechType;
         public override float CraftingTime => 3f;
         public override Vector2int SizeInInventory => new Vector2int(1, 1);
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
@@ -30,11 +30,11 @@ namespace MetalHands.Items
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public override string IconFileName => "reinforcedgloves.png";
 
-        protected override TechData GetBlueprintRecipe()
+        protected override RecipeData GetBlueprintRecipe()
         {
-            if (MetalHands.Config.Config_Hardcore == false)
+            if (MetalHands_BZ.Config.Config_Hardcore == false)
             {
-                return new TechData()
+                return new RecipeData()
                 {
                     craftAmount = 1,
                     Ingredients =
@@ -50,7 +50,7 @@ namespace MetalHands.Items
             }
             else
             {
-                return new TechData()
+                return new RecipeData()
                 {
                     craftAmount = 1,
                     Ingredients =

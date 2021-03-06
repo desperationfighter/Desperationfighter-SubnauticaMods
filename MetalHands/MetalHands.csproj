@@ -41,6 +41,9 @@
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
     </Reference>
+    <Reference Include="CustomDataboxes">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\CustomDataboxes\CustomDataboxes.dll</HintPath>
+    </Reference>
     <Reference Include="QModInstaller">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
     </Reference>
@@ -77,7 +80,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MetalHands\Assets\reinforcedgloves.png" />
+    <Content Include="MetalHands\Assets\MetalHands.png" />
+    <Content Include="MetalHands\Assets\MetalHandsMK2.png" />
+    <Content Include="MetalHands\Assets\GravClawModule.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MetalHands\mod.json" />

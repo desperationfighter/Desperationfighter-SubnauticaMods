@@ -13,6 +13,9 @@ using SMLHelper.V2.Handlers;
 //WorkingSpace
 using MetalHands.Managment;
 using MetalHands.Items;
+//adding Custom Databox
+using CustomDataboxes.API;
+using System.Collections.Generic;
 
 namespace MetalHands
 {
@@ -22,9 +25,10 @@ namespace MetalHands
         internal static IngameConfigMenu Config { get; private set; }
         internal static TechType GloveBlueprintTechType { get; private set; }
         internal static TechType GloveMK2BlueprintTechType { get; private set; }
-        internal static TechType GRAVHANDBlueprintTechType { get; private set; }
+        internal static TechType GRAVHANDBlueprintTechType { get; private set; }       
+        internal static List<LootDistributionData.BiomeData> BiomesToSpawnIn_pre { get; private set; }
 
-        [QModPatch]
+    [QModPatch]
         public static void MetalHands_InitializationMethod()
         {
             Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
@@ -38,6 +42,95 @@ namespace MetalHands
             var GRAVHANDBlueprint = new Prawn_GravHand();
             GRAVHANDBlueprint.Patch();
             GRAVHANDBlueprintTechType = GRAVHANDBlueprint.TechType;
+
+            if (MetalHands.Config.Config_Hardcore == true)
+            {
+                BiomesToSpawnIn_pre = new List<LootDistributionData.BiomeData>
+                {
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.BloodKelp_TechSite_Scatter,
+                        count = 1,
+                        probability = 0.15f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.CragField_Grass,
+                        count = 1,
+                        probability = 0.1f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
+                        count = 1,
+                        probability = 0.15f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
+                        count = 1,
+                        probability = 0.2f
+                    }
+                };
+            }
+            else
+            {
+                BiomesToSpawnIn_pre = new List<LootDistributionData.BiomeData>
+                {
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.GrassyPlateaus_Grass,
+                        count = 1,
+                        probability = 0.1f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.SparseReef_Techsite,
+                        count = 1,
+                        probability = 0.15f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.GrassyPlateaus_TechSite_Scattered,
+                        count = 1,
+                        probability = 0.1f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.CragField_Grass,
+                        count = 1,
+                        probability = 0.2f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.BloodKelp_TechSite_Scatter,
+                        count = 1,
+                        probability = 0.15f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
+                        count = 1,
+                        probability = 0.25f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
+                        count = 1,
+                        probability = 0.2f
+                    }
+                };
+            }
+
+            Databox myDatabox = new Databox()
+            {
+                DataboxID = "MetalHandDatabox",
+                PrimaryDescription = "Metal Hand Safety Glove Databox",
+                SecondaryDescription = "Contains Crafting Tree for Improved Safety Gloves - Alterrra Copyright",
+                BiomesToSpawnIn = BiomesToSpawnIn_pre,
+                TechTypeToUnlock = MetalHands.GloveBlueprintTechType
+            };
+            myDatabox.Patch();
 
             Logger.Log(Logger.Level.Debug, "MetalHands Initialization");
             Harmony harmony = new Harmony("MetalHands");
