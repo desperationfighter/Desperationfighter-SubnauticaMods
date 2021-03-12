@@ -13,10 +13,18 @@ namespace MetalHands.Items
 {
     internal class MetalHandsMK2 : Equipable
     {
+        public static TechType TechTypeID { get; protected set; }
         public MetalHandsMK2() : base("MetalHandsMK2",
             "Metal Improved Grav Gloves",
             "This Gloves have a Metal Improved Cover and a additionally Gravsystem")
-        { }
+        {
+            /*
+            OnFinishedPatching += () =>
+            {
+                TechTypeID = this.TechType;
+            };
+            */
+        }
 
         public override EquipmentType EquipmentType { get; } = EquipmentType.Gloves;
         public override Vector2int SizeInInventory => new Vector2int(2, 2);

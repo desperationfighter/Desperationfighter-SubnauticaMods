@@ -51,25 +51,25 @@ namespace MetalHands
                     {
                         biome = BiomeType.BloodKelp_TechSite_Scatter,
                         count = 1,
-                        probability = 0.15f
+                        probability = 0.05f
                     },
                     new LootDistributionData.BiomeData()
                     {
                         biome = BiomeType.CragField_Grass,
                         count = 1,
-                        probability = 0.1f
+                        probability = 0.02f
                     },
                     new LootDistributionData.BiomeData()
                     {
                         biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
                         count = 1,
-                        probability = 0.15f
+                        probability = 0.05f
                     },
                     new LootDistributionData.BiomeData()
                     {
                         biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
                         count = 1,
-                        probability = 0.2f
+                        probability = 0.10f
                     }
                 };
             }
@@ -81,43 +81,43 @@ namespace MetalHands
                     {
                         biome = BiomeType.GrassyPlateaus_Grass,
                         count = 1,
-                        probability = 0.1f
+                        probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
                         biome = BiomeType.SparseReef_Techsite,
                         count = 1,
-                        probability = 0.15f
+                        probability = 0.10f
                     },
                     new LootDistributionData.BiomeData()
                     {
                         biome = BiomeType.GrassyPlateaus_TechSite_Scattered,
                         count = 1,
-                        probability = 0.1f
+                        probability = 0.05f
                     },
                     new LootDistributionData.BiomeData()
                     {
                         biome = BiomeType.CragField_Grass,
                         count = 1,
-                        probability = 0.2f
+                        probability = 0.05f
                     },
                     new LootDistributionData.BiomeData()
                     {
                         biome = BiomeType.BloodKelp_TechSite_Scatter,
                         count = 1,
-                        probability = 0.15f
+                        probability = 0.05f
                     },
                     new LootDistributionData.BiomeData()
                     {
                         biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
                         count = 1,
-                        probability = 0.25f
+                        probability = 0.1f
                     },
                     new LootDistributionData.BiomeData()
                     {
                         biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
                         count = 1,
-                        probability = 0.2f
+                        probability = 0.05f
                     }
                 };
             }

@@ -13,11 +13,17 @@ namespace MetalHands.Items
 {
     internal class MetalHands_Blueprint : Equipable
     {
+        public static TechType TechTypeID { get; protected set; }
         public MetalHands_Blueprint() : base("MetalHands",
             "Metal Improved Gloves",
             "This Gloves have a Metal Improved Cover and allow Working with Hard Matrials without hurting the Person who wear it. Warning this Personal Safty Equiment is for Passive use avoiding severe injury . Do not use it as Tool")
         {
-            //No idea what to do here ???
+            /*
+            OnFinishedPatching += () =>
+            {
+                TechTypeID = this.TechType;
+            };
+            */
         }
 
         //On Work
@@ -33,7 +39,15 @@ namespace MetalHands.Items
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
-        public override TechType RequiredForUnlock => TechType.None; //MetalHands.GloveBlueprintTechType;
+
+        //public override TechType RequiredForUnlock => MetalHands.GloveBlueprintTechType;
+        //public override TechType RequiredForUnlock => TechType.None;
+        //public bool UnlockedAtStart => RequiredForUnlock == TechType.None;
+        //public bool UnlockedAtStart => RequiredForUnlock == TechType.None;
+        //public bool UnlockedAtStart => RequiredForUnlock == MetalHands.GloveBlueprintTechType;
+        //public new bool UnlockedAtStart => RequiredForUnlock == MetalHands.GloveBlueprintTechType;
+        public override TechType RequiredForUnlock => TechType.AcidOld;
+
         public override float CraftingTime => 2f;
         public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"Assets");

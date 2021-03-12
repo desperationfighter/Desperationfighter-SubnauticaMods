@@ -13,11 +13,19 @@ namespace MetalHands.Items
 {
     internal class Prawn_GravHand : Equipable//Craftable
     {
+        public static TechType TechTypeID { get; protected set; }
         public Prawn_GravHand() : base("GravHand",
             "Grav Hand Plugin",
             "This Plugin intregates a Gravitations function to the PRAWN Hands and allow a shortrange "
             )
-        { }
+        {
+            /*
+            OnFinishedPatching += () =>
+            {
+                TechTypeID = this.TechType;
+            };
+            */
+        }
         public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
         public override EquipmentType EquipmentType => EquipmentType.ExosuitModule;
         public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
