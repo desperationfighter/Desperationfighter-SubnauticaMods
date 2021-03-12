@@ -14,10 +14,10 @@ namespace MetalHands.Managment
         [Toggle("Hardcoremode (require Restart)", Tooltip = "This Change the requirement for the Blueprint. Require Restart.", Order = 2)]
         public bool Config_Hardcore = false;
         
-        [Toggle("(Cheat) Fast break without Glove", Tooltip = "Enable = Player can break Ressource fast without Glove")]
+        [Toggle("(Cheat) Fast break without Glove", Tooltip = "Enable = Player can break Ressource fast without Glove", Order = 3)]
         public bool Config_fastbreak = false;
 
-        [Toggle("(Cheat) Fast Collect without Glove",Tooltip = "Enable = Add spawned Ressouce from Ressouce brake directly to ")]
+        [Toggle("(Cheat) Fast Collect without Glove",Tooltip = "Enable = Add spawned Ressouce from Ressouce brake directly to ", Order = 4)]
         public bool Config_fastcollect = false;
 
         //[Toggle("(Easy Mode) Increase Spawn", Tooltip = "Enable = Increase the Swan Chances a little bit to makle it easier, does ")]

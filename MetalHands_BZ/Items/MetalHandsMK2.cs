@@ -24,11 +24,10 @@ namespace MetalHands.Items
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
-        public override float CraftingTime => 3f;
+        public override float CraftingTime => 4f;
         public override TechType RequiredForUnlock => MetalHands_BZ.GloveBlueprintTechType;
-        //public override string[] StepsToFabricatorTab => new string[] { "Personal"};
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        public override string IconFileName => "reinforcedgloves.png";
+        public override string IconFileName => "MetalHandsMK2.png";
 
         protected override RecipeData GetBlueprintRecipe()
         {

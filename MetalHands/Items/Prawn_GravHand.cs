@@ -18,14 +18,7 @@ namespace MetalHands.Items
             "Grav Hand Plugin",
             "This Plugin intregates a Gravitations function to the PRAWN Hands and allow a shortrange "
             )
-        {
-            /*
-            OnFinishedPatching += () =>
-            {
-                TechTypeID = this.TechType;
-            };
-            */
-        }
+        {}
         public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
         public override EquipmentType EquipmentType => EquipmentType.ExosuitModule;
         public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;

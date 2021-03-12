@@ -17,14 +17,7 @@ namespace MetalHands.Items
         public MetalHandsMK2() : base("MetalHandsMK2",
             "Metal Improved Grav Gloves",
             "This Gloves have a Metal Improved Cover and a additionally Gravsystem")
-        {
-            /*
-            OnFinishedPatching += () =>
-            {
-                TechTypeID = this.TechType;
-            };
-            */
-        }
+        { }
 
         public override EquipmentType EquipmentType { get; } = EquipmentType.Gloves;
         public override Vector2int SizeInInventory => new Vector2int(2, 2);
@@ -32,9 +25,8 @@ namespace MetalHands.Items
         public override TechGroup GroupForPDA => TechGroup.Personal;
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
-        public override float CraftingTime => 3f;
+        public override float CraftingTime => 4f;
         public override TechType RequiredForUnlock => MetalHands.GloveBlueprintTechType;
-        //public override string[] StepsToFabricatorTab => new string[] { "Personal"};
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public override string IconFileName => "MetalHandsMK2.png";
 
