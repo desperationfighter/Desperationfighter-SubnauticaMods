@@ -50,8 +50,8 @@ namespace MetalHands.Patches
         [HarmonyPrefix]
         private static bool Prefix(BreakableResource __instance)
         {
-            BreakIntoResources_Patch(__instance);
-            return false;
+            //BreakIntoResources_Patch(__instance);
+            return true;
         }
 
         private static void BreakIntoResources_Patch(BreakableResource __instance)
