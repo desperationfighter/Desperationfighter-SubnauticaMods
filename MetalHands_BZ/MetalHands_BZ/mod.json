@@ -3,7 +3,7 @@
   "DisplayName": "MetalHands",
   "Author": "Desperationfighter",
   "Version": "1.0",
-  "VersionDependencies": { "SMLHelper": "2.9.2" },
+  "VersionDependencies": { "SMLHelper": "2.9.2" , "Custom Databoxes BZ": "1.1.0"},
   "Enable": true,
   "Game": "BelowZero",
   "AssemblyName": "MetalHands_BZ.dll",
