@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.AddressableAssets;
 using System.Collections;
 using UWE;
+using System.Diagnostics;
 //for Logging
 using QModManager.API;
 using QModManager.Utility;
@@ -50,14 +51,27 @@ namespace MetalHands.Patches
         [HarmonyPrefix]
         private static bool Prefix(BreakableResource __instance)
         {
-            BreakIntoResources_Patch(__instance);
-            return false;
+            // Get call stack
+            StackTrace stackTrace = new StackTrace();
+            // Get calling method name
+            string callingmethode = stackTrace.GetFrame(1).GetMethod().Name;
+
+            if(callingmethode == "PunchRock" | callingmethode == "OnImpact")
+            {
+                return true;
+            }
+            else
+            {
+                BreakIntoResources_Patch(__instance);
+                return false;
+            }
 
             //---------------
             //bool woho = temptest(__instance);
             //return woho;
         }
 
+        /*
         private static bool temptest (BreakableResource __instance)
         {
             if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.GloveMK2BlueprintTechType) | (MetalHands_BZ.Config.Config_fastcollect == true))
@@ -68,6 +82,7 @@ namespace MetalHands.Patches
             }
             return true;
         }
+        */
 
         private static void BreakIntoResources_Patch(BreakableResource __instance)
         {
@@ -91,9 +106,6 @@ namespace MetalHands.Patches
                 AssetReferenceGameObject assetReferenceGameObject = __instance.ChooseRandomResource();
                 if (assetReferenceGameObject != null)
                 {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "52 - Random Ress not null");
-                    //__instance.SpawnResourceFromPrefab(assetReferenceGameObject);
-                    //*
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "1 - Random Resouce is called");
                     if (Player.main.GetVehicle() is Exosuit exosuit)
                     {
@@ -113,8 +125,6 @@ namespace MetalHands.Patches
                         if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.GloveMK2BlueprintTechType) | (MetalHands_BZ.Config.Config_fastcollect == true))
                         {
                             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "6 - Player has glove - randomress");
-                            //CraftData.AddToInventory(CraftData.GetTechType(gameObject));
-                            //CraftData.AddToInventory(TechType.Lithium);
                             CoroutineHost.StartCoroutine(AddbrokenRestoPlayerInv(__instance,assetReferenceGameObject));
                         }
                         else
@@ -128,11 +138,6 @@ namespace MetalHands.Patches
             }
             if (!flag)
             {
-                //QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Error, "61 - start spawn default Ress");
-                //__instance.SpawnResourceFromPrefab(__instance.defaultPrefabReference);
-                //QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Error, "62 - default ress spawned");
-
-                //*
                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "3 - default resouce is called");
                 if (Player.main.GetVehicle() is Exosuit exosuit)
                 {
@@ -142,9 +147,6 @@ namespace MetalHands.Patches
                 else if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.GloveMK2BlueprintTechType) | (MetalHands_BZ.Config.Config_fastcollect == true))
                 {
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "7 - Player has glove - defaultress");
-                    //CraftData.AddToInventory(CraftData.GetTechType(__instance.defaultPrefab));
-                    //CraftData.AddToInventory(TechType.Diamond);
-                    //this.SpawnResourceFromPrefab(this.defaultPrefabReference);
                     CoroutineHost.StartCoroutine(AddbrokenRestoPlayerInv(__instance, __instance.defaultPrefabReference));
                 }
                 else
