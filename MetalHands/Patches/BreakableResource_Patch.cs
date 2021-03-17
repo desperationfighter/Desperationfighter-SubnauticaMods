@@ -47,8 +47,9 @@ namespace MetalHands.Patches
         [HarmonyPrefix]
         private static bool Prefix(BreakableResource __instance)
         {
-            BreakIntoResources_Patch(__instance);
-            return false;
+            //BreakIntoResources_Patch(__instance);
+            //return false;
+            return true;
         }
 
         private static void BreakIntoResources_Patch(BreakableResource __instance)
@@ -132,11 +133,37 @@ namespace MetalHands.Patches
                     var item = new InventoryItem(pickupable);
 
                     exosuit.storageContainer.container.UnsafeAdd(item);
-                    //pickupable.Deactivate();
                     return;
                 }
             }
             __instance.SpawnResourceFromPrefab(gameObject);
+        }
+
+        [HarmonyPostfix]
+        private static void Postfix(BreakableResource __instance)
+        {
+            Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 2f, 1, QueryTriggerInteraction.UseGlobal);
+            foreach (Collider hitCollider in hitColliders)
+            {
+                Pickupable pickupable = hitCollider.gameObject.GetComponentInParent<Pickupable>();
+                if (pickupable != null && pickupable.isPickupable)
+                {
+                    if (Player.main.GetVehicle() is Exosuit exosuit)
+                    {
+                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "93 - Start AddToPrawn with draw");
+
+                        AddtoPrawn(__instance, exosuit, hitCollider.gameObject);
+                        GameObject.DestroyImmediate(hitCollider.gameObject);
+                    }
+                    else if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) | (MetalHands.Config.Config_fastcollect == true))
+                    {
+                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "94 - Player has glove - draw");
+
+                        CraftData.AddToInventory(CraftData.GetTechType(hitCollider.gameObject));
+                        GameObject.DestroyImmediate(hitCollider.gameObject);
+                    }
+                }
+            }
         }
     }
 }

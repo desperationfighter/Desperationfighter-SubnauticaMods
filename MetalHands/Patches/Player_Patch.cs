@@ -22,17 +22,4 @@ namespace MetalHands.Patches
             }
         }
     }
-
-    /*
-    [HarmonyPatch(typeof(Player))]
-    [HarmonyPatch(nameof(Player.HasReinforcedGloves))]
-    public class Player_HasReinforcedGloves_Patch
-    {
-        [HarmonyPostfix]
-        static void Postfix(Player __instance, ref bool __result)
-        {
-            __result = Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType;
-        }
-    }
-    */
 }
