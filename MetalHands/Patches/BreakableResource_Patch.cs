@@ -43,7 +43,6 @@ namespace MetalHands.Patches
     [HarmonyPatch(nameof(BreakableResource.BreakIntoResources))]
     public static class BreakableResource_BreakIntoResources_Patch
     {
-
         [HarmonyPrefix]
         private static bool Prefix(BreakableResource __instance)
         {
@@ -142,25 +141,40 @@ namespace MetalHands.Patches
         [HarmonyPostfix]
         private static void Postfix(BreakableResource __instance)
         {
-            Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 2f, 1, QueryTriggerInteraction.UseGlobal);
+            Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 1f, 1, QueryTriggerInteraction.UseGlobal);
+            int i = 0;
             foreach (Collider hitCollider in hitColliders)
             {
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "80 - start hitcolider foreach");
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, i.ToString());
+                    i++;
+
                 Pickupable pickupable = hitCollider.gameObject.GetComponentInParent<Pickupable>();
+                
+                if(pickupable != null)
+                {
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "82 - is null");
+                }
+
                 if (pickupable != null && pickupable.isPickupable)
                 {
+                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "92 - is piclkupble");
+
                     if (Player.main.GetVehicle() is Exosuit exosuit)
                     {
-                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "93 - Start AddToPrawn with draw");
+                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "93 - Start AddToPrawn with draw");
 
                         AddtoPrawn(__instance, exosuit, hitCollider.gameObject);
-                        GameObject.DestroyImmediate(hitCollider.gameObject);
+                        
+                        //GameObject.DestroyImmediate(hitCollider.gameObject);
                     }
                     else if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) | (MetalHands.Config.Config_fastcollect == true))
                     {
-                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "94 - Player has glove - draw");
+                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "94 - Player has glove - draw");
 
                         CraftData.AddToInventory(CraftData.GetTechType(hitCollider.gameObject));
-                        GameObject.DestroyImmediate(hitCollider.gameObject);
+                        
+                        //GameObject.DestroyImmediate(hitCollider.gameObject);
                     }
                 }
             }
