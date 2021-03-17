@@ -85,7 +85,6 @@
     <Content Include="MetalHands_BZ\Assets\GravClawModule.png" />
     <Content Include="MetalHands_BZ\Assets\MetalHands.png" />
     <Content Include="MetalHands_BZ\Assets\MetalHandsMK2.png" />
-    <Content Include="MetalHands_BZ\Assets\reinforcedgloves.png" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MetalHands_BZ\mod.json" />

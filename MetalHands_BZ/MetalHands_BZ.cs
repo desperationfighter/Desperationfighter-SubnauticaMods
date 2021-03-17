@@ -49,27 +49,27 @@ namespace MetalHands
                 {
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.BloodKelp_TechSite_Scatter,
+                        biome = BiomeType.TreeSpires_Ground,
                         count = 1,
-                        probability = 0.05f
+                        probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.CragField_Grass,
+                        biome = BiomeType.ArcticKelp_CaveInner_Sand,
+                        count = 1,
+                        probability = 0.01f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.GlacialBasin_BikeCrashSite,
+                        count = 1,
+                        probability = 0.01f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.TwistyBridges_Cave_Ground,
                         count = 1,
                         probability = 0.02f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.05f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.10f
                     }
                 };
             }
@@ -79,46 +79,40 @@ namespace MetalHands
                 {
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.GrassyPlateaus_Grass,
+                        biome = BiomeType.TreeSpires_Ground,
+                        count = 1,
+                        probability = 0.05f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.ArcticKelp_CaveInner_Sand,
+                        count = 1,
+                        probability = 0.02f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.GlacialBasin_BikeCrashSite,
                         count = 1,
                         probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.SparseReef_Techsite,
+                        biome = BiomeType.TwistyBridges_Cave_Ground,
                         count = 1,
-                        probability = 0.10f
+                        probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.GrassyPlateaus_TechSite_Scattered,
+                        biome = BiomeType.TwistyBridges_Shallow_Coral,
                         count = 1,
-                        probability = 0.05f
+                        probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.CragField_Grass,
+                        biome = BiomeType.LilyPads_Deep_Ground,
                         count = 1,
-                        probability = 0.05f
+                        probability = 0.01f
                     },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.BloodKelp_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.05f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.1f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.05f
-                    }
                 };
             }
 
