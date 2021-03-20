@@ -27,8 +27,9 @@ namespace MetalHands
         internal static TechType GloveMK2BlueprintTechType { get; private set; }
         internal static TechType GRAVHANDBlueprintTechType { get; private set; }       
         internal static List<LootDistributionData.BiomeData> BiomesToSpawnIn_pre { get; private set; }
+        public static bool IncreasedChunkDrops_exist { get; private set; }
 
-    [QModPatch]
+        [QModPatch]
         public static void MetalHands_InitializationMethod()
         {
             Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
@@ -136,6 +137,8 @@ namespace MetalHands
             Harmony harmony = new Harmony("MetalHands");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             Logger.Log(Logger.Level.Info, "MetalHands Patched");
+
+            IncreasedChunkDrops_exist = QModServices.Main.ModPresent("IncreasedChunkDrops");
 
             QModServices.Main.AddCriticalMessage("Warning the MetalHands Mod is in BETA Status !");
         }
