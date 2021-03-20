@@ -159,9 +159,10 @@ namespace MetalHands.Patches
           //Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 1f, 1, QueryTriggerInteraction.UseGlobal);
             Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 1f);
             int i = 0;
+            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "60 - start hitcolider foreach");
             foreach (Collider hitCollider in hitColliders)
             {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "70 - start hitcolider foreach");
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "61 - start single hitcolider from foreach");
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, i.ToString());
                     i++;
 
@@ -169,22 +170,27 @@ namespace MetalHands.Patches
                 
                 if(pickupable == null)
                 {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "72 - is null");
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "62 - is null");
                 }
                 if(hitCollider.gameObject.name.Contains("collision"))
                 {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "74 - Name of Gameobject");
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "64 - Name of Gameobject in if collision statement");
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.name);
+                }
+                else if(hitCollider.gameObject.name.Contains("clone"))
+                {
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "66 - Name of Gameobject in if clone statement");
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.name);
                 }
 
-                if (pickupable != null && pickupable.isPickupable && !hitCollider.gameObject.name.Contains("collision") )
+                if (pickupable != null && pickupable.isPickupable)
                 {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "82 - is piclkupble");
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "83 - start read status");
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "72 - is pickupable");
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "73 - start read status");
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.name);
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.name);
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.activeSelf.ToString());
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "84 - finish read status");
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "74 - finish read status");
 
                     hitCollider.attachedRigidbody.isKinematic = true; // try stop object for visual indication (why ever true means stop)
                     // hitCollider.gameObject.SetActive(false); //try  disable the object
@@ -192,7 +198,7 @@ namespace MetalHands.Patches
 
                     if (Player.main.GetVehicle() is Exosuit exosuit)
                     {
-                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "95 - Start AddToPrawn with draw");
+                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "85 - Start AddToPrawn with draw");
 
                         AddtoPrawn(__instance, exosuit, hitCollider.gameObject,false);
                         
@@ -200,14 +206,18 @@ namespace MetalHands.Patches
                     }
                     else if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) | (MetalHands.Config.Config_fastcollect == true))
                     {
-                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "98 - Player has glove - draw");
+                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "88 - Player has glove - draw");
 
                         CraftData.AddToInventory(CraftData.GetTechType(hitCollider.gameObject));
                         
                         //GameObject.DestroyImmediate(hitCollider.gameObject);
                     }
+
+                    
                 }
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "90 - stop single hitcolider from foreach");
             }
+            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "91 - stop foreach");
         }
 
         private static IEnumerator ExampleCoroutine()
