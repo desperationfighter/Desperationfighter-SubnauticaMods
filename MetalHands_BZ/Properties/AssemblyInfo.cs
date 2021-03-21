@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("MetalHands_BZ")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Desperationfighter")]
 [assembly: AssemblyProduct("MetalHands_BZ")]
-[assembly: AssemblyCopyright("Copyright ©  2021")]
+[assembly: AssemblyCopyright("Copyright ©  2021 - Desperationfighter")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 
