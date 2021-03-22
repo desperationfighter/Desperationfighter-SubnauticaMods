@@ -67,7 +67,7 @@ namespace MetalHands.Patches
     [HarmonyPatch(nameof(BreakableResource.BreakIntoResources))]
     public static class BreakableResource_BreakIntoResources_Patch
     {
-        #region Prefix
+        #region BreakIntoResources-Prefix
 
         [HarmonyPrefix]
         private static bool Prefix(BreakableResource __instance)
@@ -171,32 +171,49 @@ namespace MetalHands.Patches
             }
         }
 
-        private static void AddtoPrawn(BreakableResource __instance, Exosuit exosuit, GameObject gameObject,bool defaultspawn = true)
+        private static bool AddtoPrawn(BreakableResource __instance, Exosuit exosuit, GameObject gameObject,bool defaultspawn = true, bool skipinstantinate = false)
         {
             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "30 - start hitcolider foreach");
             var installedmodule = exosuit.modules.GetCount(MetalHands.GRAVHANDBlueprintTechType);
             if ( (installedmodule > 0) | (MetalHands.Config.Config_fastcollect == true) )
             {
-                GameObject prefab = GameObject.Instantiate(gameObject);
+                GameObject prefab;
+                if (skipinstantinate)
+                {
+                    prefab = gameObject;
+                }
+                else
+                {
+                    prefab = GameObject.Instantiate(gameObject);
+                } 
                 //var pickupable = prefab.GetComponent<Pickupable>();
                 var pickupable = prefab.GetComponent<Pickupable>() ?? prefab.GetComponentInParent<Pickupable>();
 
                 if (exosuit.storageContainer.container.HasRoomFor(pickupable) && (pickupable != null && pickupable.isPickupable))
                 {
-                    pickupable = pickupable.Initialize();
+                    if (skipinstantinate)
+                    {                        
+                        gameObject.SetActive(false);
+                        GameObject.Destroy(gameObject);
+                    }
+                    else
+                    {
+                        pickupable = pickupable.Initialize();
+                    }
                     var item = new InventoryItem(pickupable);
 
                     exosuit.storageContainer.container.UnsafeAdd(item);
-                    return;
+                    return true;
                 }
             }
             if (defaultspawn)
             {
                 __instance.SpawnResourceFromPrefab(gameObject);
             }
+            return false;
         }
 
-        #endregion Prefix
+        #endregion BreakIntoResources-Prefix
 
 
         /*
@@ -341,13 +358,30 @@ namespace MetalHands.Patches
 
                     if (Player.main.GetVehicle() is Exosuit exosuit)
                     {
-                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "85 - Start AddToPrawn with draw");
+                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "81 - Start AddToPrawn with draw");
 
-                        AddtoPrawn(__instance, exosuit, hitCollider.gameObject, false);
-
-                        hitCollider.gameObject.SetActive(false);
-                        //GameObject.DestroyImmediate(hitCollider.gameObject);
-                        GameObject.Destroy(hitCollider.gameObject);
+                        //AddtoPrawn(__instance, exosuit, hitCollider.gameObject, false,false);
+                        #region internal PRAWN
+                        var installedmodule = exosuit.modules.GetCount(MetalHands.GRAVHANDBlueprintTechType);
+                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "82 - Installed PRAWN Module");
+                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, installedmodule.ToString());
+                        if ((installedmodule > 0) | (MetalHands.Config.Config_fastcollect == true))
+                        {
+                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "83 - PRAWN Allowed to Quickpick");
+                            if (exosuit.storageContainer.container.HasRoomFor(pickupable) )
+                            {
+                                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "84 - PRAWN has Room for Quickpick");
+                                var item = new InventoryItem(pickupable);
+                                exosuit.storageContainer.container.UnsafeAdd(item);
+                                hitCollider.gameObject.SetActive(false);
+                                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "85 - after PRAWN quickpick disable gameobject");
+                                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.activeSelf.ToString());
+                                //GameObject.DestroyImmediate(hitCollider.gameObject);
+                                GameObject.Destroy(hitCollider.gameObject);
+                                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "86 - after PRAWN Gameobject destroyed");
+                            }
+                        }
+                        #endregion internal PRAWN
                     }
                     else if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) | (MetalHands.Config.Config_fastcollect == true))
                     {
