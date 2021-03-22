@@ -27,6 +27,7 @@ namespace MetalHands.Patches
 
         private static void HitResource_Patch_Prefix(BreakableResource __instance)
         {
+            //check if user force fastbreak OR has one of the Glove's
             if (MetalHands.Config.Config_fastbreak == true | ( MetalHands.Config.Config_ModEnable == true && ( ( Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType ) | (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) ) ) )
             {
                 __instance.hitsToBreak = 0;
@@ -50,8 +51,10 @@ namespace MetalHands.Patches
 
         private static void HitResource_Patch_Postfix(BreakableResource __instance)
         {
+            //as this is Postfix first check if player already hit it down so we do not call the break twice
             if(__instance.hitsToBreak > 0)
             {
+                //check if user force fastbreak OR has one of the Glove's
                 if (MetalHands.Config.Config_fastbreak == true | (MetalHands.Config.Config_ModEnable == true && ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType) | (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType))))
                 {
                     __instance.hitsToBreak = 0;
@@ -72,6 +75,8 @@ namespace MetalHands.Patches
         [HarmonyPrefix]
         private static bool Prefix(BreakableResource __instance)
         {
+            
+            //check if the Player force prefix. after that check if a colliding Mod is installed or the player expliziete force Postfix
             if( !(MetalHands.Config.Config_forceprefix_opverridepostfix) & (MetalHands.IncreasedChunkDrops_exist | MetalHands.Config.Config_forcepostfix))
             {
                 //run original
@@ -215,95 +220,11 @@ namespace MetalHands.Patches
 
         #endregion BreakIntoResources-Prefix
 
-
-        /*
-        [HarmonyPostfix]
-        //[HarmonyPriority(600)]
-        [HarmonyPriority(Priority.Low)]
-        private static void Postfix(BreakableResource __instance)
-        {          
-          //Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 1f, 1, QueryTriggerInteraction.UseGlobal);
-            Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 1.5f);
-            int i = 0;
-            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "60 - start hitcolider foreach");
-            foreach (Collider hitCollider in hitColliders)
-            {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "61 - start single hitcolider from foreach");
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, i.ToString());
-                    i++;
-
-                Pickupable pickupable = hitCollider.gameObject.GetComponentInParent<Pickupable>();
-                
-                if(pickupable == null)
-                {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "62 - is null");
-                }
-                if(hitCollider.gameObject.name.Contains("collision"))
-                {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "64 - Name of Gameobject in if collision statement");
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.name);
-                }
-                else if(hitCollider.gameObject.name.Contains("clone"))
-                {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "66 - Name of Gameobject in if clone statement");
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.name);
-                }
-
-                if (pickupable != null && pickupable.isPickupable)
-                {
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "72 - is pickupable");
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "73 - start read status");
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.name);
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.name);
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.activeSelf.ToString());
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.attachedRigidbody.collisionDetectionMode.ToString());
-                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "74 - finish read status");
-
-#if null
-                    try
-                    {
-                        hitCollider.attachedRigidbody.isKinematic = true;
-                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "77 - try");
-                    }
-                    catch
-                    {
-                        QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "76 - Catch");
-                    }
-#endif
-
-                    //hitCollider.attachedRigidbody.isKinematic = true; // try stop object for visual indication (why ever true means stop)
-                    // hitCollider.gameObject.SetActive(false); //try  disable the object
-                    //GameObject.DestroyImmediate(hitCollider.gameObject); //destoy object to reduce invisble objects in the world
-
-                    if (Player.main.GetVehicle() is Exosuit exosuit)
-                    {
-                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "85 - Start AddToPrawn with draw");
-
-                        AddtoPrawn(__instance, exosuit, hitCollider.gameObject,false);
-                        
-                        //GameObject.DestroyImmediate(hitCollider.gameObject);
-                    }
-                    else if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) | (MetalHands.Config.Config_fastcollect == true))
-                    {
-                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "88 - Player has glove - draw");
-
-                        CraftData.AddToInventory(CraftData.GetTechType(hitCollider.gameObject));
-                        
-                        //GameObject.DestroyImmediate(hitCollider.gameObject);
-                    }
-
-                    
-                }
-                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "90 - stop single hitcolider from foreach");
-            }
-            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "91 - stop foreach");
-        }
-        */
-
         [HarmonyPostfix]
         [HarmonyPriority(Priority.Low)]
         private static void Postfix(BreakableResource __instance)
         {
+            //check if the Player force prefix. after that check if a colliding Mod is installed or the player expliziete force Postfix
             if ( !(MetalHands.Config.Config_forceprefix_opverridepostfix) & (MetalHands.IncreasedChunkDrops_exist | MetalHands.Config.Config_forcepostfix) )
             {
                 //run custom
@@ -317,8 +238,10 @@ namespace MetalHands.Patches
 
         private static IEnumerator ProcessHitCollider(BreakableResource __instance)
         {
+            //Wait a moment for all things to Spawn correct
             yield return new WaitForSeconds(0.3f);
 
+            //Collect all Gameobject in the near of the Breakable
             Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 2f);
             int i = 0;
             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "60 - start hitcolider foreach");
@@ -330,15 +253,18 @@ namespace MetalHands.Patches
 
                 Pickupable pickupable = hitCollider.gameObject.GetComponentInParent<Pickupable>();
 
+                //just a Logfile check
                 if (pickupable == null)
                 {
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "62 - is null");
                 }
+                //just a Logfile check
                 if (hitCollider.gameObject.name.Contains("collision"))
                 {
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "64 - Name of Gameobject in if collision statement");
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.name);
                 }
+                //just a Logfile check
                 else if (hitCollider.gameObject.name.Contains("clone"))
                 {
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "66 - Name of Gameobject in if clone statement");
@@ -356,6 +282,7 @@ namespace MetalHands.Patches
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.layer.ToString());
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "74 - finish read status");
 
+                    //Check if the Player is in Prawn so the pickup goes to prawn
                     if (Player.main.GetVehicle() is Exosuit exosuit)
                     {
                         QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "81 - Start AddToPrawn with draw");
@@ -365,11 +292,16 @@ namespace MetalHands.Patches
                         var installedmodule = exosuit.modules.GetCount(MetalHands.GRAVHANDBlueprintTechType);
                         QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "82 - Installed PRAWN Module");
                         QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, installedmodule.ToString());
+                        
+                        //if the PRAWN has the Collect Module installed go to next step
                         if ((installedmodule > 0) | (MetalHands.Config.Config_fastcollect == true))
                         {
                             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "83 - PRAWN Allowed to Quickpick");
+                            //check if SPANW has space to collect
                             if (exosuit.storageContainer.container.HasRoomFor(pickupable) )
                             {
+                                //Add the pickup to the inventory of the PRAWN and destroy the object in the world to prevent doubled existing
+                                
                                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "84 - PRAWN has Room for Quickpick");
                                 var item = new InventoryItem(pickupable);
                                 exosuit.storageContainer.container.UnsafeAdd(item);
@@ -383,13 +315,16 @@ namespace MetalHands.Patches
                         }
                         #endregion internal PRAWN
                     }
+                    //Check if the Player is wearing the Glove and the item goes into player inv
                     else if ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) | (MetalHands.Config.Config_fastcollect == true))
                     {
                         QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "88 - Player has glove - draw");
 
                         Inventory inventory = Inventory.Get();
+                        //check if the Player has free Inventory Space
                         if(inventory.HasRoomFor(pickupable))
                         {
+                            //Add the Pickup to the inventory and destroy the object in the world to prevent doubled existing
                             CraftData.AddToInventory(CraftData.GetTechType(hitCollider.gameObject), spawnIfCantAdd: false);
 
                             hitCollider.gameObject.SetActive(false);
