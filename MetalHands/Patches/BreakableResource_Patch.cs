@@ -20,11 +20,12 @@ namespace MetalHands.Patches
         [HarmonyPrefix]
         private static bool Prefix(BreakableResource __instance)
         {
-            HitResource_Patch(__instance);
-            return false;
+            //HitResource_Patch_Prefix(__instance);
+            //return false;
+            return true;
         }
 
-        private static void HitResource_Patch(BreakableResource __instance)
+        private static void HitResource_Patch_Prefix(BreakableResource __instance)
         {
             if (MetalHands.Config.Config_fastbreak == true | ( MetalHands.Config.Config_ModEnable == true && ( ( Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType ) | (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) ) ) )
             {
@@ -40,6 +41,24 @@ namespace MetalHands.Patches
                 __instance.BreakIntoResources();
             }
         }
+
+        [HarmonyPostfix]
+        private static void Postfix(BreakableResource __instance)
+        {
+            HitResource_Patch_Postfix(__instance);
+        }
+
+        private static void HitResource_Patch_Postfix(BreakableResource __instance)
+        {
+            if(__instance.hitsToBreak > 0)
+            {
+                if (MetalHands.Config.Config_fastbreak == true | (MetalHands.Config.Config_ModEnable == true && ((Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveBlueprintTechType) | (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType))))
+                {
+                    __instance.hitsToBreak = 0;
+                    __instance.BreakIntoResources();
+                }
+            }
+        }
     }
 
 
@@ -53,9 +72,17 @@ namespace MetalHands.Patches
         [HarmonyPrefix]
         private static bool Prefix(BreakableResource __instance)
         {
-            //BreakIntoResources_Patch(__instance);
-            //return false;
-            return true;
+            if( !(MetalHands.Config.Config_forceprefix_opverridepostfix) & (MetalHands.IncreasedChunkDrops_exist | MetalHands.Config.Config_forcepostfix))
+            {
+                //run original
+                return true;
+            }
+            else
+            {
+                //run custom
+                BreakIntoResources_Patch(__instance);
+                return false;
+            }
         }
 
         private static void BreakIntoResources_Patch(BreakableResource __instance)
@@ -90,7 +117,16 @@ namespace MetalHands.Patches
                         if ( (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) | (MetalHands.Config.Config_fastcollect == true))
                         {
                             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "6 - Player has glove - randomress");
-                            CraftData.AddToInventory(CraftData.GetTechType(gameObject));
+                            Vector2int size = CraftData.GetItemSize(CraftData.GetTechType(gameObject));
+                            Inventory inventory = Inventory.Get();
+                            if (inventory.HasRoomFor(size.x, size.y))
+                            {
+                                CraftData.AddToInventory(CraftData.GetTechType(gameObject));
+                            }
+                            else
+                            {
+                                __instance.SpawnResourceFromPrefab(gameObject);
+                            }
                         }
                         else
                         {
@@ -111,7 +147,17 @@ namespace MetalHands.Patches
                 else if( (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands.GloveMK2BlueprintTechType) | (MetalHands.Config.Config_fastcollect == true))
                 {
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "7 - Player has glove - defaultress");
-                    CraftData.AddToInventory(CraftData.GetTechType(__instance.defaultPrefab));
+                    Vector2int size = CraftData.GetItemSize(CraftData.GetTechType(__instance.defaultPrefab));
+                    Inventory inventory = Inventory.Get();
+                    if (inventory.HasRoomFor(size.x,size.y))
+                    {
+                        CraftData.AddToInventory(CraftData.GetTechType(__instance.defaultPrefab));
+                    }
+                    else
+                    {
+                        __instance.SpawnResourceFromPrefab(__instance.defaultPrefab);
+                    }
+                    
                 }
                 else
                 {
@@ -241,13 +287,20 @@ namespace MetalHands.Patches
         [HarmonyPriority(Priority.Low)]
         private static void Postfix(BreakableResource __instance)
         {
-            
-            CoroutineHost.StartCoroutine(ProcessHitCollider(__instance));
+            if ( !(MetalHands.Config.Config_forceprefix_opverridepostfix) & (MetalHands.IncreasedChunkDrops_exist | MetalHands.Config.Config_forcepostfix) )
+            {
+                //run custom
+                CoroutineHost.StartCoroutine(ProcessHitCollider(__instance));
+            }
+            else
+            {
+                //do nothing or run original only
+            }
         }
 
         private static IEnumerator ProcessHitCollider(BreakableResource __instance)
         {
-            yield return new WaitForSeconds(0.4f);
+            yield return new WaitForSeconds(0.3f);
 
             Collider[] hitColliders = Physics.OverlapSphere(__instance.transform.position, 2f);
             int i = 0;
@@ -283,6 +336,7 @@ namespace MetalHands.Patches
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.name);
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.activeSelf.ToString());
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.attachedRigidbody.collisionDetectionMode.ToString());
+                    QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.layer.ToString());
                     QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "74 - finish read status");
 
                     if (Player.main.GetVehicle() is Exosuit exosuit)
@@ -291,6 +345,7 @@ namespace MetalHands.Patches
 
                         AddtoPrawn(__instance, exosuit, hitCollider.gameObject, false);
 
+                        hitCollider.gameObject.SetActive(false);
                         //GameObject.DestroyImmediate(hitCollider.gameObject);
                         GameObject.Destroy(hitCollider.gameObject);
                     }
@@ -303,6 +358,9 @@ namespace MetalHands.Patches
                         {
                             CraftData.AddToInventory(CraftData.GetTechType(hitCollider.gameObject), spawnIfCantAdd: false);
 
+                            hitCollider.gameObject.SetActive(false);
+                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "89 - Status of Gameobject after setting false");
+                            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.activeSelf.ToString());
                             //GameObject.DestroyImmediate(hitCollider.gameObject);
                             GameObject.Destroy(hitCollider.gameObject);
                         }

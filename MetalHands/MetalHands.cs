@@ -139,6 +139,14 @@ namespace MetalHands
             Logger.Log(Logger.Level.Info, "MetalHands Patched");
 
             IncreasedChunkDrops_exist = QModServices.Main.ModPresent("IncreasedChunkDrops");
+            if(IncreasedChunkDrops_exist)
+            {
+                Logger.Log(Logger.Level.Info, "MetalHands has detected Increased Chunk Drops");
+            }   
+            else
+            {
+                Logger.Log(Logger.Level.Info, "MetalHands has NOT detected Increased Chunk Drops");
+            }
 
             QModServices.Main.AddCriticalMessage("Warning the MetalHands Mod is in BETA Status !");
         }

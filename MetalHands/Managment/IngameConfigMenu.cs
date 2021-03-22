@@ -20,7 +20,12 @@ namespace MetalHands.Managment
         [Toggle("(Cheat) Fast Collect without Glove",Tooltip = "Enable = Add spawned Ressouce from Ressouce brake directly to ", Order = 4)]
         public bool Config_fastcollect = false;
 
-        //[Toggle("(Easy Mode) Increase Spawn", Tooltip = "Enable = Increase the Swan Chances a little bit to makle it easier, does ")]
+        [Toggle("(compatibility) Force Mod to run Postfix", Tooltip = "This Setting Force the Mod to run as a Postfix. This helps to be working together with other Mods that modifiy the Same parts of the Game. The Mod detects some Mods that are known to be problematic..", Order = 5)]
+        public bool Config_forcepostfix = false;
+
+        public bool Config_forceprefix_opverridepostfix = false;
+
+        //[Toggle("(Easy Mode) Increase Spawn", Tooltip = "Enable = Increase the Spawn Chances a little bit to makle it easier, does ")]
         //public bool Config_MoreSpawn = false;
 
         //[Slider("Difficulty Level 1=Easy 3=Hardcore", 1, 3, Step = 1, DefaultValue = 2, Tooltip = "Dummy")]

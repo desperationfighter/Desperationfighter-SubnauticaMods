@@ -19,5 +19,8 @@ namespace MetalHands.Managment
 
         [Toggle("(Cheat) Fast Collect without Glove", Tooltip = "Enable = Add spawned Ressouce from Ressouce brake directly to ", Order = 4)]
         public bool Config_fastcollect = false;
+
+        [Toggle("(compatibility) Force Mod to run Postfix", Tooltip = "This Setting Force the Mod to run as a Postfix. This helps to be working together with other Mods that modifiy the Same parts of the Game. The Mod detects some Mods that are known to be problematic..", Order = 5)]
+        public bool Config_forcepostfix = false;
     }
 }
