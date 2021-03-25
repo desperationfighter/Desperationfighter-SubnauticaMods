@@ -178,10 +178,11 @@ namespace MetalHands.Patches
 
         private static bool AddtoPrawn(BreakableResource __instance, Exosuit exosuit, GameObject gameObject,bool defaultspawn = true, bool skipinstantinate = false)
         {
-            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "30 - start hitcolider foreach");
+            QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "30 - Start Add To Prawn");
             var installedmodule = exosuit.modules.GetCount(MetalHands.GRAVHANDBlueprintTechType);
             if ( (installedmodule > 0) | (MetalHands.Config.Config_fastcollect == true) )
             {
+                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "31 - Has Module installed");
                 GameObject prefab;
                 if (skipinstantinate)
                 {
@@ -198,8 +199,8 @@ namespace MetalHands.Patches
                 {
                     if (skipinstantinate)
                     {                        
-                        gameObject.SetActive(false);
-                        GameObject.Destroy(gameObject);
+                        //gameObject.SetActive(false);
+                        //GameObject.Destroy(gameObject);
                     }
                     else
                     {
@@ -208,6 +209,12 @@ namespace MetalHands.Patches
                     var item = new InventoryItem(pickupable);
 
                     exosuit.storageContainer.container.UnsafeAdd(item);
+
+                    string name = Language.main.GetOrFallback(pickupable.GetTechType().AsString(), pickupable.GetTechType().AsString());
+                    ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
+                    uGUI_IconNotifier.main.Play(pickupable.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
+                    pickupable.PlayPickupSound();
+
                     return true;
                 }
             }
@@ -300,8 +307,14 @@ namespace MetalHands.Patches
                             //check if SPANW has space to collect
                             if (exosuit.storageContainer.container.HasRoomFor(pickupable) )
                             {
-                                //Add the pickup to the inventory of the PRAWN and destroy the object in the world to prevent doubled existing
+                                QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, pickupable.GetTechType().ToString());
+                                //Add the pickup to the inventory of the PRAWN and destroy the object in the world to prevent doubled existing                              
+                                //CoroutineHost.StartCoroutine(AddToVehicle(pickupable.GetTechType(), exosuit.storageContainer.container));
+                                pickupable.Pickup();
+                                CoroutineHost.StartCoroutine(AddToVehicle(pickupable, exosuit.storageContainer.container));
                                 
+                                //hitCollider.gameObject.SetActive(false);
+                                /*
                                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "84 - PRAWN has Room for Quickpick");
                                 var item = new InventoryItem(pickupable);
                                 exosuit.storageContainer.container.UnsafeAdd(item);
@@ -309,8 +322,9 @@ namespace MetalHands.Patches
                                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "85 - after PRAWN quickpick disable gameobject");
                                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.activeSelf.ToString());
                                 //GameObject.DestroyImmediate(hitCollider.gameObject);
-                                GameObject.Destroy(hitCollider.gameObject);
+                                //GameObject.Destroy(hitCollider.gameObject);
                                 QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "86 - after PRAWN Gameobject destroyed");
+                                */
                             }
                         }
                         #endregion internal PRAWN
@@ -324,14 +338,19 @@ namespace MetalHands.Patches
                         //check if the Player has free Inventory Space
                         if(inventory.HasRoomFor(pickupable))
                         {
+                            pickupable.Pickup();
+                            //CoroutineHost.StartCoroutine(AddToVehicle(pickupable.GetTechType(), inventory.container));
+
                             //Add the Pickup to the inventory and destroy the object in the world to prevent doubled existing
                             CraftData.AddToInventory(CraftData.GetTechType(hitCollider.gameObject), spawnIfCantAdd: false);
-
+                            
+                            /*
                             hitCollider.gameObject.SetActive(false);
                             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "89 - Status of Gameobject after setting false");
                             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, hitCollider.gameObject.activeSelf.ToString());
                             //GameObject.DestroyImmediate(hitCollider.gameObject);
                             GameObject.Destroy(hitCollider.gameObject);
+                            */
                         }
 
                     }
@@ -341,6 +360,51 @@ namespace MetalHands.Patches
             }
             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "91 - stop foreach");
         }
+
+        //friendly stolen from MrPurple6411
+        private static IEnumerator AddToVehicle(Pickupable pickupable, ItemsContainer itemsContainer)
+        {
+            pickupable.Initialize();
+            var item = new InventoryItem(pickupable);
+            itemsContainer.UnsafeAdd(item);
+            string name = Language.main.GetOrFallback(pickupable.GetTechType().AsString(), pickupable.GetTechType().AsString());
+            ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
+            uGUI_IconNotifier.main.Play(pickupable.GetTechType(), uGUI_IconNotifier.AnimationType.From, null);
+            pickupable.PlayPickupSound();
+
+            yield break;
+        }
+
+        /*
+        private static IEnumerator AddToVehicle(TechType techType, ItemsContainer itemsContainer)
+        {          
+            CoroutineTask<GameObject> coroutineTask = CraftData.GetPrefabForTechTypeAsync(techType, false);
+            yield return coroutineTask;
+
+            GameObject prefab = coroutineTask.GetResult();
+
+            if (prefab is null)
+                prefab = Utils.CreateGenericLoot(techType);
+
+            GameObject gameObject = GameObject.Instantiate(prefab, null);
+            Pickupable pickupable = gameObject.EnsureComponent<Pickupable>();
+
+#if SUBNAUTICA_EXP
+            TaskResult<Pickupable> result1 = new TaskResult<Pickupable>();
+            yield return pickupable.InitializeAsync(result1);
+            pickupable = result1.Get();
+#else 
+            pickupable.Initialize();
+#endif
+            var item = new InventoryItem(pickupable);
+            itemsContainer.UnsafeAdd(item);
+            string name = Language.main.GetOrFallback(techType.AsString(), techType.AsString());
+            ErrorMessage.AddMessage(Language.main.GetFormat("VehicleAddedToStorage", name));
+            uGUI_IconNotifier.main.Play(techType, uGUI_IconNotifier.AnimationType.From, null);
+            pickupable.PlayPickupSound();
+
+            yield break;
+        }*/
 
         private static IEnumerator ExampleCoroutine()
         {

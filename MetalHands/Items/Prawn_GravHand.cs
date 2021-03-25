@@ -16,7 +16,7 @@ namespace MetalHands.Items
         public static TechType TechTypeID { get; protected set; }
         public Prawn_GravHand() : base("GravHand",
             "Grav Hand Plugin",
-            "This Plugin intregates a Gravitations function to the PRAWN Hands and allow a shortrange "
+            "This Plugin intregates a Gravitations function to the PRAWN Arm Modules like the Claw and Drill and allow a shortrange collection of Metal Based Resscources"
             )
         {}
         public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;
