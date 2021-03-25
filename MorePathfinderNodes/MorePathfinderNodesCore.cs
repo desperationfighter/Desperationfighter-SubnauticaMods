@@ -23,7 +23,7 @@ namespace MorePathfinderNodes
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             Logger.Log(Logger.Level.Info, "MorePathfinderNodes Patched");
 
-            QModServices.Main.AddCriticalMessage("Warning the MorePathfinderNodes Mod is in BETA Status !");
+            //QModServices.Main.AddCriticalMessage("Warning the MorePathfinderNodes Mod is in BETA Status !");
         }
     }
 }
