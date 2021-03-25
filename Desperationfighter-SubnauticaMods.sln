@@ -17,6 +17,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetalHands_BZ", "MetalHands
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorePathfinderNodes", "MorePathfinderNodes\MorePathfinderNodes.csproj", "{B06504DD-0042-4BF0-9177-2E37B8156835}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorePathfinderNodes_BZ", "MorePathfinderNodes_BZ\MorePathfinderNodes_BZ.csproj", "{33F9AF53-2B4F-4EDA-ADF2-A186B160FE91}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -51,6 +53,10 @@ Global
 		{B06504DD-0042-4BF0-9177-2E37B8156835}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B06504DD-0042-4BF0-9177-2E37B8156835}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B06504DD-0042-4BF0-9177-2E37B8156835}.Release|Any CPU.Build.0 = Release|Any CPU
+		{33F9AF53-2B4F-4EDA-ADF2-A186B160FE91}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{33F9AF53-2B4F-4EDA-ADF2-A186B160FE91}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{33F9AF53-2B4F-4EDA-ADF2-A186B160FE91}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{33F9AF53-2B4F-4EDA-ADF2-A186B160FE91}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

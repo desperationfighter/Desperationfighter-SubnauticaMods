@@ -3,12 +3,12 @@ using QModManager.API.ModLoading;
 using QModManager.Utility;
 using SMLHelper.V2.Handlers;
 using System.Reflection;
-using MorePathfinderNodes.Managment;
+using MorePathfinderNodes_BZ.Managment;
 
-namespace MorePathfinderNodes
+namespace MorePathfinderNodes_BZ
 {
     [QModCore]
-    public class MorePathfinderNodesCore
+    public class MorePathfinderNodesCore_BZ
     {
         internal static IngameConfigMenu Config { get; private set; }
 
@@ -17,12 +17,12 @@ namespace MorePathfinderNodes
         {
             Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
 
-            Logger.Log(Logger.Level.Debug, "MorePathfinderNodes Initialization");
-            Harmony harmony = new Harmony("MorePathfinderNodes");
+            Logger.Log(Logger.Level.Debug, "MorePathfinderNodes_BZ Initialization");
+            Harmony harmony = new Harmony("MorePathfinderNodes_BZ");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-            Logger.Log(Logger.Level.Info, "MorePathfinderNodes Patched");
+            Logger.Log(Logger.Level.Info, "MorePathfinderNodes_BZ Patched");
 
-            //QModServices.Main.AddCriticalMessage("Warning the MorePathfinderNodes Mod is in BETA Status !");
+            //QModServices.Main.AddCriticalMessage("Warning the MorePathfinderNodes_BZ Mod is in BETA Status !");
         }
     }
 }
