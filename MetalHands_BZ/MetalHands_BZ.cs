@@ -20,55 +20,54 @@ using System.Collections.Generic;
 namespace MetalHands
 {
     [QModCore]
-    public static class MetalHands
+    public static class MetalHands_BZ
     {
         internal static IngameConfigMenu Config { get; private set; }
-        internal static TechType MetalHandsMK1TechType { get; private set; }
-        internal static TechType MetalHandsMK2TechType { get; private set; }
-        internal static TechType MetalHandsClawModuleTechType { get; private set; }       
+        internal static TechType GloveBlueprintTechType { get; private set; }
+        internal static TechType GloveMK2BlueprintTechType { get; private set; }
+        internal static TechType GRAVHANDBlueprintTechType { get; private set; }
         internal static List<LootDistributionData.BiomeData> BiomesToSpawnIn_pre { get; private set; }
-        public static bool IncreasedChunkDrops_exist { get; private set; }
 
         [QModPatch]
         public static void MetalHands_InitializationMethod()
         {
             Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
 
-            var GloveBlueprint = new MetalHandsMK1();
+            var GloveBlueprint = new MetalHands_Blueprint();
             GloveBlueprint.Patch();
-            MetalHandsMK1TechType = GloveBlueprint.TechType;
+            GloveBlueprintTechType = GloveBlueprint.TechType;
             var GloveMK2Blueprint = new MetalHandsMK2();
             GloveMK2Blueprint.Patch();
-            MetalHandsMK2TechType = GloveMK2Blueprint.TechType;
-            var GRAVHANDBlueprint = new MetalHandsClawModule();
+            GloveMK2BlueprintTechType = GloveMK2Blueprint.TechType;
+            var GRAVHANDBlueprint = new Prawn_GravHand();
             GRAVHANDBlueprint.Patch();
-            MetalHandsClawModuleTechType = GRAVHANDBlueprint.TechType;
+            GRAVHANDBlueprintTechType = GRAVHANDBlueprint.TechType;
 
-            if (MetalHands.Config.Config_Hardcore == true)
+            if (MetalHands_BZ.Config.Config_Hardcore == true)
             {
                 BiomesToSpawnIn_pre = new List<LootDistributionData.BiomeData>
                 {
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.BloodKelp_TechSite_Scatter,
+                        biome = BiomeType.TreeSpires_Ground,
                         count = 1,
                         probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.CragField_Grass,
+                        biome = BiomeType.ArcticKelp_CaveInner_Sand,
                         count = 1,
                         probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
+                        biome = BiomeType.GlacialBasin_BikeCrashSite,
                         count = 1,
                         probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
+                        biome = BiomeType.TwistyBridges_Cave_Ground,
                         count = 1,
                         probability = 0.02f
                     }
@@ -80,46 +79,40 @@ namespace MetalHands
                 {
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.GrassyPlateaus_Grass,
+                        biome = BiomeType.TreeSpires_Ground,
+                        count = 1,
+                        probability = 0.05f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.ArcticKelp_CaveInner_Sand,
+                        count = 1,
+                        probability = 0.02f
+                    },
+                    new LootDistributionData.BiomeData()
+                    {
+                        biome = BiomeType.GlacialBasin_BikeCrashSite,
                         count = 1,
                         probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.SparseReef_Techsite,
+                        biome = BiomeType.TwistyBridges_Cave_Ground,
                         count = 1,
-                        probability = 0.02f
+                        probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.GrassyPlateaus_TechSite_Scattered,
+                        biome = BiomeType.TwistyBridges_Shallow_Coral,
                         count = 1,
-                        probability = 0.02f
+                        probability = 0.01f
                     },
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.CragField_Grass,
+                        biome = BiomeType.LilyPads_Deep_Ground,
                         count = 1,
-                        probability = 0.02f
+                        probability = 0.01f
                     },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.BloodKelp_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.02f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.02f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.02f
-                    }
                 };
             }
 
@@ -129,25 +122,14 @@ namespace MetalHands
                 PrimaryDescription = "Metal Hand Safety Glove Databox",
                 SecondaryDescription = "Contains Crafting Tree for Improved Safety Gloves - Alterrra Copyright",
                 BiomesToSpawnIn = BiomesToSpawnIn_pre,
-                TechTypeToUnlock = MetalHands.MetalHandsMK1TechType
+                TechTypeToUnlock = MetalHands_BZ.GloveBlueprintTechType
             };
             myDatabox.Patch();
 
-            Logger.Log(Logger.Level.Debug, "MetalHands Initialization");
-            Harmony harmony = new Harmony("MetalHands");
+            Logger.Log(Logger.Level.Debug, "MetalHands_BZ Initialization");
+            Harmony harmony = new Harmony("MetalHands_BZ");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-            Logger.Log(Logger.Level.Info, "MetalHands Patched");
-
-            IncreasedChunkDrops_exist = QModServices.Main.ModPresent("IncreasedChunkDrops");
-            if(IncreasedChunkDrops_exist)
-            {
-                Logger.Log(Logger.Level.Info, "MetalHands has detected Increased Chunk Drops"); 
-                QModServices.Main.AddCriticalMessage("Attention MetalHands does not work properly with Increased Chunk Drops");
-            }   
-            else
-            {
-                Logger.Log(Logger.Level.Info, "MetalHands has NOT detected Increased Chunk Drops");
-            }
+            Logger.Log(Logger.Level.Info, "MetalHands_BZ Patched");
 
             //QModServices.Main.AddCriticalMessage("Warning the MetalHands Mod is in BETA Status !");
         }

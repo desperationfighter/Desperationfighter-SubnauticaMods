@@ -13,30 +13,31 @@ namespace DAATQS_BZ.Patches
         [HarmonyPrefix]
         private static bool Prefix(QuickSlots __instance, InventoryItem item, ref int __result)
         {
-            ICM.Load();
-
-            int num = -1;
-            for (int i = 0; i < __instance.binding.Length; i++)
-            {
-                if (__instance.binding[i] == null)
-                {
-                    num = i;
-                    break;
-                }
-            }
-            if (num == -1)
+            //check if there is a empty slot
+            int firstEmpty = __instance.GetFirstEmpty();
+            if (firstEmpty == -1)
             {
                 __result = -1;
             }
-
-
-            if ((ICM.Config_ModEnable == false) | (PlayerAllowBind(item) && ICM.Config_AllowCustomList))
-            //If the mod is disabled or check if the User allow adding
+            else
             {
-                __instance.Bind(num, item);
+                ICM.Load();
+                //Checklogic
+                //1. Check if Mod is active
+                //2. true if user use the custom list AND the item is found
+                //check using before checking item because && will increase performance when mod is not in use
+                //- 1 OR 2 musst be true
+                if ( (ICM.Config_ModEnable == false) | (ICM.Config_AllowCustomList && PlayerAllowBind(item)) )
+                {
+                    __instance.Bind(firstEmpty, item);
+                    __result = firstEmpty;
+                }  
+                else
+                {
+                    //As i cannot stop the execute on a patch methode give back a result seperatly to skip the Slot Select on the calling function 
+                    __result = -1;
+                }
             }
-            __result = num;
-
             return false;
         }
 

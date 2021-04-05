@@ -27,6 +27,7 @@ namespace CyclopsEngineOverheatMonitor.Items
             };
         }
 
+        public override PDAEncyclopedia.EntryData EncyclopediaEntryData => base.EncyclopediaEntryData;
         //public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public override string AssetsFolder => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
         public override string IconFileName => "CylopsEngineOverheatModule.png";

@@ -8,9 +8,9 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("CyclopsEngineOverheat")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
+[assembly: AssemblyCompany("Desperationfighter")]
 [assembly: AssemblyProduct("CyclopsEngineOverheat")]
-[assembly: AssemblyCopyright("Copyright ©  2020")]
+[assembly: AssemblyCopyright("Copyright ©  2021 - Desperationfighter")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

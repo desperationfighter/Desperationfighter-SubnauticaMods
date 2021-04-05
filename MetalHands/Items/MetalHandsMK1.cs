@@ -11,59 +11,45 @@ using SMLHelper.V2.Handlers;
 
 namespace MetalHands.Items
 {
-    internal class MetalHands_Blueprint : Equipable
+    internal class MetalHandsMK1 : Equipable
     {
-        private static IngameConfigMenu ICM = new IngameConfigMenu();
-
-        public MetalHands_Blueprint() : base("MetalHands",
-            "Metal Hand Gloves",
+        public static TechType TechTypeID { get; protected set; }
+        public MetalHandsMK1() : base("MetalHandsMK1",
+            "Metal Improved Gloves",
             "This Gloves have a Metal Improved Cover and allow Working with Hard Matrials without hurting the Person who wear it. Warning this Personal Safty Equiment is for Passive use avoiding severe injury . Do not use it as Tool")
-        {
-            //No idea what to do here ???
-        }
+        {}
 
+        public override string DiscoverMessage => "Improved Metal Gloves dicovered";
         public override EquipmentType EquipmentType { get; } = EquipmentType.Gloves;
-
-        public override Vector2int SizeInInventory => new Vector2int(2,2);
-
-        //On Work
-        /*
-        public override TechType RequiredForUnlock => TechType.ReinforcedDiveSuitBlueprint;
-
-        public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
-
-        public override PDAEncyclopedia.EntryData EncyclopediaEntryData => base.EncyclopediaEntryData;
-        public override TechGroup GroupForPDA => base.GroupForPDA;
-        public override string DiscoverMessage => base.DiscoverMessage;
-        */
-
+        public override Vector2int SizeInInventory => new Vector2int(2, 2);
         public override TechCategory CategoryForPDA => TechCategory.Equipment;
-
-
+        public override TechGroup GroupForPDA => TechGroup.Personal;
+        public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
+        public override CraftTree.Type FabricatorType => CraftTree.Type.Fabricator;
+        public override TechType RequiredForUnlock => TechType.AcidOld;
+        public override float CraftingTime => 3f;
+        public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
+        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"Assets");
+        public override string IconFileName => "MetalHandsMK1.png";
         public override GameObject GetGameObject()
         {
             GameObject originGlove_prefab = CraftData.GetPrefabForTechType(TechType.ReinforcedGloves);
             GameObject gameobj = Object.Instantiate(originGlove_prefab);
             return gameobj;
         }
-        //public override string AssetsFolder => Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location);
-        //public override string IconFileName => ".png";
 
         protected override TechData GetBlueprintRecipe()
         {
-            ICM.Load();
-            if(ICM.Config_Hardcore == false)
+            if(MetalHands.Config.Config_Hardcore == false)
             {
                 return new TechData()
                 {
                     craftAmount = 1,
                     Ingredients =
                     {
-                        new Ingredient(TechType.ReinforcedGloves, 1),
                         new Ingredient(TechType.PlasteelIngot, 1),
                         new Ingredient(TechType.Diamond, 2),
-                        new Ingredient(TechType.Nickel,2),
-                        new Ingredient(TechType.AramidFibers, 1),
+                        new Ingredient(TechType.FiberMesh, 2),
                         new Ingredient(TechType.Silicone, 1)
                     }
                 };
@@ -75,10 +61,8 @@ namespace MetalHands.Items
                     craftAmount = 1,
                     Ingredients =
                     {
-                        new Ingredient(TechType.ReinforcedGloves, 1),
                         new Ingredient(TechType.PlasteelIngot, 2),
-                        new Ingredient(TechType.Nickel,10),
-                        new Ingredient(TechType.Kyanite,2),
+                        new Ingredient(TechType.Nickel,4),
                         new Ingredient(TechType.AramidFibers, 2),
                         new Ingredient(TechType.Silicone, 2)
                     }

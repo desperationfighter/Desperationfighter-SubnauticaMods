@@ -1,0 +1,13 @@
+{
+  "Id": "MorePathfinderNodes_BZ",
+  "DisplayName": "MorePathfinderNodes_BZ",
+  "Author": "Desperationfighter",
+  "Version": "1.0",
+  "VersionDependencies": { "SMLHelper": "2.9.3" },
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "MorePathfinderNodes_BZ.dll",
+  "NexusId": { "BelowZero": "135" },
+  "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/MorePathfinderNodes_BZ/MorePathfinderNodes_BZ/mod.json" },
+  "QModSAM": { "Wiki": "https://github.com/desperationfighter" }
+}

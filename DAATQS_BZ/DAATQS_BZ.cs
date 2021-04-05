@@ -19,7 +19,7 @@ namespace DAATQS_BZ
     public static class DAATQS_BZ_harmony
     {
         internal static IngameConfigMenu Config { get; private set; }
-        internal static TechTypeAllowList allowList { get; private set; }
+            //internal static TechTypeAllowList allowList { get; private set; }
 
         [QModPatch]
         public static void DAATQS_BZ_InitializationMethod()
@@ -31,7 +31,7 @@ namespace DAATQS_BZ
 
             //Add the Ingame Config for User
             Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
-            allowList = OptionsPanelHandler.Main.RegisterModOptions<TechTypeAllowList>();
+                //allowList = OptionsPanelHandler.Main.RegisterModOptions<TechTypeAllowList>();
 
             Logger.Log(Logger.Level.Info, "DAATQS_BZ Patched");
 

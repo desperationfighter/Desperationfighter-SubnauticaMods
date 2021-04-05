@@ -4,11 +4,11 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{922CFE4F-0C2C-416D-9C78-C2CDF968365D}</ProjectGuid>
+    <ProjectGuid>{B06504DD-0042-4BF0-9177-2E37B8156835}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MetalHands</RootNamespace>
-    <AssemblyName>MetalHands</AssemblyName>
+    <RootNamespace>MorePathfinderNodes</RootNamespace>
+    <AssemblyName>MorePathfinderNodes</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -36,16 +36,12 @@
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\BepInEx\core\0Harmony.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="Assembly-CSharp-firstpass_publicized">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\Assembly-CSharp-firstpass_publicized.dll</HintPath>
+    <Reference Include="Assembly-CSharp-firstpass">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="CustomDataboxes">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\QMods\CustomDataboxes\CustomDataboxes.dll</HintPath>
       <Private>False</Private>
     </Reference>
     <Reference Include="QModInstaller">
@@ -58,47 +54,26 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
-    <Reference Include="System.Net.Http" />
-    <Reference Include="System.Xml" />
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\UnityEngine.dll</HintPath>
       <Private>False</Private>
     </Reference>
-    <Reference Include="UnityEngine.AssetBundleModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\UnityEngine.AssetBundleModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
-      <Private>False</Private>
-    </Reference>
-    <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica\Subnautica_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
       <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Items\MetalHandsMK2.cs" />
-    <Compile Include="Items\MetalHandsMK1.cs" />
-    <Compile Include="Items\MetalHandsClawModule.cs" />
     <Compile Include="Managment\IngameConfigMenu.cs" />
-    <Compile Include="MetalHands.cs" />
-    <Compile Include="Patches\BreakableResource_Patch.cs" />
-    <Compile Include="Patches\Player_Patch.cs" />
+    <Compile Include="MorePathfinderNodesCore.cs" />
+    <Compile Include="Patch\DiveReel_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MetalHands\Assets\MetalHandsClawModule.png" />
-    <Content Include="MetalHands\Assets\MetalHandsMK2.png" />
-    <Content Include="MetalHands\Assets\MetalHandsMK1.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="MetalHands\mod.json" />
+    <None Include="MorePathfinderNodes\mod.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
