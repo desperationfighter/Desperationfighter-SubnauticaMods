@@ -11,9 +11,9 @@ using SMLHelper.V2.Handlers;
 
 namespace MetalHands.Items
 {
-    internal class Prawn_GravHand : Equipable//Craftable
+    internal class MetalHandsClawModule : Equipable//Craftable
     {
-        public Prawn_GravHand() : base("GravHand",
+        public MetalHandsClawModule() : base("MetalHandsClawModule",
             "Grav Hand Plugin",
             "This Plugin intregates a Gravitations function to the PRAWN Hands and allow a shortrange "
             )
@@ -22,13 +22,13 @@ namespace MetalHands.Items
         public override EquipmentType EquipmentType => EquipmentType.ExosuitModule;
         public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
         public override TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
-        public override TechType RequiredForUnlock => MetalHands_BZ.GloveBlueprintTechType;
+        public override TechType RequiredForUnlock => MetalHands_BZ.MetalHandsMK1TechType;
         public override float CraftingTime => 3f;
         public override Vector2int SizeInInventory => new Vector2int(1, 1);
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override string[] StepsToFabricatorTab => new string[] { "ExosuitModules" };
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        public override string IconFileName => "GravClawModule.png";
+        public override string IconFileName => "MetalHandsClawModule.png";
 
         protected override RecipeData GetBlueprintRecipe()
         {

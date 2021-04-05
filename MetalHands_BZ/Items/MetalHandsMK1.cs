@@ -11,9 +11,9 @@ using SMLHelper.V2.Handlers;
 
 namespace MetalHands.Items
 {
-    internal class MetalHands_Blueprint : Equipable
+    internal class MetalHandsMK1 : Equipable
     {
-        public MetalHands_Blueprint() : base("MetalHands",
+        public MetalHandsMK1() : base("MetalHandsMK1",
             "Metal Improved Gloves",
             "This Gloves have a Metal Improved Cover and allow Working with Hard Matrials without hurting the Person who wear it. Warning this Personal Safty Equiment is for Passive use avoiding severe injury . Do not use it as Tool")
         {}
@@ -34,7 +34,7 @@ namespace MetalHands.Items
         public override float CraftingTime => 3f;
         public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location),"Assets");
-        public override string IconFileName => "MetalHands.png";
+        public override string IconFileName => "MetalHandsMK1.png";
 
         protected override RecipeData GetBlueprintRecipe()
         {

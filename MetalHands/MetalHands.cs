@@ -141,8 +141,9 @@ namespace MetalHands
             IncreasedChunkDrops_exist = QModServices.Main.ModPresent("IncreasedChunkDrops");
             if(IncreasedChunkDrops_exist)
             {
-                Logger.Log(Logger.Level.Info, "MetalHands has detected Increased Chunk Drops"); 
-                QModServices.Main.AddCriticalMessage("Attention MetalHands does not work properly with Increased Chunk Drops");
+                Logger.Log(Logger.Level.Info, "MetalHands has detected Increased Chunk Drops");
+                ErrorMessage.AddMessage("Attention MetalHands does not work properly with Increased Chunk Drops");
+                //QModServices.Main.AddCriticalMessage("Attention MetalHands does not work properly with Increased Chunk Drops");
             }   
             else
             {

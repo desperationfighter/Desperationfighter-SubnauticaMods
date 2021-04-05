@@ -34,21 +34,27 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\BepInEx\core\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass_publicized">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\publicized_assemblies\Assembly-CSharp-firstpass_publicized.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="CustomDataboxes">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\QMods\CustomDataboxesBZ\CustomDataboxes.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="QModInstaller">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="SMLHelper">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\QMods\SMLHelper_BZ\SMLHelper.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -60,34 +66,38 @@
     <Reference Include="System.Xml" />
     <Reference Include="Unity.Addressables">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\Unity.Addressables.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Unity.ResourceManager">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\Unity.ResourceManager.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="MetalHands_BZ.cs" />
     <Compile Include="Items\MetalHandsMK2.cs" />
-    <Compile Include="Items\MetalHands_Blueprint.cs" />
-    <Compile Include="Items\Prawn_GravHand.cs" />
+    <Compile Include="Items\MetalHandsMK1.cs" />
+    <Compile Include="Items\MetalHandsClawModule.cs" />
     <Compile Include="Managment\IngameConfigMenu.cs" />
     <Compile Include="Patches\BreakableResource_Patch.cs" />
     <Compile Include="Patches\Player_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MetalHands_BZ\Assets\GravClawModule.png" />
-    <Content Include="MetalHands_BZ\Assets\MetalHands.png" />
-    <Content Include="MetalHands_BZ\Assets\MetalHandsMK2.png" />
+    <None Include="MetalHands_BZ\mod.json" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="MetalHands_BZ\mod.json" />
+    <Content Include="MetalHands_BZ\Assets\MetalHandsClawModule.png" />
+    <Content Include="MetalHands_BZ\Assets\MetalHandsMK1.png" />
+    <Content Include="MetalHands_BZ\Assets\MetalHandsMK2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
