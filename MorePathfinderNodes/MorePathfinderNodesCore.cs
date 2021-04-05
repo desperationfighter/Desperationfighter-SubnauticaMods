@@ -8,7 +8,7 @@ using MorePathfinderNodes.Managment;
 namespace MorePathfinderNodes
 {
     [QModCore]
-    public class MorePathfinderNodesCore
+    public static class MorePathfinderNodesCore
     {
         internal static IngameConfigMenu Config { get; private set; }
 

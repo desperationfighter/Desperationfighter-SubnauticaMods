@@ -11,11 +11,11 @@ using SMLHelper.V2.Handlers;
 
 namespace MetalHands.Items
 {
-    internal class Prawn_GravHand : Equipable//Craftable
+    internal class MetalHandsClawModule: Equipable
     {
         public static TechType TechTypeID { get; protected set; }
-        public Prawn_GravHand() : base("GravHand",
-            "Grav Hand Plugin",
+        public MetalHandsClawModule() : base("MetalHandsClawModule",
+            "Grav Claw Plugin",
             "This Plugin intregates a Gravitations function to the PRAWN Arm Modules like the Claw and Drill and allow a shortrange collection of Metal Based Resscources"
             )
         {}
@@ -23,13 +23,13 @@ namespace MetalHands.Items
         public override EquipmentType EquipmentType => EquipmentType.ExosuitModule;
         public override TechCategory CategoryForPDA => TechCategory.VehicleUpgrades;
         public override TechGroup GroupForPDA => TechGroup.VehicleUpgrades;
-        public override TechType RequiredForUnlock => MetalHands.GloveBlueprintTechType;
+        public override TechType RequiredForUnlock => MetalHands.MetalHandsMK1TechType;
         public override float CraftingTime => 3f;
         public override Vector2int SizeInInventory => new Vector2int(1, 1);
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override string[] StepsToFabricatorTab => new string[] { "ExosuitModules" };
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        public override string IconFileName => "GravClawModule.png";
+        public override string IconFileName => "MetalHandsClawModule.png";
         public override GameObject GetGameObject()
         {
             GameObject originGlove_prefab = CraftData.GetPrefabForTechType(TechType.ExosuitJetUpgradeModule);

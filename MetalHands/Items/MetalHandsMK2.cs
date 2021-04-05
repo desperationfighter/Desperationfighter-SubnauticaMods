@@ -26,7 +26,7 @@ namespace MetalHands.Items
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
         public override float CraftingTime => 4f;
-        public override TechType RequiredForUnlock => MetalHands.GloveBlueprintTechType;
+        public override TechType RequiredForUnlock => MetalHands.MetalHandsMK1TechType;
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public override string IconFileName => "MetalHandsMK2.png";
 
@@ -46,7 +46,7 @@ namespace MetalHands.Items
                     craftAmount = 1,
                     Ingredients =
                     {
-                        new Ingredient(MetalHands.GloveBlueprintTechType, 1),
+                        new Ingredient(MetalHands.MetalHandsMK1TechType, 1),
                         new Ingredient(TechType.AramidFibers, 1),
                         new Ingredient(TechType.CopperWire, 1),
                         new Ingredient(TechType.Magnetite, 2),
@@ -61,7 +61,7 @@ namespace MetalHands.Items
                     craftAmount = 1,
                     Ingredients =
                     {
-                        new Ingredient(MetalHands.GloveBlueprintTechType, 1),
+                        new Ingredient(MetalHands.MetalHandsMK1TechType, 1),
                         new Ingredient(TechType.AramidFibers, 2),
                         new Ingredient(TechType.CopperWire, 2),
                         new Ingredient(TechType.Magnetite, 4),

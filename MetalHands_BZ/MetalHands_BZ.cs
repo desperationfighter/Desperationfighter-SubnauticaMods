@@ -20,7 +20,7 @@ using System.Collections.Generic;
 namespace MetalHands
 {
     [QModCore]
-    public class MetalHands_BZ
+    public static class MetalHands_BZ
     {
         internal static IngameConfigMenu Config { get; private set; }
         internal static TechType GloveBlueprintTechType { get; private set; }
