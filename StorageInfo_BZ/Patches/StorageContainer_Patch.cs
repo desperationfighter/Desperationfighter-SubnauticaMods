@@ -1,11 +1,19 @@
 ﻿using HarmonyLib;
 
+//transpiller
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Reflection.Emit;
+
 namespace StorageInfo_BZ.Patches
 {
     [HarmonyPatch(typeof(StorageContainer))]
     [HarmonyPatch(nameof(StorageContainer.OnHandHover))]
     public static class StorageContainer_OnHandHover_Patch
     {
+        #region Prefix
+        [HarmonyPrefix]
         public static bool Prefix(StorageContainer __instance)
         {
             OnHandHover_prefix(__instance);
@@ -58,5 +66,42 @@ namespace StorageInfo_BZ.Patches
                 HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
             }
         }
+        #endregion Prefix
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------------
+
+        #region Transpiler
+        [HarmonyTranspiler]
+        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        {
+            var getFullState = typeof(StorageContainer_OnHandHover_Patch).GetMethod("Getfullstate", BindingFlags.Public | BindingFlags.Static);
+            var Index = -1;
+            var codes = new List<CodeInstruction>(instructions);
+            for (var i = 0; i < codes.Count; i++)
+            {
+                if (codes[i].opcode == OpCodes.Ldsfld && codes[i].operand.ToString() == "string [mscorlib]System.String::Empty")
+                {
+                    Index = i;
+                    break;
+                }
+            }
+
+            if (Index > -1)
+            {
+                codes[Index] = new CodeInstruction(OpCodes.Call, getFullState);
+            }
+            else
+            {
+
+            }
+
+            return codes.AsEnumerable();
+        }
+
+        public static string Getfullstate()
+        {
+            return "MyTest";
+        }
+        #endregion Transpiler
     }
 }
