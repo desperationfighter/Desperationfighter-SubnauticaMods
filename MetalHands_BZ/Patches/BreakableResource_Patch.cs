@@ -103,7 +103,7 @@ namespace MetalHands.Patches
                     else
                     {
                         Inventory inventory = Inventory.Get();
-                        if ( ( (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.MetalHandsClawModuleTechType) | (MetalHands_BZ.Config.Config_fastcollect == true) ) & inventory.HasRoomFor(1,1) )
+                        if ( ( (Inventory.main.equipment.GetTechTypeInSlot("Gloves") == MetalHands_BZ.MetalHandsMK2TechType) | (MetalHands_BZ.Config.Config_fastcollect == true) ) & inventory.HasRoomFor(1,1) )
                         {
                             QModManager.Utility.Logger.Log(QModManager.Utility.Logger.Level.Debug, "01-20 - Player has glove - randomress");
                             CoroutineHost.StartCoroutine(AddbrokenRestoPlayerInv(__instance,assetReferenceGameObject));
