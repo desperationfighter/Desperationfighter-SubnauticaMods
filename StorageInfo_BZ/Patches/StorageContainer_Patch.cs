@@ -16,8 +16,8 @@ namespace StorageInfo_BZ.Patches
         [HarmonyPrefix]
         public static bool Prefix(StorageContainer __instance)
         {
-            OnHandHover_prefix(__instance);
-            return false;
+            //OnHandHover_prefix(__instance);
+            return true;
         }
 
         public static void OnHandHover_prefix(StorageContainer __instance)
@@ -79,7 +79,8 @@ namespace StorageInfo_BZ.Patches
             var codes = new List<CodeInstruction>(instructions);
             for (var i = 0; i < codes.Count; i++)
             {
-                if (codes[i].opcode == OpCodes.Ldsfld && codes[i].operand.ToString() == "string [mscorlib]System.String::Empty")
+                //if (codes[i].opcode == OpCodes.Ldsfld && codes[i].operand.ToString() == "string [mscorlib]System.String::Empty" && codes[i - 1].opcode == OpCodes.Brtrue_S && codes[i + 2].opcode == OpCodes.Ldstr && (string)codes[i + 2].operand == "Empty")
+                if (codes[i].opcode == OpCodes.Ldsfld && codes[i - 1].opcode == OpCodes.Brtrue_S && codes[i + 2].opcode == OpCodes.Ldstr)
                 {
                     Index = i;
                     break;
