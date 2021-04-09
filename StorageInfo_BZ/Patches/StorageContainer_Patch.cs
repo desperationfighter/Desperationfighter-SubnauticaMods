@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
+using System.Text;
 
 //for Logging
 using QModManager.Utility;
@@ -174,22 +175,69 @@ namespace StorageInfo_BZ.Patches
         public static string Getfullstate(StorageContainer _storageContainer)
         {
             Logger.Log(Logger.Level.Debug, "call Getfullstate");
-            string fullstate = string.Empty;
+           
+            int itsc_x = _storageContainer.container.sizeX;
+            int itsc_y = _storageContainer.container.sizeY;
+            int itsc_size = itsc_x * itsc_y;
+            int filled = 0;
+            int filled_x = 0;
+            int filled_y = 0;
+            for(int x = 1; x <= itsc_x; x++)
+            {
+                for (int y = 1; y <= itsc_y; y++)
+                {
+                    if(!_storageContainer.container.HasRoomFor(x, y))
+                    {
+                        filled = x * y;
+                        break;
+                    }
+                }
+            }
 
-            if(!_storageContainer.container.HasRoomFor(1,1))
+            int filledspace = 0;
+            Dictionary<TechType,ItemsContainer.ItemGroup> allitems = _storageContainer.container._items;
+            _storageContainer.container.GetItemTypes();
+            foreach (KeyValuePair<TechType, ItemsContainer.ItemGroup> entry in allitems)
+            {
+                List<InventoryItem> test = entry.Value.items;
+                int number = test.Count;
+                Logger.Log(Logger.Level.Debug, "number of items");
+                Logger.Log(Logger.Level.Debug, number.ToString() );
+                TechType techType = entry.Key;
+                Logger.Log(Logger.Level.Debug, entry.Key.ToString() );
+                Vector2int size = TechData.GetItemSize(techType);
+                filledspace =+ size.x * size.y * number;
+            }
+
+            var items = _storageContainer.container.GetItemTypes();
+            var origSize = _storageContainer.container.sizeX * _storageContainer.container.sizeY;
+            int usedSize = 0;
+            foreach (var i in items)
+            {
+                var size = TechData.GetItemSize(i);
+                usedSize += size.x * size.y;
+            }
+            var sizeLeft = origSize - usedSize;
+
+
+            if (!_storageContainer.container.HasRoomFor(1,1))
             {
                 Logger.Log(Logger.Level.Debug, "Container is Full - way");
-                fullstate = "Full";
+                return "Full";
             }
             else
             {
                 Logger.Log(Logger.Level.Debug, "Container Contains X Item - way");
                 Logger.Log(Logger.Level.Debug, "Itemcount =");
                 Logger.Log(Logger.Level.Debug, _storageContainer.container.count.ToString());
-                fullstate = _storageContainer.container.count.ToString() + " Items";
-            }
 
-            return fullstate;
+                StringBuilder stringBuilder = new StringBuilder();
+                stringBuilder.AppendLine(_storageContainer.container.count.ToString() + " Items");
+                stringBuilder.AppendLine($"used {usedSize} of {itsc_size}");
+                return stringBuilder.ToString();
+
+                //return _storageContainer.container.count.ToString() + " Items";
+            }
         }
         
         
