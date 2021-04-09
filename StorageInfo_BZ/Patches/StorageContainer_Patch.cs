@@ -98,15 +98,22 @@ namespace StorageInfo_BZ.Patches
             bool found = false;
             var Index = -1;
             var codes = new List<CodeInstruction>(instructions);
+
+            //logging before
+            if (true)
+            {
+                Logger.Log(Logger.Level.Debug, "Deep Logging pre-transpiler:");
+                for (int k = 0; k < codes.Count; k++)
+                {
+                    Logger.Log(Logger.Level.Debug, (string.Format("0x{0:X4}", k) + $" : {codes[k].opcode.ToString()}	{(codes[k].operand != null ? codes[k].operand.ToString() : "")}") );
+                }
+            }
+
             for (var i = 0; i < codes.Count; i++)
             {
                 //if (codes[i].opcode == OpCodes.Ldsfld && codes[i].operand.ToString() == "string [mscorlib]System.String::Empty" && codes[i - 1].opcode == OpCodes.Brtrue_S && codes[i + 2].opcode == OpCodes.Ldstr && (string)codes[i + 2].operand == "Empty")
                 //if (codes[i].opcode == OpCodes.Ldsfld && codes[i - 1].opcode == OpCodes.Brtrue_S && codes[i + 2].opcode == OpCodes.Ldstr)
-                if (codes[i].opcode == OpCodes.Ldsfld && codes[i].operand == stringEmpty)
-                {
-                    Logger.Log(Logger.Level.Debug, "Test OPCode Check");
-                }
-
+                //&& codes[i].operand == stringEmpty // that works dedicated
                 if (codes[i].opcode == OpCodes.Ldsfld && codes[i + 2].opcode == OpCodes.Ldstr)
                 {
                     Logger.Log(Logger.Level.Debug, "Found IL Code Line");
@@ -132,35 +139,59 @@ namespace StorageInfo_BZ.Patches
             {
                 Logger.Log(Logger.Level.Debug, "Index > -1");
                 codes[Index] = new CodeInstruction(OpCodes.Call, getFullState);
+
+                int insertindex = Index - 1;
+                codes.Insert(insertindex, new CodeInstruction(OpCodes.Ldarg_0));
             }
             else
             {
                 Logger.Log(Logger.Level.Error, "Index was not found");
             }
 
+            //logging after
+            if (true)
+            {
+                Logger.Log(Logger.Level.Debug, "Deep Logging after-transpiler:");
+                for (int k = 0; k < codes.Count; k++)
+                {
+                    Logger.Log(Logger.Level.Debug, (string.Format("0x{0:X4}", k) + $" : {codes[k].opcode.ToString()}	{(codes[k].operand != null ? codes[k].operand.ToString() : "")}"));
+                }
+            }
+
             Logger.Log(Logger.Level.Debug, "Transpiler end going to return");
             return codes.AsEnumerable();      
         }
 
+        /*
+        public static string Getfullstate()
+        {
+            Logger.Log(Logger.Level.Debug, "call Getfullstate - TEST");
+            return "Mytest";
+        }
+        */
+
+        
         public static string Getfullstate(StorageContainer _storageContainer)
         {
             Logger.Log(Logger.Level.Debug, "call Getfullstate");
             string fullstate = string.Empty;
 
-            
-            
             if(!_storageContainer.container.HasRoomFor(1,1))
             {
+                Logger.Log(Logger.Level.Debug, "Container is Full - way");
                 fullstate = "Full";
             }
             else
             {
-
+                Logger.Log(Logger.Level.Debug, "Container Contains X Item - way");
+                Logger.Log(Logger.Level.Debug, "Itemcount =");
+                Logger.Log(Logger.Level.Debug, _storageContainer.container.count.ToString());
                 fullstate = _storageContainer.container.count.ToString() + " Items";
             }
 
             return fullstate;
         }
+        
         
         #endregion Transpiler
     }
