@@ -140,8 +140,8 @@ namespace StorageInfo_BZ.Patches
                 Logger.Log(Logger.Level.Debug, "Index > -1");
                 codes[Index] = new CodeInstruction(OpCodes.Call, getFullState);
 
-                int insertindex = Index - 1;
-                codes.Insert(insertindex, new CodeInstruction(OpCodes.Ldarg_0));
+                //int insertindex = Index - 1;
+                codes.Insert(Index, new CodeInstruction(OpCodes.Ldarg_0));
             }
             else
             {
