@@ -6,13 +6,29 @@ using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
 
+//for Logging
+using QModManager.Utility;
+
 namespace StorageInfo_BZ.Patches
 {
     [HarmonyPatch(typeof(StorageContainer))]
     [HarmonyPatch(nameof(StorageContainer.OnHandHover))]
     public static class StorageContainer_OnHandHover_Patch
     {
+        #region Postfix
+        /*
+        [HarmonyPostfix]
+        public static void Postfix()
+        {
+            Logger.Log(Logger.Level.Debug, "Postfix");
+        }
+        */
+        #endregion Postfix
+
+        //---------------------------------------------------------------------------------------------------------------------------------------------------
+
         #region Prefix
+        /*
         [HarmonyPrefix]
         public static bool Prefix(StorageContainer __instance)
         {
@@ -66,43 +82,86 @@ namespace StorageInfo_BZ.Patches
                 HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
             }
         }
+        */
         #endregion Prefix
 
         //---------------------------------------------------------------------------------------------------------------------------------------------------
 
         #region Transpiler
+        
         [HarmonyTranspiler]
-        static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
+        public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
+            Logger.Log(Logger.Level.Debug, "Start Transpiler");
             var getFullState = typeof(StorageContainer_OnHandHover_Patch).GetMethod("Getfullstate", BindingFlags.Public | BindingFlags.Static);
+            var stringEmpty = AccessTools.Field(typeof(string), "Empty");
+            bool found = false;
             var Index = -1;
             var codes = new List<CodeInstruction>(instructions);
             for (var i = 0; i < codes.Count; i++)
             {
                 //if (codes[i].opcode == OpCodes.Ldsfld && codes[i].operand.ToString() == "string [mscorlib]System.String::Empty" && codes[i - 1].opcode == OpCodes.Brtrue_S && codes[i + 2].opcode == OpCodes.Ldstr && (string)codes[i + 2].operand == "Empty")
-                if (codes[i].opcode == OpCodes.Ldsfld && codes[i - 1].opcode == OpCodes.Brtrue_S && codes[i + 2].opcode == OpCodes.Ldstr)
+                //if (codes[i].opcode == OpCodes.Ldsfld && codes[i - 1].opcode == OpCodes.Brtrue_S && codes[i + 2].opcode == OpCodes.Ldstr)
+                if (codes[i].opcode == OpCodes.Ldsfld && codes[i].operand == stringEmpty)
                 {
+                    Logger.Log(Logger.Level.Debug, "Test OPCode Check");
+                }
+
+                if (codes[i].opcode == OpCodes.Ldsfld && codes[i + 2].opcode == OpCodes.Ldstr)
+                {
+                    Logger.Log(Logger.Level.Debug, "Found IL Code Line");
+                    Logger.Log(Logger.Level.Debug, "Index =");
+                    Logger.Log(Logger.Level.Debug, Index.ToString());
+                    Logger.Log(Logger.Level.Debug, "Index > -1");
+                    found = true;
                     Index = i;
                     break;
                 }
             }
 
+            if(found)
+            {
+                Logger.Log(Logger.Level.Debug, "found true");
+            }
+            else
+            {
+                Logger.Log(Logger.Level.Debug, "found false");
+            }
+
             if (Index > -1)
             {
+                Logger.Log(Logger.Level.Debug, "Index > -1");
                 codes[Index] = new CodeInstruction(OpCodes.Call, getFullState);
             }
             else
             {
-
+                Logger.Log(Logger.Level.Error, "Index was not found");
             }
 
-            return codes.AsEnumerable();
+            Logger.Log(Logger.Level.Debug, "Transpiler end going to return");
+            return codes.AsEnumerable();      
         }
 
-        public static string Getfullstate()
+        public static string Getfullstate(StorageContainer _storageContainer)
         {
-            return "MyTest";
+            Logger.Log(Logger.Level.Debug, "call Getfullstate");
+            string fullstate = string.Empty;
+
+            
+            
+            if(!_storageContainer.container.HasRoomFor(1,1))
+            {
+                fullstate = "Full";
+            }
+            else
+            {
+
+                fullstate = _storageContainer.container.count.ToString() + " Items";
+            }
+
+            return fullstate;
         }
+        
         #endregion Transpiler
     }
 }

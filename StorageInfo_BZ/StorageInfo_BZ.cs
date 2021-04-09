@@ -14,7 +14,8 @@ using QModManager.Utility;
 
 namespace StorageInfo_BZ
 {
-    public class StorageInfo_BZ
+    [QModCore]
+    public static class StorageInfo_BZ
     {
         [QModPatch]
         public static void StorageInfo_BZ_Initial()
