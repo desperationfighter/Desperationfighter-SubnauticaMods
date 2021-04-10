@@ -19,8 +19,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorePathfinderNodes", "More
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MorePathfinderNodes_BZ", "MorePathfinderNodes_BZ\MorePathfinderNodes_BZ.csproj", "{33F9AF53-2B4F-4EDA-ADF2-A186B160FE91}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "temp", "temp\temp.csproj", "{168E2D92-A373-4070-AC50-BD108702CC11}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageInfo_BZ", "StorageInfo_BZ\StorageInfo_BZ.csproj", "{020EC354-B543-463D-A557-39881E1D4320}"
 EndProject
 Global
@@ -61,10 +59,6 @@ Global
 		{33F9AF53-2B4F-4EDA-ADF2-A186B160FE91}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{33F9AF53-2B4F-4EDA-ADF2-A186B160FE91}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{33F9AF53-2B4F-4EDA-ADF2-A186B160FE91}.Release|Any CPU.Build.0 = Release|Any CPU
-		{168E2D92-A373-4070-AC50-BD108702CC11}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{168E2D92-A373-4070-AC50-BD108702CC11}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{168E2D92-A373-4070-AC50-BD108702CC11}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{168E2D92-A373-4070-AC50-BD108702CC11}.Release|Any CPU.Build.0 = Release|Any CPU
 		{020EC354-B543-463D-A557-39881E1D4320}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{020EC354-B543-463D-A557-39881E1D4320}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{020EC354-B543-463D-A557-39881E1D4320}.Release|Any CPU.ActiveCfg = Release|Any CPU

@@ -26,6 +26,8 @@ namespace StorageInfo_BZ
             harmony.PatchAll(Assembly.GetExecutingAssembly());
 
             Logger.Log(Logger.Level.Info, "StorageInfo_BZ  Patched");
+
+            Logger.Log(Logger.Level.Info, Language.main.currentLanguage.ToString()); 
         }
     }
 }

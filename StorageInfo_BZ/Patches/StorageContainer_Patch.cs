@@ -15,86 +15,14 @@ namespace StorageInfo_BZ.Patches
     [HarmonyPatch(typeof(StorageContainer))]
     [HarmonyPatch(nameof(StorageContainer.OnHandHover))]
     public static class StorageContainer_OnHandHover_Patch
-    {
-        #region Postfix
-        /*
-        [HarmonyPostfix]
-        public static void Postfix()
-        {
-            Logger.Log(Logger.Level.Debug, "Postfix");
-        }
-        */
-        #endregion Postfix
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------------
-
-        #region Prefix
-        /*
-        [HarmonyPrefix]
-        public static bool Prefix(StorageContainer __instance)
-        {
-            //OnHandHover_prefix(__instance);
-            return true;
-        }
-
-        public static void OnHandHover_prefix(StorageContainer __instance)
-        {
-            if (!__instance.enabled)
-            {
-                return;
-            }
-            if (__instance.disableUseability)
-            {
-                return;
-            }
-            Constructable component = __instance.gameObject.GetComponent<Constructable>();
-            if (!component || component.constructed)
-            {
-                HandReticle.main.SetText(HandReticle.TextType.Hand, __instance.hoverText, true, GameInput.Button.LeftHand);
-
-                if (__instance != null)
-                {
-                    string customInfoText = string.Empty;
-                    ItemsContainer container = __instance.container;
-
-                    if (container != null)
-                    {
-                        if (container.count <= 0)
-                        {
-                            customInfoText = "Empty";
-                        }
-                        else if (!container.HasRoomFor(1, 1))
-                        {
-                            customInfoText = "Full";
-                        }
-                        else
-                        {
-                            string Count = container.count.ToString();
-                            customInfoText = Count + " Items";
-                        }
-
-                        HandReticle.main.SetText(HandReticle.TextType.HandSubscript, customInfoText, true, GameInput.Button.None);
-                    }
-                }
-                else
-                {
-                    HandReticle.main.SetText(HandReticle.TextType.HandSubscript, __instance.IsEmpty() ? "Empty" : string.Empty, true, GameInput.Button.None);
-                }
-                HandReticle.main.SetIcon(HandReticle.IconType.Hand, 1f);
-            }
-        }
-        */
-        #endregion Prefix
-
-        //---------------------------------------------------------------------------------------------------------------------------------------------------
-
-        #region Transpiler
-        
+    { 
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             Logger.Log(Logger.Level.Debug, "Start Transpiler");
+
             var getFullState = typeof(StorageContainer_OnHandHover_Patch).GetMethod("Getfullstate", BindingFlags.Public | BindingFlags.Static);
+            var getEmtpyState_methode = typeof(StorageContainer_OnHandHover_Patch).GetMethod("GetEmptyState", BindingFlags.Public | BindingFlags.Static);
             var stringEmpty = AccessTools.Field(typeof(string), "Empty");
             bool found = false;
             var Index = -1;
@@ -110,17 +38,41 @@ namespace StorageInfo_BZ.Patches
                 }
             }
 
+            //analyse the code to find the right place for injection
+            Logger.Log(Logger.Level.Debug, "Start code analyses");
             for (var i = 0; i < codes.Count; i++)
             {
-                //if (codes[i].opcode == OpCodes.Ldsfld && codes[i].operand.ToString() == "string [mscorlib]System.String::Empty" && codes[i - 1].opcode == OpCodes.Brtrue_S && codes[i + 2].opcode == OpCodes.Ldstr && (string)codes[i + 2].operand == "Empty")
-                //if (codes[i].opcode == OpCodes.Ldsfld && codes[i - 1].opcode == OpCodes.Brtrue_S && codes[i + 2].opcode == OpCodes.Ldstr)
-                //&& codes[i].operand == stringEmpty // that works dedicated
-                if (codes[i].opcode == OpCodes.Ldsfld && codes[i + 2].opcode == OpCodes.Ldstr)
+                /*
+                if (codes[i].opcode == OpCodes.Ldsfld && codes[i + 2].opcode == OpCodes.Ldstr && codes[i].operand == stringEmpty)
                 {
-                    Logger.Log(Logger.Level.Debug, "Found IL Code Line");
-                    Logger.Log(Logger.Level.Debug, "Index =");
-                    Logger.Log(Logger.Level.Debug, Index.ToString());
-                    Logger.Log(Logger.Level.Debug, "Index > -1");
+                    Logger.Log(Logger.Level.Debug, "Found IL Code Line for Index");
+                    Logger.Log(Logger.Level.Debug, $"Index = {Index.ToString()}");
+                    found = true;
+                    Index = i;
+                    Index2 = i + 2;
+                    break;
+                }
+                */
+                /*
+                1 IL_0048: call instance bool StorageContainer::IsEmpty()
+                2 IL_004D: brtrue.s IL_0056
+                3 IL_004F: ldsfld    string[mscorlib] System.String::Empty
+                4 IL_0054: br.s IL_005B
+                5 IL_0056: ldstr     "Empty"
+
+                [StorageInfo_BZ:DEBUG] 0x001C : call	Boolean IsEmpty()
+                [StorageInfo_BZ:DEBUG] 0x001D : brtrue	System.Reflection.Emit.Label
+                [StorageInfo_BZ:DEBUG] 0x001E : ldsfld	System.String Empty
+                [StorageInfo_BZ:DEBUG] 0x001F : br	System.Reflection.Emit.Label
+                [StorageInfo_BZ:DEBUG] 0x0020 : ldstr	Empty
+                */
+
+                if (codes[i].opcode == OpCodes.Call && codes[i+2].opcode == OpCodes.Ldsfld && codes[i + 4].opcode == OpCodes.Ldstr)
+                    //codes[i].opcode == OpCodes.Call && codes[i + 1].opcode == OpCodes.Brtrue && codes[i + 2].opcode == OpCodes.Ldsfld && codes[i + 3].opcode == OpCodes.Br && codes[i + 4].opcode == OpCodes.Ldstr && codes[i + 4].operand == stringEmpty
+                    //codes[i].opcode == OpCodes.Ldsfld && codes[i + 2].opcode == OpCodes.Ldstr && codes[i].operand == stringEmpty
+                {
+                    Logger.Log(Logger.Level.Debug, "Found IL Code Line for Index");
+                    Logger.Log(Logger.Level.Debug, $"Index = {Index.ToString()}");
                     found = true;
                     Index = i;
                     break;
@@ -138,11 +90,29 @@ namespace StorageInfo_BZ.Patches
 
             if (Index > -1)
             {
-                Logger.Log(Logger.Level.Debug, "Index > -1");
+                Logger.Log(Logger.Level.Debug, "Index1 > -1");
+
+                /*
+1 IL_003C: callvirt  instance void HandReticle::SetText(valuetype HandReticle/TextType, string, bool, valuetype GameInput/Button)
+2 IL_0041: ldsfld    class HandReticle HandReticle::main
+3 IL_0046: ldc.i4.1
+4 IL_0047: ldarg.0
+5 IL_0048: call      instance bool StorageContainer::IsEmpty()
+6 IL_004D: brtrue.s  IL_0056
+7 IL_004F: ldsfld    string [mscorlib]System.String::Empty
+8 IL_0054: br.s      IL_005B
+9 IL_0056: ldstr     "Empty"
+                */
+
+                //codes[Index] = new CodeInstruction(OpCodes.Call, getFullState); //override the Line 7 with a function that returns a string with the current state how much items are stored.
+                //codes[Index2] = new CodeInstruction(OpCodes.Call, getEmtpyState_methode); //override the Lin 9 with a function that returns Empty but with the available space
+
+                //codes.Insert(Index2, new CodeInstruction(OpCodes.Ldarg_0)); //inster a this reference between Line 8 and 9 to be able to acces the current Stoirage instance         
+                //codes.Insert(Index, new CodeInstruction(OpCodes.Ldarg_0)); //insert a this reference between Line 6 and 7 to be able to access the currend Storage instance
+
                 codes[Index] = new CodeInstruction(OpCodes.Call, getFullState);
 
-                //int insertindex = Index - 1;
-                codes.Insert(Index, new CodeInstruction(OpCodes.Ldarg_0));
+                codes.RemoveRange(Index + 1, 4);
             }
             else
             {
@@ -163,54 +133,27 @@ namespace StorageInfo_BZ.Patches
             return codes.AsEnumerable();      
         }
 
-        /*
-        public static string Getfullstate()
+        public static int GetOriginalSize(StorageContainer _storageContainer)
         {
-            Logger.Log(Logger.Level.Debug, "call Getfullstate - TEST");
-            return "Mytest";
+            return _storageContainer.container.sizeX * _storageContainer.container.sizeY;
         }
-        */
 
-        
+        public static string GetEmptyState(StorageContainer _storageContainer)
+        {
+            StringBuilder stringBuilder = new StringBuilder();
+            stringBuilder.AppendLine("Empty");
+            stringBuilder.AppendLine($"{GetOriginalSize(_storageContainer).ToString()} Free");
+            return stringBuilder.ToString();
+        }
+
         public static string Getfullstate(StorageContainer _storageContainer)
         {
             Logger.Log(Logger.Level.Debug, "call Getfullstate");
-           
-            int itsc_x = _storageContainer.container.sizeX;
-            int itsc_y = _storageContainer.container.sizeY;
-            int itsc_size = itsc_x * itsc_y;
-            int filled = 0;
-            int filled_x = 0;
-            int filled_y = 0;
-            for(int x = 1; x <= itsc_x; x++)
-            {
-                for (int y = 1; y <= itsc_y; y++)
-                {
-                    if(!_storageContainer.container.HasRoomFor(x, y))
-                    {
-                        filled = x * y;
-                        break;
-                    }
-                }
-            }
-
-            int filledspace = 0;
-            Dictionary<TechType,ItemsContainer.ItemGroup> allitems = _storageContainer.container._items;
-            _storageContainer.container.GetItemTypes();
-            foreach (KeyValuePair<TechType, ItemsContainer.ItemGroup> entry in allitems)
-            {
-                List<InventoryItem> test = entry.Value.items;
-                int number = test.Count;
-                Logger.Log(Logger.Level.Debug, "number of items");
-                Logger.Log(Logger.Level.Debug, number.ToString() );
-                TechType techType = entry.Key;
-                Logger.Log(Logger.Level.Debug, entry.Key.ToString() );
-                Vector2int size = TechData.GetItemSize(techType);
-                filledspace =+ size.x * size.y * number;
-            }
 
             var items = _storageContainer.container.GetItemTypes();
-            var origSize = _storageContainer.container.sizeX * _storageContainer.container.sizeY;
+            int itemscount = _storageContainer.container.count;
+            Logger.Log(Logger.Level.Debug, $"Itemcount = {itemscount.ToString()}");
+            int origSize = GetOriginalSize(_storageContainer);
             int usedSize = 0;
             foreach (var i in items)
             {
@@ -219,28 +162,26 @@ namespace StorageInfo_BZ.Patches
             }
             var sizeLeft = origSize - usedSize;
 
-
+            StringBuilder stringBuilder = new StringBuilder();
             if (!_storageContainer.container.HasRoomFor(1,1))
             {
                 Logger.Log(Logger.Level.Debug, "Container is Full - way");
-                return "Full";
+                stringBuilder.AppendLine("Full " + itemscount + " Items stored");
+                stringBuilder.AppendLine($"{sizeLeft} of {origSize} free");
+            }
+            else if(_storageContainer.IsEmpty())
+            {
+                Logger.Log(Logger.Level.Debug, "Container is empty - way");
+                stringBuilder.AppendLine("Empty");
+                stringBuilder.AppendLine($"{sizeLeft} of {origSize} free");
             }
             else
             {
                 Logger.Log(Logger.Level.Debug, "Container Contains X Item - way");
-                Logger.Log(Logger.Level.Debug, "Itemcount =");
-                Logger.Log(Logger.Level.Debug, _storageContainer.container.count.ToString());
-
-                StringBuilder stringBuilder = new StringBuilder();
-                stringBuilder.AppendLine(_storageContainer.container.count.ToString() + " Items");
-                stringBuilder.AppendLine($"used {usedSize} of {itsc_size}");
-                return stringBuilder.ToString();
-
-                //return _storageContainer.container.count.ToString() + " Items";
+                stringBuilder.AppendLine(itemscount + " Items - " + usedSize + " used");
+                stringBuilder.AppendLine($"{sizeLeft} of {origSize} free");
             }
+            return stringBuilder.ToString();
         }
-        
-        
-        #endregion Transpiler
     }
 }
