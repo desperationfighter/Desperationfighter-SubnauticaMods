@@ -7,6 +7,6 @@
   "Game": "BelowZero",
   "AssemblyName": "StorageInfo_BZ.dll",
   "NexusId": { "BelowZero": "138" },
-  "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/MetalHands_BZ/MetalHands_BZ/mod.json" },
+  "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/StorageInfo_BZ/StorageInfo_BZ/mod.json" },
   "QModSAM": { "Wiki": "https://github.com/desperationfighter" }
 }
