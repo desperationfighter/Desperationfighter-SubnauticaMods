@@ -3,7 +3,10 @@
   "DisplayName": "MetalHands",
   "Author": "Desperationfighter",
   "Version": "0.8",
-  "VersionDependencies": { "SMLHelper": "2.9.2" },
+  "VersionDependencies": {
+    "SMLHelper": "2.9.2",
+    "CustomDataboxes": "1.1.0"
+  },
   "Enable": true,
   "Game": "Subnautica",
   "AssemblyName": "MetalHands.dll",
