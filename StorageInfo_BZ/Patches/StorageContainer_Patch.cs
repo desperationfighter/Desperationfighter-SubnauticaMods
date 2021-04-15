@@ -115,23 +115,27 @@ namespace StorageInfo_BZ.Patches
 
             var items = _storageContainer.container.GetItemTypes();
             int itemscount = _storageContainer.container.count;
-            Logger.Log(Logger.Level.Debug, $"Itemcount = {itemscount.ToString()}");
+            Logger.Log(Logger.Level.Debug, $"Itemcount all Items = {itemscount.ToString()}");
             int origSize = _storageContainer.container.sizeX * _storageContainer.container.sizeY;
+            Logger.Log(Logger.Level.Debug, $"Original Max Size = {origSize.ToString()}");
             int usedSize = 0;
             foreach (var i in items)
             {
                 var size = TechData.GetItemSize(i);
                 int numberofsingletechtype = (_storageContainer.container.GetItems(i)).Count;
-                Logger.Log(Logger.Level.Debug, $"TEST2 - number of items = {numberofsingletechtype.ToString()}");
+                Logger.Log(Logger.Level.Debug, $"Techtype = {i.ToString()}");
+                Logger.Log(Logger.Level.Debug, $"Number of items in this Techtype = {numberofsingletechtype.ToString()}");
                 usedSize += size.x * size.y * numberofsingletechtype;
+                Logger.Log(Logger.Level.Debug, $"Used Space of this Techtype = {(size.x * size.y * numberofsingletechtype).ToString()}");
             }
             var sizeLeft = origSize - usedSize;
+            Logger.Log(Logger.Level.Debug, $"Used Space off all Techtypes = {usedSize.ToString()}");
 
             StringBuilder stringBuilder = new StringBuilder();
             if (!_storageContainer.container.HasRoomFor(1,1))
             {
                 Logger.Log(Logger.Level.Debug, "Container is Full - way");
-                stringBuilder.AppendLine("Full " + itemscount + " Items stored");
+                stringBuilder.AppendLine("Full - " + itemscount + " Items stored");
                 stringBuilder.AppendLine($"{sizeLeft} of {origSize} free");
             }
             else if(_storageContainer.IsEmpty())
