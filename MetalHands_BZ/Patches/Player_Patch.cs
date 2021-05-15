@@ -8,6 +8,7 @@ namespace MetalHands.Patches
     [HarmonyPatch(nameof(Player.UpdateReinforcedSuit))]
     public static class Player_UpdateReinforcedSuit_Patch
     {
+        //Add additional Protection if using MK2 because is using Nickel/Kryanite... so it should protect more than enough against a attack...
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
@@ -22,6 +23,7 @@ namespace MetalHands.Patches
     [HarmonyPatch(nameof(Player.HasReinforcedGloves))]
     public static class Player_HasReinforcedGloves
     {
+        //The Gloves are produce like the Reinforced Suit + Metal improvment so it have same protection level
         [HarmonyPostfix]
         public static void Postfix(ref bool __result)
         {
@@ -36,6 +38,7 @@ namespace MetalHands.Patches
     [HarmonyPatch(nameof(Player.CheckColdsuitGoal))]
     public static class Player_CheckColdsuitGoal_Patch
     {
+        //For BZ the recipe is added Fur so it give also the Same protection to be use outside water as well
         [HarmonyPostfix]
         public static void Postfix(Player __instance)
         {
