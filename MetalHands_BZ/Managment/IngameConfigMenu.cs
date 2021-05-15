@@ -17,7 +17,7 @@ namespace MetalHands.Managment
         [Toggle("(Cheat) Fast break without Glove", Tooltip = "Enable = Player can break Ressource fast without Glove", Order = 3)]
         public bool Config_fastbreak = false;
 
-        [Toggle("(Cheat) Fast Collect without Glove", Tooltip = "Enable = Add spawned Ressouce from Ressouce brake directly to ", Order = 4)]
+        [Toggle("(Cheat) Fast Collect without Glove", Tooltip = "Enable = Add spawned Ressouce from Ressouce breake directly to ", Order = 4)]
         public bool Config_fastcollect = false;
     }
 }

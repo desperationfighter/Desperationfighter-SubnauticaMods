@@ -2,9 +2,9 @@
   "Id": "MetalHands",
   "DisplayName": "MetalHands",
   "Author": "Desperationfighter",
-  "Version": "0.8",
+  "Version": "0.9",
   "VersionDependencies": {
-    "SMLHelper": "2.9.2",
+    "SMLHelper": "2.9.6",
     "CustomDataboxesBZ": "1.1.0"
   },
   "Enable": true,
