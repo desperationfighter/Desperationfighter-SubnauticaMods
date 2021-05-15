@@ -34,7 +34,7 @@ namespace MetalHands.Items
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
-            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.ReinforcedDiveSuit);
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.ColdSuitGloves);
             yield return task;
             GameObject prefab = task.GetResult();
             GameObject obj = GameObject.Instantiate(prefab);
