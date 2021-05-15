@@ -52,7 +52,8 @@ namespace MetalHands.Patches
             // Get calling method name
             string callingmethode = stackTrace.GetFrame(1).GetMethod().Name;
 
-            if(callingmethode == "PunchRock" | callingmethode == "OnImpact")
+            //if(callingmethode == "PunchRock" | callingmethode == "OnImpact")
+            if (callingmethode == "PunchRock")
             {
                 return true;
             }

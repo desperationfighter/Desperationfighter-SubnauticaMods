@@ -1,13 +1,10 @@
 ﻿using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
-using MetalHands.Managment;
-
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using SMLHelper.V2.Utility;
 using UnityEngine;
-using SMLHelper.V2.Handlers;
+using System.Collections;
 
 namespace MetalHands.Items
 {
@@ -27,8 +24,25 @@ namespace MetalHands.Items
         public override Vector2int SizeInInventory => new Vector2int(1, 1);
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override string[] StepsToFabricatorTab => new string[] { "ExosuitModules" };
-        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        public override string IconFileName => "MetalHandsClawModule.png";
+        //public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        //public override string IconFileName => "MetalHandsClawModule.png";
+        //public override bool HasSprite => true;
+
+        protected override Sprite GetItemSprite()
+        {
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "MetalHandsClawModule.png"));
+        }
+
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.ExosuitJetUpgradeModule);
+            yield return task;
+            GameObject prefab = task.GetResult();
+            GameObject obj = GameObject.Instantiate(prefab);
+            prefab.SetActive(false);
+
+            gameObject.Set(obj);
+        }
 
         protected override RecipeData GetBlueprintRecipe()
         {

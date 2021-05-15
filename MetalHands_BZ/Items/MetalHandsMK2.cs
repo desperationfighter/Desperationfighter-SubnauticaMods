@@ -1,13 +1,10 @@
 ﻿using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
-using MetalHands.Managment;
-
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
 using SMLHelper.V2.Utility;
 using UnityEngine;
-using SMLHelper.V2.Handlers;
+using System.Collections;
 
 namespace MetalHands.Items
 {
@@ -26,8 +23,25 @@ namespace MetalHands.Items
         public override CraftTree.Type FabricatorType => CraftTree.Type.Workbench;
         public override float CraftingTime => 4f;
         public override TechType RequiredForUnlock => MetalHands_BZ.MetalHandsMK1TechType;
-        public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        public override string IconFileName => "MetalHandsMK2.png";
+        //public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
+        //public override string IconFileName => "MetalHandsMK2.png";
+        //public override bool HasSprite => true;
+
+        protected override Sprite GetItemSprite()
+        {
+            return ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "MetalHandsMK2.png"));
+        }
+
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.ReinforcedDiveSuit);
+            yield return task;
+            GameObject prefab = task.GetResult();
+            GameObject obj = GameObject.Instantiate(prefab);
+            prefab.SetActive(false);
+
+            gameObject.Set(obj);
+        }
 
         protected override RecipeData GetBlueprintRecipe()
         {
@@ -43,6 +57,7 @@ namespace MetalHands.Items
                         new Ingredient(TechType.CopperWire, 1),
                         new Ingredient(TechType.Magnetite, 2),
                         new Ingredient(TechType.ComputerChip, 1),
+                        new Ingredient(TechType.SnowStalkerFur, 2)
                     }
                 };
             }
@@ -57,7 +72,9 @@ namespace MetalHands.Items
                         new Ingredient(TechType.AramidFibers, 2),
                         new Ingredient(TechType.CopperWire, 2),
                         new Ingredient(TechType.Magnetite, 4),
-                        new Ingredient(TechType.AdvancedWiringKit, 1)
+                        new Ingredient(TechType.AdvancedWiringKit, 1),
+                        new Ingredient(TechType.Silicone, 1),
+                        new Ingredient(TechType.SnowStalkerFur, 1)
                     }
                 };
             }
