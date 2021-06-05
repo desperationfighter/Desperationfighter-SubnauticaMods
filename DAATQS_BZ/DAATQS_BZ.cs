@@ -12,6 +12,7 @@ using QModManager.Utility;
 using SMLHelper.V2.Handlers;
 //working space
 using DAATQS_BZ.Managment;
+using System;
 
 namespace DAATQS_BZ
 {
@@ -34,6 +35,7 @@ namespace DAATQS_BZ
                 //allowList = OptionsPanelHandler.Main.RegisterModOptions<TechTypeAllowList>();
 
             Logger.Log(Logger.Level.Info, "DAATQS_BZ Patched");
+            Logger.Log(Logger.Level.Info, $"Today is {DateTime.Today:dd-MMMM-yyyy_HH:mm:ss}");
 
             // QModServices.Main.AddCriticalMessage("Warning the DAATQS Mod is in BETA Status !");
         }
