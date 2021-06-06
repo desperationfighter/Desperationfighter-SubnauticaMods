@@ -67,7 +67,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="DAATQS_BZ\AllowList.json" />
     <None Include="DAATQS_BZ\AllowList_Example.json" />
     <None Include="DAATQS_BZ\mod.json" />
   </ItemGroup>

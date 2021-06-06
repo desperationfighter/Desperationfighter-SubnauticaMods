@@ -12,6 +12,8 @@ using QModManager.Utility;
 using SMLHelper.V2.Handlers;
 //working space
 using DAATQS.Managment;
+using System.IO;
+using System;
 
 namespace DAATQS
 {
@@ -24,6 +26,19 @@ namespace DAATQS
         public static void DAATQS_InitializationMethod()
         {
             Logger.Log(Logger.Level.Debug, "DAATQS Initialization");
+
+            //new Problem. If player update this mod he would override his custom list by accident by me. So i need to check if the file already exist.
+            string AllowlistPath = Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "AllowList.json");
+            if (File.Exists(AllowlistPath))
+            {
+                //Installation already exist, do nothing
+            }
+            else
+            {
+                //first install create AllowList.
+                string defaultText = "{" + Environment.NewLine + @"  ""TechType"": [ ""TEST"", ""builder"", ""Knife"", ""Seaglide"", ""LaserCutter"",""HeatBlade"", ""RepulsionCannon"", ""airbladder"", ""flashlight"", ""welder"", ""scanner"" ]" + Environment.NewLine + "}";
+                File.WriteAllText(AllowlistPath, defaultText);
+            }
 
             Harmony harmony = new Harmony("DAATQS");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
