@@ -1,14 +1,6 @@
 ﻿using HarmonyLib;
 using DAATQS_BZ.Managment;
-using System.Collections.Generic;
-using Newtonsoft.Json;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
-using System.IO;
-using System.Reflection;
-
 using System;
-using SMLHelper.V2.Handlers;
 
 namespace DAATQS_BZ.Patches
 {
@@ -56,11 +48,9 @@ namespace DAATQS_BZ.Patches
             bool inlist = false;
             TTAL.Load();
             
-            //foreach (TechType Techtype_single in TTAL.TechType)
             foreach (String Techtype_single in TTAL.TechType)
             {
                 TechType Techtype_single_converted = TechTypeStuff.GetTechType(Techtype_single);
-                //if (item_techtype == Techtype_single)
                 if (item_techtype == Techtype_single_converted)
                 {
                     inlist = true;

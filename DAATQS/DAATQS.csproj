@@ -57,6 +57,7 @@
     <Compile Include="DAATQS.cs" />
     <Compile Include="Managment\TechtypeAllowList.cs" />
     <Compile Include="Managment\IngameConfigMenu.cs" />
+    <Compile Include="Managment\TechTypeStuff.cs" />
     <Compile Include="Patches\Quickslots_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

@@ -1,7 +1,7 @@
 ﻿using SMLHelper.V2.Handlers;
 
 
-namespace DAATQS_BZ.Managment
+namespace DAATQS.Managment
 {
     //stolen from https://github.com/PrimeSonic/PrimeSonicSubnauticaMods/blob/master/CustomCraftSML/Serialization/Components/EmTechTyped.cs#L56
     public class TechTypeStuff

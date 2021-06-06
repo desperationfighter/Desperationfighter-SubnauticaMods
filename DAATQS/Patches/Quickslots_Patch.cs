@@ -65,14 +65,11 @@ namespace DAATQS.Patches
             TechType item_techtype = item.item.GetTechType();
             bool inlist = false;
             TTAL.Load();
-
-            //foreach (TechType techtype_single in (TechType[]) Enum.GetValues(typeof(TechType)))
-            //{
-            //}
             
-            foreach (TechType Techtype_single in TTAL.TechType)
+            foreach (String Techtype_single in TTAL.TechType)
             {
-                if (item_techtype == Techtype_single)
+                TechType Techtype_single_converted = TechTypeStuff.GetTechType(Techtype_single);
+                if (item_techtype == Techtype_single_converted)
                 {
                     inlist = true;
                 }           
@@ -87,53 +84,6 @@ namespace DAATQS.Patches
                 return false;
             }
         }
-    } //public static class Quickslots_BindToEmpty_Patch
-//-----------------------------------------------------------------------------------------------------*/
-
-
-    //Wird nicht doch nicht benötigt
-    /*
-       [HarmonyPatch(typeof(QuickSlots))]
-       [HarmonyPatch(nameof(QuickSlots.Assign))]
-       public static class Quickslots_Assign_Patch
-       {
-           [HarmonyPrefix]
-           private static bool Prefix(QuickSlots __instance)
-           {
-               Assign_Patch(__instance);
-               return false;
-           }
-
-           private static void Assign_Patch(QuickSlots __instance)
-           {
-
-           }
-       } // public static class Quickslots_Assign_Patch
-    */
-
-
-    //Diese Funktion führt dazu, dass nach dem aufsammeln oder verschieben aus einem Schrank das Item  zur Quickslotbar hinzugefügt wird.
-    //Das unterbrechen der funktion fü+hrt dazu, dass das Item nicht mehr hinzugefügt wird.
-    //Nachteil: Durch das entfernen des Code gibt es ein Reload Problem.
-    //Eigendlich ist das Entfernen der Funktion rendundant, wenn BindToEmpty bereits entfernt wird.
-
-    /*
-        [HarmonyPatch(typeof(QuickSlots))]
-        [HarmonyPatch(nameof(QuickSlots.OnAddItem))]
-        public static class Quickslots_OnAddItem_Patch
-        {
-            [HarmonyPrefix]
-            private static bool Prefix(QuickSlots __instance, InventoryItem item)
-            {
-                OnAddItem_Patch(__instance, item);
-                return false;
-            }
-
-            private static void OnAddItem_Patch(QuickSlots __instance, InventoryItem item)
-            {
-
-            }
-        } //public static class Quickslots_OnAddItem_Patch
-    */
+    }
 
 } // Namespace

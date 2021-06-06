@@ -9,7 +9,7 @@ namespace DAATQS.Managment
         {
         }
 
-        public List<TechType> TechType = new List<TechType>();
+        public List<string> TechType = new List<string>();
     }
 
 }
