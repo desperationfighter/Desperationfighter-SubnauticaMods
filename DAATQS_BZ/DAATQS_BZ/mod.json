@@ -2,7 +2,7 @@
   "Id": "DAATQS_BZ",
   "DisplayName": "Disable Auto-add to QuickSlot BelowZero Version",
   "Author": "Desperationfighter",
-  "Version": "1.3",
+  "Version": "1.2",
   "VersionDependencies": {"SMLHelper": "2.9.7"},
   "Enable": true,
   "Game": "BelowZero",
