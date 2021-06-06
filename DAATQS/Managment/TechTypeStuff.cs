@@ -4,6 +4,7 @@
 namespace DAATQS.Managment
 {
     //stolen from https://github.com/PrimeSonic/PrimeSonicSubnauticaMods/blob/master/CustomCraftSML/Serialization/Components/EmTechTyped.cs#L56
+    //This Function converts a String into a Techtype. This need to be done because there is a Different between Vanilla one and a Modded Item.
     public class TechTypeStuff
     {
         public static TechType GetTechType(string value)

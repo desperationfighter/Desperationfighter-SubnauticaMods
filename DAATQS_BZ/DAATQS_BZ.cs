@@ -12,7 +12,6 @@ using QModManager.Utility;
 using SMLHelper.V2.Handlers;
 //working space
 using DAATQS_BZ.Managment;
-using System;
 
 namespace DAATQS_BZ
 {
@@ -20,7 +19,6 @@ namespace DAATQS_BZ
     public static class DAATQS_BZ_harmony
     {
         internal static IngameConfigMenu Config { get; private set; }
-            //internal static TechTypeAllowList allowList { get; private set; }
 
         [QModPatch]
         public static void DAATQS_BZ_InitializationMethod()
@@ -32,10 +30,8 @@ namespace DAATQS_BZ
 
             //Add the Ingame Config for User
             Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
-                //allowList = OptionsPanelHandler.Main.RegisterModOptions<TechTypeAllowList>();
 
             Logger.Log(Logger.Level.Info, "DAATQS_BZ Patched");
-            Logger.Log(Logger.Level.Info, $"Today is {DateTime.Today:dd-MMMM-yyyy_HH:mm:ss}");
 
             // QModServices.Main.AddCriticalMessage("Warning the DAATQS Mod is in BETA Status !");
         }

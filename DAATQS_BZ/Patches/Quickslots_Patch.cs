@@ -4,6 +4,11 @@ using System;
 
 namespace DAATQS_BZ.Patches
 {
+    //Entfernt das binden an die Bar
+    //Solange andere Funktionen darauf zugreifen muss es ein Return geben.
+
+    //This removed the binding to QQuickslots
+    //As long other Functions are in Contact to this we need to Return a Value to prevent an Error. So in worst Case i give back a "-1".
     [HarmonyPatch(typeof(QuickSlots))]
     [HarmonyPatch(nameof(QuickSlots.BindToEmpty))]
     public static class Quickslots_BindToEmpty_Patch
@@ -22,7 +27,7 @@ namespace DAATQS_BZ.Patches
             }
             else
             {
-                ICM.Load();
+                //ICM.Load();
                 //Checklogic
                 //1. Check if Mod is active
                 //2. true if user use the custom list AND the item is found
@@ -44,20 +49,22 @@ namespace DAATQS_BZ.Patches
 
         private static bool PlayerAllowBind(InventoryItem item)
         {
+            //Lookup the Techtype of the object
             TechType item_techtype = item.item.GetTechType();
             bool inlist = false;
+            //load the Allow List into "cache"
             TTAL.Load();
             
             foreach (String Techtype_single in TTAL.TechType)
             {
+                //Convert the TechType String into a real Techtype this avoid conflict with modded items.
                 TechType Techtype_single_converted = TechTypeStuff.GetTechType(Techtype_single);
+                //Check if the Player allow the adding.
                 if (item_techtype == Techtype_single_converted)
                 {
                     inlist = true;
                 }
             }
-
-
 
             if (inlist)
             {
