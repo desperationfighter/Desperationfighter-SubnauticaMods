@@ -1,0 +1,11 @@
+{
+  "Id": "BetterThumper",
+  "DisplayName": "BetterThumper",
+  "Author": "Desperationfighter",
+  "Version": "1.0",
+  "VersionDependencies": { "SMLHelper": "2.9.7" },
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "BetterThumper.dll",
+  "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/BetterThumper/BetterThumper/mod.json" }
+}
