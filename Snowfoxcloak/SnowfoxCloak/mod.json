@@ -1,0 +1,12 @@
+{
+  "Id": "SnowfoxCloakModule",
+  "DisplayName": "SnowfoxCloakModule",
+  "Author": "Desperationfighter",
+  "Version": "0.9",
+  "VersionDependencies": { "SMLHelper": "2.9.7" },
+  "Enable": true,
+  "Game": "BelowZero",
+  "AssemblyName": "SnowfoxCloakModule.dll",
+  "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/SnowfoxCloakModule/SnowfoxCloakModule/mod.json" },
+  "QModSAM": { "Wiki": "https://github.com/desperationfighter" }
+}
