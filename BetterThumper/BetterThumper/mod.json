@@ -7,5 +7,6 @@
   "Enable": true,
   "Game": "BelowZero",
   "AssemblyName": "BetterThumper.dll",
+  "NexusId": { "BelowZero": "208" },
   "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/BetterThumper/BetterThumper/mod.json" }
 }
