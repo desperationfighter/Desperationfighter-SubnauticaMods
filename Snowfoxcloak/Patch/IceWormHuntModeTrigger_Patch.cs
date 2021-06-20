@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Reflection.Emit;
-using System.Text;
 
 //for Logging
 using QModManager.Utility;
@@ -15,51 +14,71 @@ namespace Snowfoxcloak.Patch
 
     [HarmonyPatch(typeof(IceWormHuntModeTrigger))]
     [HarmonyPatch(nameof(IceWormHuntModeTrigger.OnPlayerEnter))]
-    public static class IceWormHuntModeTrigger_OnPlayerEnter_Patch_prefix
+    public static class IceWormHuntModeTrigger_OnPlayerEnter_Patch
     {
-        public static bool CloakingModuleinstalled { get; set; }
-        public static float ReduceValue { get; set; }
+        public static bool CloakingModuleinstalled;
+        public static float ReduceValue;
 
+        [HarmonyPostfix]
+        public static void postfix(IceWormHuntModeTrigger __instance)
+        {
+            Logger.Log(Logger.Level.Debug, "Postfix - Show Values");
+            Logger.Log(Logger.Level.Debug, $"Postfix - additiveHuntValue: {__instance.additiveHuntValue}");
+            Logger.Log(Logger.Level.Debug, $"Postfix - instance.AdditiveHuntLevel: {__instance.instance.AdditiveHuntLevel}");
+            Logger.Log(Logger.Level.Debug, $"Postfix - huntModeChance: {__instance.huntModeChance}");
+        }
+        
         [HarmonyPrefix]
         public static bool prefix()
         {
+            Logger.Log(Logger.Level.Debug, "Running Prefix");
+            Logger.Log(Logger.Level.Debug, "Prefix - Asking for Hoverbike");
             Hoverbike hoverbike = IceWormPhantomManager.ReturnPlayerHoverbike();
-            var installedmodule = hoverbike.modules.GetCount(Snowfoxcloak.SnowfoxCloakModuleTechType);
-            CloakingModuleinstalled = false;
-            if (installedmodule > 0)
+            Logger.Log(Logger.Level.Debug, "Prefix - Checking Value of Hoverbike");
+            if (hoverbike != null)
             {
-                CloakingModuleinstalled = true;
-                if(Snowfoxcloak.Config.Config_Fullcloak)
+                Logger.Log(Logger.Level.Debug, "Prefix - We have an Hoverbike");
+                Logger.Log(Logger.Level.Debug, "Prefix - Is any Cloaking Module installed ?");
+                var installedmodule = hoverbike.modules.GetCount(Snowfoxcloak.SnowfoxCloakModuleTechType);
+                CloakingModuleinstalled = false;
+                if (installedmodule > 0)
                 {
-                    ReduceValue = 0f;
+                    Logger.Log(Logger.Level.Debug, "Prefix - Yes we have Cloaking Module");
+                    CloakingModuleinstalled = true;
+                    if (Snowfoxcloak.Config.Config_Fullcloak)
+                    {
+                        Logger.Log(Logger.Level.Debug, "Prefix - Full Cloak");
+                        ReduceValue = 1f;
+                    }
+                    else
+                    {
+                        Logger.Log(Logger.Level.Debug, "Prefix - Normal Cloak");
+                        ReduceValue = 0.9f;
+                    }
+                }
+                else if (hoverbike.IceWormReductionModuleActive)
+                {
+                    Logger.Log(Logger.Level.Debug, "Prefix - No Cloak but reducing Module");
+                    ReduceValue = 0.3f;
                 }
                 else
                 {
-                    ReduceValue = 0.05f;
+                    Logger.Log(Logger.Level.Debug, "Prefix - we have no Module");
+                    ReduceValue = 0.3f;
                 }
             }
-            else if(hoverbike.IceWormReductionModuleActive)
-            {
-                ReduceValue = 0.3f;
-            }
-            else
-            {
-                ReduceValue = 0.3f;
-            }
             //yeah yeah i know. that makes no sense but it make sense for fall back i don't know....
+
+            
+
             return true;
         }
-    }
 
-    [HarmonyPatch(typeof(IceWormHuntModeTrigger))]
-    [HarmonyPatch(nameof(IceWormHuntModeTrigger.OnPlayerEnter))]
-    public static class IceWormHuntModeTrigger_OnPlayerEnter_Patch_transpiler
-    {
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             //Deep Logging
-            bool deeplogging = true;
+            bool deeplogging = false;
             //-----------------------------------------------------------
             if (!deeplogging)
             {
@@ -68,7 +87,9 @@ namespace Snowfoxcloak.Patch
 
             Logger.Log(Logger.Level.Debug, "Start Transpiler");
 
-            FieldInfo ReduceVaulue_checked = typeof(IceWormHuntModeTrigger_OnPlayerEnter_Patch_prefix).GetField("ReduceValue");
+            FieldInfo ReduceVaulue_checked = typeof(IceWormHuntModeTrigger_OnPlayerEnter_Patch).GetField("ReduceValue");
+            var enterhundmodedebugger_insert = typeof(IceWormHuntModeTrigger_OnPlayerEnter_Patch).GetMethod("enterhundmodedebugger", BindingFlags.Public | BindingFlags.Static);
+            
             bool found = false;
             var Index = -1;
             var codes = new List<CodeInstruction>(instructions);
@@ -183,7 +204,8 @@ namespace Snowfoxcloak.Patch
                 //if (codes[i].opcode == OpCodes.Ldloc_0 && codes[i + 1].opcode == OpCodes.Callvirt && codes[i + 2].opcode == OpCodes.Brfalse_S && codes[i + 5].opcode == OpCodes.Ldc_R4) //for deleting the complete module question
                 //if (codes[i].opcode == OpCodes.Ldc_I4_0 && codes[i + 1].opcode == OpCodes.Ldc_I4_S && codes[i + 2].opcode == OpCodes.Call) //for finding the false path on the module check
 
-                if (codes[i].opcode == OpCodes.Ldc_R4 && codes[i + 1].opcode == OpCodes.Mul && codes[i + 6].opcode == OpCodes.Sub) //finding the original 0.3f Value in multiplaction for the Reducemodule
+                //if (codes[i].opcode == OpCodes.Ldc_R4 && codes[i + 1].opcode == OpCodes.Mul && codes[i + 6].opcode == OpCodes.Sub) //finding the original 0.3f Value in multiplaction for the Reducemodule v1
+                if (codes[i].opcode == OpCodes.Ldc_R4 && (float)codes[i].operand == 0.3f) //finding the original 0.3f Value in multiplaction for the Reducemodule v2
                 {
                     Logger.Log(Logger.Level.Debug, "Found IL Code Line for Index");
                     Logger.Log(Logger.Level.Debug, $"Index = {Index.ToString()}");
@@ -207,7 +229,9 @@ namespace Snowfoxcloak.Patch
                 Logger.Log(Logger.Level.Debug, "Index1 > -1");
                 Logger.Log(Logger.Level.Info, "Transpiler injectection position found");
                 codes[Index] = new CodeInstruction(OpCodes.Ldsfld, ReduceVaulue_checked);
+                codes[Index+23] = new CodeInstruction(OpCodes.Call, enterhundmodedebugger_insert);
                 //codes.RemoveRange(Index + 1, 14); //for deleting the complete module question
+                Logger.Log(Logger.Level.Debug, "Removing Vanilla Command");
                 codes.RemoveRange(Index, 0);
             }
             else
@@ -227,6 +251,11 @@ namespace Snowfoxcloak.Patch
 
             Logger.Log(Logger.Level.Debug, "Transpiler end going to return");
             return codes.AsEnumerable();
+        }
+
+        public static void enterhundmodedebugger()
+        {
+            Logger.Log(Logger.Level.Debug, "enterhundmodedebugger - we are going to hunt.");
         }
     }
 }
