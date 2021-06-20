@@ -2,7 +2,7 @@
   "Id": "SnowfoxCloakModule",
   "DisplayName": "SnowfoxCloakModule",
   "Author": "Desperationfighter",
-  "Version": "0.9",
+  "Version": "1.0",
   "VersionDependencies": { "SMLHelper": "2.9.7" },
   "Enable": true,
   "Game": "BelowZero",

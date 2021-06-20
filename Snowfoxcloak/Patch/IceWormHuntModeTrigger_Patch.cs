@@ -12,15 +12,55 @@ using QModManager.Utility;
 
 namespace Snowfoxcloak.Patch
 {
+
     [HarmonyPatch(typeof(IceWormHuntModeTrigger))]
     [HarmonyPatch(nameof(IceWormHuntModeTrigger.OnPlayerEnter))]
-    public static class IceWormHuntModeTrigger_OnPlayerEnter_Patch
+    public static class IceWormHuntModeTrigger_OnPlayerEnter_Patch_prefix
+    {
+        public static bool CloakingModuleinstalled { get; set; }
+        public static float ReduceValue { get; set; }
+
+        [HarmonyPrefix]
+        public static bool prefix()
+        {
+            Hoverbike hoverbike = IceWormPhantomManager.ReturnPlayerHoverbike();
+            var installedmodule = hoverbike.modules.GetCount(Snowfoxcloak.SnowfoxCloakModuleTechType);
+            CloakingModuleinstalled = false;
+            if (installedmodule > 0)
+            {
+                CloakingModuleinstalled = true;
+                if(Snowfoxcloak.Config.Config_Fullcloak)
+                {
+                    ReduceValue = 0f;
+                }
+                else
+                {
+                    ReduceValue = 0.05f;
+                }
+            }
+            else if(hoverbike.IceWormReductionModuleActive)
+            {
+                ReduceValue = 0.3f;
+            }
+            else
+            {
+                ReduceValue = 0.3f;
+            }
+            //yeah yeah i know. that makes no sense but it make sense for fall back i don't know....
+            return true;
+        }
+    }
+
+    [HarmonyPatch(typeof(IceWormHuntModeTrigger))]
+    [HarmonyPatch(nameof(IceWormHuntModeTrigger.OnPlayerEnter))]
+    public static class IceWormHuntModeTrigger_OnPlayerEnter_Patch_transpiler
     {
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
             //Deep Logging
-            bool deeplogging = false;
+            bool deeplogging = true;
+            //-----------------------------------------------------------
             if (!deeplogging)
             {
                 Logger.Log(Logger.Level.Debug, "Deeploging deactivated");
@@ -28,8 +68,7 @@ namespace Snowfoxcloak.Patch
 
             Logger.Log(Logger.Level.Debug, "Start Transpiler");
 
-            var getFullState = typeof(IceWormHuntModeTrigger_OnPlayerEnter_Patch).GetMethod("Getfullstate", BindingFlags.Public | BindingFlags.Static);
-            var stringEmpty = AccessTools.Field(typeof(string), "Empty");
+            FieldInfo ReduceVaulue_checked = typeof(IceWormHuntModeTrigger_OnPlayerEnter_Patch_prefix).GetField("ReduceValue");
             bool found = false;
             var Index = -1;
             var codes = new List<CodeInstruction>(instructions);
@@ -59,22 +98,26 @@ namespace Snowfoxcloak.Patch
 		                }
 	                }
                 
-                1 IL_0048: call instance bool StorageContainer::IsEmpty()
-                2 IL_004D: brtrue.s IL_0056
-                3 IL_004F: ldsfld    string[mscorlib] System.String::Empty
-                4 IL_0054: br.s IL_005B
-                5 IL_0056: ldstr     "Empty"
-
-                [StorageInfo_BZ:DEBUG] 0x001C : call	Boolean IsEmpty()
-                [StorageInfo_BZ:DEBUG] 0x001D : brtrue	System.Reflection.Emit.Label
-                [StorageInfo_BZ:DEBUG] 0x001E : ldsfld	System.String Empty
-                [StorageInfo_BZ:DEBUG] 0x001F : br	System.Reflection.Emit.Label
-                [StorageInfo_BZ:DEBUG] 0x0020 : ldstr	Empty
+                    IL_0031: ldloc.0
+                    IL_0032: callvirt  instance bool Hoverbike::get_IceWormReductionModuleActive()
+                    IL_0037: brfalse.s IL_004B
+                    IL_0039: ldloc.1
+                    IL_003A: conv.r4
+                    IL_003B: ldc.r4    0.3
+                    IL_0040: mul
+                    IL_0041: call      int32 [UnityEngine.CoreModule]UnityEngine.Mathf::RoundToInt(float32)
+                    IL_0046: stloc.2
+                    IL_0047: ldloc.1
+                    IL_0048: ldloc.2
+                    IL_0049: sub
+                    IL_004A: stloc.1
+                    IL_004B: ldc.i4.0
                 */
 
-                if (codes[i].opcode == OpCodes.Call && codes[i + 2].opcode == OpCodes.Ldsfld && codes[i + 4].opcode == OpCodes.Ldstr)
-                //codes[i].opcode == OpCodes.Call && codes[i + 1].opcode == OpCodes.Brtrue && codes[i + 2].opcode == OpCodes.Ldsfld && codes[i + 3].opcode == OpCodes.Br && codes[i + 4].opcode == OpCodes.Ldstr && codes[i + 4].operand == stringEmpty
-                //codes[i].opcode == OpCodes.Ldsfld && codes[i + 2].opcode == OpCodes.Ldstr && codes[i].operand == stringEmpty
+                //if (codes[i].opcode == OpCodes.Ldloc_0 && codes[i + 1].opcode == OpCodes.Callvirt && codes[i + 2].opcode == OpCodes.Brfalse_S && codes[i + 5].opcode == OpCodes.Ldc_R4) //for deleting the complete module question
+                //if (codes[i].opcode == OpCodes.Ldc_I4_0 && codes[i + 1].opcode == OpCodes.Ldc_I4_S && codes[i + 2].opcode == OpCodes.Call) //for finding the false path on the module check
+                
+                if(codes[i].opcode == OpCodes.Ldc_R4 && codes[i + 1].opcode == OpCodes.Mul && codes[i + 6].opcode == OpCodes.Sub) //finding the original 0.3f Value in multiplaction for the Reducemodule
                 {
                     Logger.Log(Logger.Level.Debug, "Found IL Code Line for Index");
                     Logger.Log(Logger.Level.Debug, $"Index = {Index.ToString()}");
@@ -97,8 +140,9 @@ namespace Snowfoxcloak.Patch
             {
                 Logger.Log(Logger.Level.Debug, "Index1 > -1");
                 Logger.Log(Logger.Level.Info, "Transpiler injectection position found");
-                codes[Index] = new CodeInstruction(OpCodes.Call, getFullState);
-                codes.RemoveRange(Index + 1, 4);
+                codes[Index] = new CodeInstruction(OpCodes.Ldsfld, ReduceVaulue_checked);
+                //codes.RemoveRange(Index + 1, 14); //for deleting the complete module question
+                codes.RemoveRange(Index + 1, 1);
             }
             else
             {

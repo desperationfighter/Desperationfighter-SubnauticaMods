@@ -21,6 +21,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -33,18 +34,23 @@
   <ItemGroup>
     <Reference Include="0Harmony">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\BepInEx\core\0Harmony.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass_publicized">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\publicized_assemblies\Assembly-CSharp-firstpass_publicized.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="Assembly-CSharp_publicized">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\publicized_assemblies\Assembly-CSharp_publicized.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="QModInstaller">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="SMLHelper">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\QMods\SMLHelper_BZ\SMLHelper.dll</HintPath>
+      <Private>False</Private>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -56,11 +62,13 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine.CoreModule">
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaZero\SubnauticaZero_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <Private>False</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Items\SnowfoxCloakModule.cs" />
     <Compile Include="Managment\IngameConfigMenu.cs" />
+    <Compile Include="Patch\Hoverbike_Patch.cs" />
     <Compile Include="Patch\IceWormHuntModeTrigger_Patch.cs" />
     <Compile Include="Snowfoxcloak.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
