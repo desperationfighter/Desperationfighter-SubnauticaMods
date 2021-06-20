@@ -25,10 +25,10 @@ namespace Snowfoxcloak.Items
         public override QuickSlotType QuickSlotType => QuickSlotType.Passive;
         public override string[] StepsToFabricatorTab => new string[] { "HoverbikeModule" };
 
-        protected override Sprite GetItemSprite()
-        {
-            return ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "MetalHandsClawModule.png"));
-        }
+        //protected override Sprite GetItemSprite()
+        //{
+            //return ImageUtils.LoadSpriteFromFile(Path.Combine(Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets"), "MetalHandsClawModule.png"));
+        //}
 
         public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
         {
@@ -52,7 +52,8 @@ namespace Snowfoxcloak.Items
                     new Ingredient(TechType.CopperWire, 2),
                     new Ingredient(TechType.Magnetite, 4),
                     new Ingredient(TechType.ComputerChip, 1),
-                    new Ingredient(TechType.AdvancedWiringKit, 1)
+                    new Ingredient(TechType.AdvancedWiringKit, 1),
+                    new Ingredient(TechType.HoverbikeIceWormReductionModule,1)
                 }
             };
         }
