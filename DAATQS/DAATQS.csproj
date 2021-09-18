@@ -63,7 +63,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="DAATQS\AllowList_Example.json" />
-    <None Include="DAATQS\AllowList.json" />
     <None Include="DAATQS\mod.json" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
