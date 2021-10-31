@@ -52,25 +52,7 @@ namespace MetalHands
                     {
                         biome = BiomeType.BloodKelp_TechSite_Scatter,
                         count = 1,
-                        probability = 0.01f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.CragField_Grass,
-                        count = 1,
-                        probability = 0.01f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.01f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.02f
+                        probability = 0.0002f
                     }
                 };
             }
@@ -80,54 +62,33 @@ namespace MetalHands
                 {
                     new LootDistributionData.BiomeData()
                     {
-                        biome = BiomeType.GrassyPlateaus_Grass,
-                        count = 1,
-                        probability = 0.01f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.SparseReef_Techsite,
-                        count = 1,
-                        probability = 0.02f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.GrassyPlateaus_TechSite_Scattered,
-                        count = 1,
-                        probability = 0.02f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.CragField_Grass,
-                        count = 1,
-                        probability = 0.02f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
                         biome = BiomeType.BloodKelp_TechSite_Scatter,
                         count = 1,
-                        probability = 0.02f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.SeaTreaderPath_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.02f
-                    },
-                    new LootDistributionData.BiomeData()
-                    {
-                        biome = BiomeType.UnderwaterIslands_TechSite_Scatter,
-                        count = 1,
-                        probability = 0.02f
+                        probability = 0.001f
                     }
                 };
+            }
+
+            List<SMLHelper.V2.Assets.Spawnable.SpawnLocation> spawnLocations = new List<SMLHelper.V2.Assets.Spawnable.SpawnLocation>();
+            //Grand Reef Crash Side - Wreck 10 - external
+            spawnLocations.Add(new SMLHelper.V2.Assets.Spawnable.SpawnLocation(new UnityEngine.Vector3(-285.30f, -266.90f, -820.10f)));
+
+            if (MetalHands.Config.Config_Hardcore == false)
+            {
+                //Seatrader Path - Wreck 7 - external
+                spawnLocations.Add(new SMLHelper.V2.Assets.Spawnable.SpawnLocation(new UnityEngine.Vector3(-1141.00f, -193.52f, -776.60f)));
+                //MushroomForrest - Escape Pod 24 - external
+                spawnLocations.Add(new SMLHelper.V2.Assets.Spawnable.SpawnLocation(new UnityEngine.Vector3(-930.00f, -185.20f, 501.00f)));
+                //Mountain - Wreck 19 - internal
+                spawnLocations.Add(new SMLHelper.V2.Assets.Spawnable.SpawnLocation(new UnityEngine.Vector3(1068.00f, -281.10f, 1349.20f)));
             }
 
             Databox myDatabox = new Databox()
             {
                 DataboxID = "MetalHandDatabox",
-                PrimaryDescription = "Metal Hand Safety Glove Databox",
-                SecondaryDescription = "Contains Crafting Tree for Improved Safety Gloves - Alterrra Copyright",
+                PrimaryDescription = "Metal Hand Safety Glove",
+                SecondaryDescription = "Contains Crafting Blueprint for Improved Safety Gloves - Alterrra Copyright",
+                CoordinatedSpawns = spawnLocations,
                 BiomesToSpawnIn = BiomesToSpawnIn_pre,
                 TechTypeToUnlock = MetalHands.MetalHandsMK1TechType
             };

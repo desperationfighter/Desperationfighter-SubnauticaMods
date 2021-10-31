@@ -93,9 +93,20 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="MetalHands\Assets\MetalHandsClawModule.png" />
     <Content Include="MetalHands\Assets\MetalHandsMK2.png" />
     <Content Include="MetalHands\Assets\MetalHandsMK1.png" />
+    <Content Include="MetalHands\Assets\MetalHandsClawModule.png" />
+    <Content Include="MetalHands\Assets_alternative\Alternative_2_1.png" />
+    <Content Include="MetalHands\Assets_alternative\Alternative_2_2.png" />
+    <Content Include="MetalHands\Assets_alternative\Alternative_2_3.png" />
+    <Content Include="MetalHands\Assets_alternative\Alternative_1_3.png" />
+    <Content Include="MetalHands\Assets_alternative\Alternative_1_2.png" />
+    <Content Include="MetalHands\Assets_alternative\Alternative_1_1.png" />
+    <Content Include="MetalHands\Assets_alternative\MetalHandsClawModule_original.png" />
+    <Content Include="MetalHands\Assets_alternative\MetalHandsMK1_original.png" />
+    <Content Include="MetalHands\Assets_alternative\MetalHandsMK2_original.png" />
+    <Content Include="MetalHands\Assets_alternative\Readme.txt" />
+    <Content Include="MetalHands\Spoiler_readme_Spawnlocations.txt" />
   </ItemGroup>
   <ItemGroup>
     <None Include="MetalHands\mod.json" />
