@@ -3,9 +3,6 @@
   "DisplayName": "Warnbeforebreak",
   "Author": "Desperationfighter",
   "Version": "1.0.0",
-  "VersionDependencies": {
-    "SMLHelper": "2.12.1"
-  },
   "Enable": true,
   "Game": "Subnautica",
   "AssemblyName": "Warnbeforebreak.dll",
