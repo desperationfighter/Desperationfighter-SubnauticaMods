@@ -25,6 +25,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BetterThumper", "BetterThum
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Snowfoxcloak", "Snowfoxcloak\Snowfoxcloak.csproj", "{FB9CA063-35DF-458B-99F2-4E893E1AB99F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warnbeforebreak", "Warnbeforebreak\Warnbeforebreak.csproj", "{1F53FC6B-0DFC-4B56-82BB-0C0369ECEB52}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -75,6 +77,10 @@ Global
 		{FB9CA063-35DF-458B-99F2-4E893E1AB99F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{FB9CA063-35DF-458B-99F2-4E893E1AB99F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{FB9CA063-35DF-458B-99F2-4E893E1AB99F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1F53FC6B-0DFC-4B56-82BB-0C0369ECEB52}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1F53FC6B-0DFC-4B56-82BB-0C0369ECEB52}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1F53FC6B-0DFC-4B56-82BB-0C0369ECEB52}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1F53FC6B-0DFC-4B56-82BB-0C0369ECEB52}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
