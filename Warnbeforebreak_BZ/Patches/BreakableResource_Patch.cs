@@ -109,7 +109,7 @@ namespace Warnbeforebreak_BZ.Patches
                 Logger.Log(Logger.Level.Info, "Transpiler injectection position found");
                 //codes[Index] = new CodeInstruction(OpCodes.ldc_i4_s, replacefunc);
                 codes[Index] = new CodeInstruction(OpCodes.Call, replacefunc);
-                codes.RemoveRange(Index-1, 1);
+                codes.RemoveRange(Index, 0);
             }
             else
             {
