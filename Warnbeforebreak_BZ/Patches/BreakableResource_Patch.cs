@@ -16,6 +16,8 @@ namespace Warnbeforebreak_BZ.Patches
     [HarmonyPatch(nameof(BreakableResource.OnHandHover))]
     public static class BreakableResource_Patch
     {
+        
+        
         [HarmonyTranspiler]
         public static IEnumerable<CodeInstruction> Transpiler(IEnumerable<CodeInstruction> instructions)
         {
@@ -130,13 +132,37 @@ namespace Warnbeforebreak_BZ.Patches
             return codes.AsEnumerable();
         }
 
-        public static string replacefunc(BreakableResource __breakableResource)
+        public static string replacefunc()
         {
-            return "dummy";
+            if (!(Player.main.HasInventoryRoom(1, 1)))
+            {
+                return "Inventory Full !";
+            }
+            else
+            {
+                Inventory Inv = Player.main.GetComponent<Inventory>();
+                int Size_x = Inv.container.sizeX;
+                int Size_y = Inv.container.sizeY;
+                int Size_xy = Size_y * Size_x;
+                var Items = Inv.container.GetItemTypes();
+                int usedSize = 0;
+                foreach (var i in Items)
+                {
+                    var size = TechData.GetItemSize(i);
+                    int numberofsingletechtype = (Inv.container.GetItems(i)).Count;
+                    Logger.Log(Logger.Level.Debug, $"Techtype = {i.ToString()}");
+                    Logger.Log(Logger.Level.Debug, $"Number of items in this Techtype = {numberofsingletechtype.ToString()}");
+                    usedSize += size.x * size.y * numberofsingletechtype;
+                    Logger.Log(Logger.Level.Debug, $"Used Space of this Techtype = {(size.x * size.y * numberofsingletechtype).ToString()}");
+
+                }
+                var sizeLeft = Size_xy - usedSize;
+                string returnstring = sizeLeft.ToString() + " of " + Size_xy + " free";
+                return returnstring;
+            }
+            
         }
 
-        /*
-        // Old Version
         [HarmonyPostfix]
         private static void Postfix(BreakableResource __instance)
         {
@@ -144,17 +170,8 @@ namespace Warnbeforebreak_BZ.Patches
             if ( ! (Player.main.HasInventoryRoom(1, 1) ) )
             {
                 Logger.Log(Logger.Level.Debug, "Has NO Room");
-                if (!PDAScanner.CanScan(__instance.gameObject))
-                {
-                    
-                }
-                else
-                {
-                    HandReticle.main.SetText(HandReticle.TextType.HandSubscript, "Inventory Full !", false, GameInput.Button.None);
-                }
                 HandReticle.main.SetIcon(HandReticle.IconType.HandDeny, 1f);
             }
         }
-        */
     }
 }
