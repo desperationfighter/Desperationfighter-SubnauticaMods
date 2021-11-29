@@ -31,7 +31,6 @@ namespace Warnbeforebreak_BZ.Patches
             Logger.Log(Logger.Level.Debug, "Start Transpiler");
 
             var replacefunc = typeof(BreakableResource_Patch).GetMethod("replacefunc", BindingFlags.Public | BindingFlags.Static);
-            var stringEmpty = AccessTools.Field(typeof(string), "Empty");
             bool found = false;
             var Index = -1;
             var codes = new List<CodeInstruction>(instructions);
@@ -109,7 +108,6 @@ namespace Warnbeforebreak_BZ.Patches
             {
                 Logger.Log(Logger.Level.Debug, "Index1 > -1");
                 Logger.Log(Logger.Level.Info, "Transpiler injectection position found");
-                //codes[Index] = new CodeInstruction(OpCodes.ldc_i4_s, replacefunc);
                 codes[Index] = new CodeInstruction(OpCodes.Call, replacefunc);
                 codes.RemoveRange(Index, 0);
             }
