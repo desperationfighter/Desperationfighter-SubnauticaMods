@@ -33,6 +33,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAATQS_Nitrox", "DAATQS_Nit
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickupInventoryInfo_Nitrox", "PickupInventoryInfo_Nitrox\PickupInventoryInfo_Nitrox.csproj", "{F48E4DBA-4C82-4E2B-B385-5A2D4344285B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageInfo_Nitrox", "StorageInfo_Nitrox\StorageInfo_Nitrox.csproj", "{F9501298-B3C0-464C-92CD-8F9E7BDD2F34}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -99,6 +101,10 @@ Global
 		{F48E4DBA-4C82-4E2B-B385-5A2D4344285B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F48E4DBA-4C82-4E2B-B385-5A2D4344285B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F48E4DBA-4C82-4E2B-B385-5A2D4344285B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F9501298-B3C0-464C-92CD-8F9E7BDD2F34}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F9501298-B3C0-464C-92CD-8F9E7BDD2F34}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F9501298-B3C0-464C-92CD-8F9E7BDD2F34}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F9501298-B3C0-464C-92CD-8F9E7BDD2F34}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
