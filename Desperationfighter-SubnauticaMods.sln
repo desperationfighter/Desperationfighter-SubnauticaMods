@@ -29,6 +29,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warnbeforebreak", "Warnbefo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Warnbeforebreak_BZ", "Warnbeforebreak_BZ\Warnbeforebreak_BZ.csproj", "{2477BEE5-1F0B-48D9-9FE7-AB2E8C7AE5DA}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DAATQS_Nitrox", "DAATQS_Nitrox\DAATQS_Nitrox.csproj", "{058B5361-6D8D-4C2B-A6E2-EF7AFC48F571}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PickupInventoryInfo_Nitrox", "PickupInventoryInfo_Nitrox\PickupInventoryInfo_Nitrox.csproj", "{F48E4DBA-4C82-4E2B-B385-5A2D4344285B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -87,6 +91,14 @@ Global
 		{2477BEE5-1F0B-48D9-9FE7-AB2E8C7AE5DA}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2477BEE5-1F0B-48D9-9FE7-AB2E8C7AE5DA}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2477BEE5-1F0B-48D9-9FE7-AB2E8C7AE5DA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{058B5361-6D8D-4C2B-A6E2-EF7AFC48F571}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{058B5361-6D8D-4C2B-A6E2-EF7AFC48F571}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{058B5361-6D8D-4C2B-A6E2-EF7AFC48F571}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{058B5361-6D8D-4C2B-A6E2-EF7AFC48F571}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F48E4DBA-4C82-4E2B-B385-5A2D4344285B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F48E4DBA-4C82-4E2B-B385-5A2D4344285B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F48E4DBA-4C82-4E2B-B385-5A2D4344285B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F48E4DBA-4C82-4E2B-B385-5A2D4344285B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
