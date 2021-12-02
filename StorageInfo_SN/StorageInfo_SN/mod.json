@@ -1,0 +1,11 @@
+{
+  "Id": "StorageInfo_SN",
+  "DisplayName": "StorageInfo_SN",
+  "Author": "Desperationfighter",
+  "Version": "1.0",
+  "Enable": true,
+  "Game": "Subnautica",
+  "AssemblyName": "StorageInfo_SN.dll",
+  "VersionChecker": { "LatestVersionURL": "https://raw.githubusercontent.com/desperationfighter/Desperationfighter-SubnauticaMods/master/StorageInfo_SN/StorageInfo_SN/mod.json" },
+  "QModSAM": { "Wiki": "https://github.com/desperationfighter" }
+}
