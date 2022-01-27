@@ -37,6 +37,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageInfo_Nitrox", "Stora
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageInfo_SN", "StorageInfo_SN\StorageInfo_SN.csproj", "{E269A8FA-3E30-4E08-93C0-EEC3EE9474FF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropulsionCannonEnergyModifier_SN", "PropulsionCannonEnergyModifier_SN\PropulsionCannonEnergyModifier_SN.csproj", "{EC11C1F0-AAC3-4D32-B3BF-61F027959ACC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -111,6 +113,10 @@ Global
 		{E269A8FA-3E30-4E08-93C0-EEC3EE9474FF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E269A8FA-3E30-4E08-93C0-EEC3EE9474FF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E269A8FA-3E30-4E08-93C0-EEC3EE9474FF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{EC11C1F0-AAC3-4D32-B3BF-61F027959ACC}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{EC11C1F0-AAC3-4D32-B3BF-61F027959ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{EC11C1F0-AAC3-4D32-B3BF-61F027959ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{EC11C1F0-AAC3-4D32-B3BF-61F027959ACC}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
