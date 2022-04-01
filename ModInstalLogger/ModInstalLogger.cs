@@ -8,12 +8,10 @@ using QModManager.API.ModLoading;
 using QModManager.Utility;
 //for IngameConfigMenu;
 using ModInstalLogger.Management;
-
-//
-using System.IO;
-using Oculus.Newtonsoft.Json;
-using System.Collections.Generic;
-using System;
+//for Game side
+using ModInstalLogger.Patches;
+//For IngameConfig
+using SMLHelper.V2.Handlers;
 
 namespace ModInstalLogger
 {
@@ -38,14 +36,14 @@ namespace ModInstalLogger
             harmony.PatchAll(Assembly.GetExecutingAssembly());
             Logger.Log(Logger.Level.Info, "ModInstalLogger Patched");
 
-            //Console.WriteLine("");
-            //ErrorMessage.AddMessage("");
+            //Add the Ingame Config for User
+            Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
         }
 
         [QModPostPatch]
         public static void Post()
         {
-            
+            Gameboot.Core_ModcheckforGame();
         }
     }
 }

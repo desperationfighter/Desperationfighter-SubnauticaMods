@@ -18,6 +18,13 @@ namespace ModInstalLogger.Patches
 {
     class LoggerLogic
     {
+        public static void ShowIngameMessage (string Message)
+        {
+            //QModServices.Main.AddCriticalMessage(""); //add ingame message that stays also a bit after loading
+            //Console.WriteLine(""); //Just write to Log
+            //ErrorMessage.AddMessage(""); //Shows Nothing ?
+        }
+
         public static void ModCompare(List<Moddata> Modlistexist, List<Moddata> Modlistnew, string Path_added, string Path_removed, string Reason = "none")
         {
             //https://www.delftstack.com/howto/csharp/compare-two-lists-in-csharp/
@@ -28,6 +35,7 @@ namespace ModInstalLogger.Patches
             List<Moddata> firstNotSecond = new List<Moddata>();
             List<Moddata> secondNotFirst = new List<Moddata>();
 
+            Logger.Log(Logger.Level.Debug, "Start creating list firstNotSecond");
             foreach (Moddata Modexist in Modlistexist)
             {
                 bool notfound = true;
@@ -47,6 +55,7 @@ namespace ModInstalLogger.Patches
                 }
             }
 
+            Logger.Log(Logger.Level.Debug, "Start creating list secondNotFirst");
             foreach (Moddata Modnew in Modlistnew)
             {
                 bool notfound = true;
@@ -66,67 +75,105 @@ namespace ModInstalLogger.Patches
                 }
             }
 
-            foreach (Moddata y in firstNotSecond)
+            Logger.Log(Logger.Level.Debug, "Start checking list firstNotSecond");
+            if (firstNotSecond.Count == 0)
             {
-                if(ModInstalLogger.Config.Debug_DeepLogging)
+                Logger.Log(Logger.Level.Info, $"No Mod was removed from {Reason} compared to last time.");
+                ShowIngameMessage($"No Mod was removed from {Reason} compared to last time.");
+            }
+            else
+            {
+                foreach (Moddata y in firstNotSecond)
                 {
-                    Logger.Log(Logger.Level.Debug, $"--- Mod was removed from {Reason} -----------------------------------------");
-                    Logger.Log(Logger.Level.Debug, y.ID);
-                    Logger.Log(Logger.Level.Debug, y.Author);
-                    Logger.Log(Logger.Level.Debug, y.Displayname);
-                    Logger.Log(Logger.Level.Debug, y.Enabled);
-                    Logger.Log(Logger.Level.Debug, y.Version_combined);
-                    Logger.Log(Logger.Level.Debug, "--- Mod was removed ENDE -----------------------------------------");
-                }
-                else
-                {
-                    Logger.Log(Logger.Level.Debug, $"--- Mod was removed from {Reason} -----------------------------------------");
-                    Logger.Log(Logger.Level.Debug, y.ID);
-                    Logger.Log(Logger.Level.Debug, y.Version_combined);
-                }
+                    if (ModInstalLogger.Config.Debug_DeepLogging)
+                    {
+                        Logger.Log(Logger.Level.Debug, $"--- Mod was removed from {Reason} -----------------------------------------");
+                        Logger.Log(Logger.Level.Debug, y.ID);
+                        Logger.Log(Logger.Level.Debug, y.Author);
+                        Logger.Log(Logger.Level.Debug, y.Displayname);
+                        Logger.Log(Logger.Level.Debug, y.Enabled);
+                        Logger.Log(Logger.Level.Debug, y.Version_combined);
+                        Logger.Log(Logger.Level.Debug, "--- Mod was removed ENDE -----------------------------------------");
+                    }
+                    else
+                    {
+                        Logger.Log(Logger.Level.Debug, $"--- Mod was removed from {Reason} -----------------------------------------");
+                        Logger.Log(Logger.Level.Debug, y.ID);
+                        Logger.Log(Logger.Level.Debug, y.Version_combined);
+                    }
 
-                if (ModInstalLogger.Config.ShowIngameNotificationonChange)
-                {
-                    //QModServices.Main.AddCriticalMessage($"The Mod {y.Displayname} in Version {y.Version_combined} was removed",15);
-                    Console.WriteLine($"The Mod {y.Displayname} in Version {y.Version_combined} was removed from {Reason}");
+                    if (ModInstalLogger.Config.ShowIngameNotificationonChange)
+                    {
+                        
+                        ShowIngameMessage($"The Mod {y.Displayname} in Version {y.Version_combined} was removed from {Reason}");
+                    }
                 }
             }
-            foreach (Moddata x in secondNotFirst)
-            {
-                if (ModInstalLogger.Config.Debug_DeepLogging)
-                {
-                    Logger.Log(Logger.Level.Debug, $"--- New Mod added from {Reason} -----------------------------------------");
-                    Logger.Log(Logger.Level.Debug, x.ID);
-                    Logger.Log(Logger.Level.Debug, x.Author);
-                    Logger.Log(Logger.Level.Debug, x.Displayname);
-                    Logger.Log(Logger.Level.Debug, x.Enabled);
-                    Logger.Log(Logger.Level.Debug, x.Version_combined);
-                    Logger.Log(Logger.Level.Debug, "--- New Mod added ENDE -----------------------------------------");
-                }
-                else
-                {
-                    Logger.Log(Logger.Level.Debug, $"--- New Mod added from {Reason} -----------------------------------------");
-                    Logger.Log(Logger.Level.Debug, x.ID);
-                }
 
-                if (ModInstalLogger.Config.ShowIngameNotificationonChange)
+            Logger.Log(Logger.Level.Debug, "Start checking list secondNotFirst");
+            if (secondNotFirst.Count == 0)
+            {
+                Logger.Log(Logger.Level.Info, $"No Mod was added from {Reason} compared to last time.");
+                ShowIngameMessage($"No Mod was added from {Reason} compared to last time.");
+            }
+            else
+            {
+                Logger.Log(Logger.Level.Debug, "Start foreach for secondNotFirst");
+                foreach (Moddata x in secondNotFirst)
                 {
-                    //QModServices.Main.AddCriticalMessage($"The Mod {x.Displayname} in Version {x.Version_combined} was added", 13, "Green");
-                    Console.WriteLine($"The Mod {x.Displayname} in Version {x.Version_combined} was added to {Reason}");
+                    if (ModInstalLogger.Config.Debug_DeepLogging)
+                    {
+                        Logger.Log(Logger.Level.Debug, $"--- New Mod added from {Reason} -----------------------------------------");
+                        Logger.Log(Logger.Level.Debug, x.ID);
+                        Logger.Log(Logger.Level.Debug, x.Author);
+                        Logger.Log(Logger.Level.Debug, x.Displayname);
+                        Logger.Log(Logger.Level.Debug, x.Enabled);
+                        Logger.Log(Logger.Level.Debug, x.Version_combined);
+                        Logger.Log(Logger.Level.Debug, "--- New Mod added ENDE -----------------------------------------");
+                    }
+                    else
+                    {
+                        Logger.Log(Logger.Level.Debug, $"--- New Mod added from {Reason} -----------------------------------------");
+                        Logger.Log(Logger.Level.Debug, x.ID);
+                    }
+
+                    if (ModInstalLogger.Config.ShowIngameNotificationonChange)
+                    {
+                        ShowIngameMessage($"The Mod {x.Displayname} in Version {x.Version_combined} was added to {Reason}");
+                    }
                 }
             }
 
             //Set Format for JSON File so its readable without Transforming for example with Notepad++ Plugin
+            Logger.Log(Logger.Level.Debug, "Creating Formatting");
             Formatting myformat = new Formatting();
             myformat = Formatting.Indented;
 
             //Write List with removed Mods to Filesystem
+            Logger.Log(Logger.Level.Debug, $"Start saving Files - {Reason}");
             string json_removed = JsonConvert.SerializeObject(firstNotSecond, myformat);
-            File.WriteAllText(Path_removed, json_removed);
+            try
+            {
+                File.WriteAllText(Path_removed, json_removed);
+                Logger.Log(Logger.Level.Info, "Mod Compare List for Savegame was saved to Mod Folder");
+            }
+            catch 
+            {
+                Logger.Log(Logger.Level.Error, "ErrorID:101 - Saving Compare List File failed");
+            }
+            
 
             //Read List with removed Mods to Filesystem
             string json_added = JsonConvert.SerializeObject(secondNotFirst, myformat);
-            File.WriteAllText(Path_added, json_added);
+            try
+            {
+                File.WriteAllText(Path_added, json_added);
+                Logger.Log(Logger.Level.Info, "Mod Compare List for Savegame was saved to Mod Folder");
+            }
+            catch
+            {
+                Logger.Log(Logger.Level.Error, "ErrorID:102 - Saving Compare List File failed");
+            }
         }
 
         public static List<Moddata> GetrunningMods()
@@ -139,52 +186,69 @@ namespace ModInstalLogger.Patches
             {
                 try
                 {
-                    //Reduce Logfile Size when not DeepLogging
-                    if(ModInstalLogger.Config.Debug_DeepLogging)
+                    try
                     {
-                        Logger.Log(Logger.Level.Debug, "--- One Mod info Extended -----------------------------------------");
-                        Logger.Log(Logger.Level.Debug, mod.Id);
-                        Logger.Log(Logger.Level.Debug, mod.AssemblyName);
-                        Logger.Log(Logger.Level.Debug, mod.Author);
-                        Logger.Log(Logger.Level.Debug, mod.DisplayName);
-                        Logger.Log(Logger.Level.Debug, (mod.Enable).ToString());
+                        //Reduce Logfile Size when not DeepLogging
+                        if (ModInstalLogger.Config.Debug_DeepLogging)
+                        {
+                            Logger.Log(Logger.Level.Debug, "--- One Mod info Extended -----------------------------------------");
+                            Logger.Log(Logger.Level.Debug, mod.Id);
+                            Logger.Log(Logger.Level.Debug, mod.DisplayName);
+                            Logger.Log(Logger.Level.Debug, mod.Author);
+                            Logger.Log(Logger.Level.Debug, (mod.IsLoaded).ToString());
+                            Logger.Log(Logger.Level.Debug, (mod.Enable).ToString());
+                            if (mod.Enable)
+                            {
+                                Logger.Log(Logger.Level.Debug, mod.AssemblyName);
+                                Logger.Log(Logger.Level.Debug, mod.ParsedVersion.Major.ToString()); //1
+                                Logger.Log(Logger.Level.Debug, mod.ParsedVersion.Minor.ToString()); //2
+                                Logger.Log(Logger.Level.Debug, mod.ParsedVersion.Build.ToString()); //3
+                                Logger.Log(Logger.Level.Debug, mod.ParsedVersion.MajorRevision.ToString()); //1alt
+                                Logger.Log(Logger.Level.Debug, mod.ParsedVersion.MinorRevision.ToString()); //4alt
+                                Logger.Log(Logger.Level.Debug, mod.ParsedVersion.Revision.ToString()); //4
+                            }
+                            Logger.Log(Logger.Level.Debug, "--- One Mod info ENDE -----------------------------------------");
+                        }
+                        else
+                        {
+                            Logger.Log(Logger.Level.Debug, "--- One Mod info Short-----------------------------------------");
+                            Logger.Log(Logger.Level.Debug, mod.Id);
+                            Logger.Log(Logger.Level.Debug, (mod.Enable).ToString());
+                        }
+                    }
+                    catch
+                    {
+                        Logger.Log(Logger.Level.Error, "ErrorID:103 - Generating Logging Infos");
+                        Logger.Log(Logger.Level.Error, mod.Id);
+                    }
+
+                    try
+                    {
+                        //only add the Mod if Active
                         if (mod.Enable)
                         {
-                            Logger.Log(Logger.Level.Debug, mod.ParsedVersion.Major.ToString()); //1
-                            Logger.Log(Logger.Level.Debug, mod.ParsedVersion.Minor.ToString()); //2
-                            Logger.Log(Logger.Level.Debug, mod.ParsedVersion.Build.ToString()); //3
-                            Logger.Log(Logger.Level.Debug, mod.ParsedVersion.MajorRevision.ToString()); //1alt
-                            Logger.Log(Logger.Level.Debug, mod.ParsedVersion.MinorRevision.ToString()); //4alt
-                            Logger.Log(Logger.Level.Debug, mod.ParsedVersion.Revision.ToString()); //4
+                            Moddata tmp_mod = new Moddata();
+                            tmp_mod.Author = mod.Author;
+                            tmp_mod.Displayname = mod.DisplayName;
+                            tmp_mod.Enabled = (mod.Enable).ToString();
+                            tmp_mod.ID = mod.Id;
+                            tmp_mod.Version_Build = mod.ParsedVersion.Build.ToString();
+                            tmp_mod.Version_Major = mod.ParsedVersion.Major.ToString();
+                            tmp_mod.Version_Minor = mod.ParsedVersion.Minor.ToString();
+                            tmp_mod.Version_Revision = mod.ParsedVersion.Revision.ToString();
+
+                            mymodlist.Add(tmp_mod);
                         }
-                        Logger.Log(Logger.Level.Debug, "--- One Mod info ENDE -----------------------------------------");
                     }
-                    else
+                    catch
                     {
-                        Logger.Log(Logger.Level.Debug, "--- One Mod info Short-----------------------------------------");
-                        Logger.Log(Logger.Level.Debug, mod.Id);
-                        Logger.Log(Logger.Level.Debug, (mod.Enable).ToString());
-                    }
-
-                    //only add the Mod if Active
-                    if (mod.Enable)
-                    {
-                        Moddata tmp_mod = new Moddata();
-                        tmp_mod.Author = mod.Author;
-                        tmp_mod.Displayname = mod.DisplayName;
-                        tmp_mod.Enabled = (mod.Enable).ToString();
-                        tmp_mod.ID = mod.Id;
-                        tmp_mod.Version_Build = mod.ParsedVersion.Build.ToString();
-                        tmp_mod.Version_Major = mod.ParsedVersion.Major.ToString();
-                        tmp_mod.Version_Minor = mod.ParsedVersion.Minor.ToString();
-                        tmp_mod.Version_Revision = mod.ParsedVersion.Revision.ToString();
-
-                        mymodlist.Add(tmp_mod);
+                        Logger.Log(Logger.Level.Error, "ErrorID:104 - On creating Template for following Mod");
+                        Logger.Log(Logger.Level.Error, mod.Id);
                     }
                 }
                 catch
                 {
-                    Logger.Log(Logger.Level.Error, "ErrorID:300 - On creating Template for following Mod");
+                    Logger.Log(Logger.Level.Error, "ErrorID:105 - Unknown Error in Logger Logic - GetrunningMods");
                     Logger.Log(Logger.Level.Error, mod.Id);
                 }
             }

@@ -8,6 +8,8 @@ using System.IO;
 using System.Reflection;
 //for JSON Operation
 using Oculus.Newtonsoft.Json;
+//for Logging
+using QModManager.Utility;
 
 namespace ModInstalLogger.Patches
 {
@@ -38,8 +40,9 @@ namespace ModInstalLogger.Patches
             return file;
         }
 
-        public static void ModcheckforGame()
+        public static void Core_ModcheckforGame()
         {
+            //Phase 1 - Get Currently running Mods
             List<Moddata> mymodlist = LoggerLogic.GetrunningMods();
             /*
             string timeStamp = DateTime.Now.ToString("yyyyMMddHHmmssffff");
@@ -54,17 +57,32 @@ namespace ModInstalLogger.Patches
 
             if (File.Exists(GetModListFile()))
             {
+                //Phase 2 - Get Previous used Logs
                 List<Moddata> ExistingModList = JsonConvert.DeserializeObject<List<Moddata>>(File.ReadAllText(GetModListFile()));
+                //Phase 3 - Compare Logs
                 LoggerLogic.ModCompare(ExistingModList, mymodlist, GetPath_ModListChange_Added(), GetPath_ModListChange_Removed(), "Gamewide");
             }
+            else
+            {
+                Logger.Log(Logger.Level.Info, "No Previous File found. Skip Compare");
+            }
 
+            //Set Format for JSON File so its readable without Transforming for example with Notepad++ Plugin
             Formatting myformat = new Formatting();
             myformat = Formatting.Indented;
             string json = JsonConvert.SerializeObject(mymodlist, myformat);
 
             //write string to file
-            System.IO.File.WriteAllText(GetModListFile(), json);
-
+            try
+            {
+                //Phase 4 - Write Compare to File
+                File.WriteAllText(GetModListFile(), json);
+                Logger.Log(Logger.Level.Info, "Mod Compare List for Game was saved to Mod Folder");
+            }
+            catch
+            {
+                Logger.Log(Logger.Level.Error, "ErrorID:200 - Saving Compare List File failed");
+            }
         }
     }
 }

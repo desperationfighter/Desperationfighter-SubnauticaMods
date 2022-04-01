@@ -2,7 +2,7 @@
   "Id": "ModInstalLogger",
   "DisplayName": "Mod Instal Logger",
   "Author": "Desperationfighter",
-  "Version": "1.0",
+  "Version": "0.9.5",
   "Enable": true,
   "Game": "Subnautica",
   "AssemblyName": "ModInstalLogger.dll"
