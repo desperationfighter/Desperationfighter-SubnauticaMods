@@ -11,14 +11,10 @@ using SMLHelper.V2.Utility;
 //for List
 using System.Collections.Generic;
 //for Logging
-using QModManager.Utility;
+using MyLogger = QModManager.Utility;
 
 namespace ModInstalLogger.Patches
 {
-    internal class Player_Patch
-    {
-    }
-
     [HarmonyPatch(typeof(Player))]
     [HarmonyPatch(nameof(Player.Awake))]
     public static class Player_Awake_Patch
@@ -43,7 +39,7 @@ namespace ModInstalLogger.Patches
             }
             else
             {
-                Logger.Log(Logger.Level.Info, "No Previous File found. Skip Compare");
+                MyLogger.Logger.Log(MyLogger.Logger.Level.Info, "No Previous File found. Skip Compare");
             }
 
             //Set Format for JSON File so its readable without Transforming for example with Notepad++ Plugin
@@ -56,11 +52,11 @@ namespace ModInstalLogger.Patches
             {
                 //Phase 4 - Write Compare to File
                 File.WriteAllText(tmppath, json);
-                Logger.Log(Logger.Level.Info, "Mod Compare List for Game was saved to Mod Folder");
+                MyLogger.Logger.Log(MyLogger.Logger.Level.Info, "Mod Compare List for Savegame was saved to Temp Savegame Folder");
             }
             catch
             {
-                Logger.Log(Logger.Level.Error, "ErrorID:500 - Saving Compare List File failed");
+                MyLogger.Logger.Log(MyLogger.Logger.Level.Error, "ErrorID:500 - Saving Compare List File failed");
             }
         }
 

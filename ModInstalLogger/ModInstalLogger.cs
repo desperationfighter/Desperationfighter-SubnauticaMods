@@ -5,7 +5,7 @@ using HarmonyLib;
 //Loading QMod as Base
 using QModManager.API.ModLoading;
 //for Logging
-using QModManager.Utility;
+using MyLogger = QModManager.Utility;
 //for IngameConfigMenu;
 using ModInstalLogger.Management;
 //for Game side
@@ -23,18 +23,18 @@ namespace ModInstalLogger
         internal static string Listfilename_Game { get { return "MIL_Game.json"; } }
         internal static string Listfilename_Game_Removed { get { return "MIL_Game_Removed.json"; } }
         internal static string Listfilename_Game_Added { get { return "MIL_Game_Added.json"; } }
+        internal static string Listfilename_Game_Userreadable { get { return "MIL_Modlist_export.txt"; } }
         internal static string Listfilename_Savegame { get { return "MIL_Savegame.json"; } }
         internal static string Listfilename_Savegame_Removed { get { return "MIL_Savegame_Removed.json"; } }
         internal static string Listfilename_Savegame_Added { get { return "MIL_Savegame_Added.json"; } }
-
-
+        
         [QModPatch]
         public static void Initial()
         {
-            Logger.Log(Logger.Level.Debug, "ModInstalLogger Initialization");
+            MyLogger.Logger.Log(MyLogger.Logger.Level.Debug, "ModInstalLogger Initialization");
             Harmony harmony = new Harmony("desp_ModInstalLogger");
             harmony.PatchAll(Assembly.GetExecutingAssembly());
-            Logger.Log(Logger.Level.Info, "ModInstalLogger Patched");
+            MyLogger.Logger.Log(MyLogger.Logger.Level.Info, "ModInstalLogger Patched");
 
             //Add the Ingame Config for User
             Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
