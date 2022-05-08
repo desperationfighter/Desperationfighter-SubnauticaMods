@@ -27,7 +27,8 @@ namespace ModInstalLogger
         internal static string Listfilename_Savegame { get { return "MIL_Savegame.json"; } }
         internal static string Listfilename_Savegame_Removed { get { return "MIL_Savegame_Removed.json"; } }
         internal static string Listfilename_Savegame_Added { get { return "MIL_Savegame_Added.json"; } }
-        
+        internal static string Listfilename_Savegame_Userreadable { get { return "MIL_Modlist_export.txt"; } }
+
         [QModPatch]
         public static void Initial()
         {

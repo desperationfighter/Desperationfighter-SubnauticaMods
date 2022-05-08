@@ -10,8 +10,6 @@ using System.Reflection;
 using Oculus.Newtonsoft.Json;
 //for Logging
 using MyLogger = QModManager.Utility;
-//Building Logfile
-using System.Text;
 //Time and Date
 using System;
 
@@ -88,91 +86,12 @@ namespace ModInstalLogger.Patches
 
             if (ModInstalLogger.Config.WriteUserreadableList)
             {
-                //Phase 2.1 - Init 
-                StringBuilder stringBuilder = new StringBuilder();
-                string timeStamp = DateTime.Now.ToString("yyyy.MM.dd - HH:mm");
-                stringBuilder.AppendLine("Mod Instal Logger - Modlist Export");
-                stringBuilder.AppendLine($"This Export was created at {timeStamp}");
-                stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
-
-
-                if(!business.itsok())
-                {
-                    stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
-                    stringBuilder.AppendLine($"] - - - --- - - - --- <<< ||| \\\\\\ /// ||| >>> --- - - - --- - - -[");
-                    stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
-                    stringBuilder.AppendLine($"Thank you for using my Mod and enjoying all the Other Mods.");
-                    stringBuilder.AppendLine($"If you like the Game that much you already Mod it,");
-                    stringBuilder.AppendLine($"may think about buying it. Pirating a Game is not a nice thing.");
-                    stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
-                    stringBuilder.AppendLine($"] - - - --- - - - --- <<< ||| /// \\\\\\ ||| >>> --- - - - --- - - - [");
-                    stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
-                }
-
-                stringBuilder.AppendLine($"Mod Counter ; Mod Display Name ; Mod Author ; Mod Version ; Mod Internal ID");
-                stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
-
-                List<Moddata> enabledmods = new List<Moddata>();
-                List<Moddata> disabledmods = new List<Moddata>();
-                foreach (Moddata moddata in mymodlist)
-                {
-                    if (moddata.Enabled)
-                    {
-                        enabledmods.Add(moddata);
-                    }
-                    else
-                    {
-                        disabledmods.Add(moddata);
-                    }
-                }
-
-                //Phase 2.2 - Write active Mods
-                stringBuilder.AppendLine("> Active Mods:");
-                if (enabledmods.Count == 0)
-                {
-                    stringBuilder.AppendLine($"There are no Active Mods running currently");
-                }
-                else
-                {
-                    int counter = 1;
-                    foreach (Moddata moddata in enabledmods)
-                    {
-                        stringBuilder.AppendLine($"Mod {counter.ToString("000")}; {moddata.Displayname} ; {moddata.Author} ; {moddata.Version}");
-                        counter++;
-                    }
-                }
-
-                if (ModInstalLogger.Config.WriteUserreadableList_includedisabled)
-                {
-                    //Phase 2.3 - Write discabled Mods
-                    stringBuilder.AppendLine("> Disabled Mods:");
-                    if (disabledmods.Count == 0)
-                    {
-                        stringBuilder.AppendLine($"There are no Disabled Mods");
-                    }
-                    else
-                    {
-                        int counter_disabled = 1;
-                        foreach (Moddata moddata in disabledmods)
-                        {
-                            stringBuilder.AppendLine($"Mod {counter_disabled.ToString("000")}; {moddata.Displayname} ; {moddata.Author} ; No Version available");
-                            counter_disabled++;
-                        }
-                    }
-                }
-
-                //write string to file
-                try
-                {
-                    //Phase 2.4 - Write Compare to File
-                    File.WriteAllText(GetPath_ModList_Userreadable(), stringBuilder.ToString());
-                    MyLogger.Logger.Log(MyLogger.Logger.Level.Info, "User Readable Modlist was saved to Game Folder.");
-                }
-                catch
-                {
-                    MyLogger.Logger.Log(MyLogger.Logger.Level.Error, "ErrorID:202 - Saving User Readable Modlist File failed");
-                }
+                LoggerLogic.WriteReadableUserModList(GetPath_ModList_Userreadable(), mymodlist, "Gamewide");
             }
+
+            
         }
+
+
     }
 }

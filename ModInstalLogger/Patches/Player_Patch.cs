@@ -58,6 +58,12 @@ namespace ModInstalLogger.Patches
             {
                 MyLogger.Logger.Log(MyLogger.Logger.Level.Error, "ErrorID:500 - Saving Compare List File failed");
             }
+
+            if (ModInstalLogger.Config.WriteUserreadableList)
+            {
+                string savepath = Path.Combine(CurrentSavegameDatadir, ModInstalLogger.Listfilename_Savegame_Userreadable);
+                LoggerLogic.WriteReadableUserModList(savepath, mymodlist, "Savegame");
+            }
         }
 
         public static string GetPath_SavegameModListChange_Added(string path)
