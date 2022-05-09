@@ -39,6 +39,7 @@ namespace ModInstalLogger.Patches
             }
             else
             {
+                LoggerLogic.ShowIngameMessage("No previous Mod List was found for this Savegame. Compare will be done next time loading the Savegame after Saving.");
                 MyLogger.Logger.Log(MyLogger.Logger.Level.Info, "No Previous File found. Skip Compare");
             }
 

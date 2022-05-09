@@ -63,6 +63,7 @@ namespace ModInstalLogger.Patches
             }
             else
             {
+                LoggerLogic.ShowIngameMessage("No previous Mod List was found. Mod Compare will be done on next Gamestart.");
                 MyLogger.Logger.Log(MyLogger.Logger.Level.Info, "No Previous File found. Skip Compare");
             }
 

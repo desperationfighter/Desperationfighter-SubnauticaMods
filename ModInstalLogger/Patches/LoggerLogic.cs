@@ -322,11 +322,11 @@ namespace ModInstalLogger.Patches
             {
                 //Phase 2.4 - Write Compare to File
                 File.WriteAllText(Savepath, stringBuilder.ToString());
-                MyLogger.Logger.Log(MyLogger.Logger.Level.Info, "User Readable Modlist was saved to Game Folder.");
+                MyLogger.Logger.Log(MyLogger.Logger.Level.Info, $"User Readable Modlist was saved for {reason}.");
             }
             catch
             {
-                MyLogger.Logger.Log(MyLogger.Logger.Level.Error, "ErrorID:202 - Saving User Readable Modlist File failed");
+                MyLogger.Logger.Log(MyLogger.Logger.Level.Error, $"ErrorID:202 - Saving User Readable Modlist File failed for {reason}");
             }
         }
     }
