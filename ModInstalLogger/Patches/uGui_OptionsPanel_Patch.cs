@@ -9,6 +9,8 @@ using System.IO;
 using Oculus.Newtonsoft.Json;
 //for getting Savegame infos from Game
 using SMLHelper.V2.Utility;
+//for Logging
+using MyLogger = QModManager.Utility;
 
 namespace ModInstalLogger.Patches
 {
@@ -35,12 +37,85 @@ namespace ModInstalLogger.Patches
                 __instance.AddHeading(ChangedModsTab, $"] - --- - - - --- <<< ||| /// \\\\\\ ||| >>> --- - - - --- - [");
                 __instance.AddHeading(ChangedModsTab, $"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
             }
-         
-            try
-            {
-                //We never use this but be catch a error here. Yeah its hacky.....
-                string Indicator= Player.main.name;
 
+            /*
+            if (Player.main == null)
+            {
+                MyLogger.Logger.Log(MyLogger.Logger.Level.Debug, "testtest: Player is Null");
+            }
+            else
+            {
+                MyLogger.Logger.Log(MyLogger.Logger.Level.Debug, "testtest: Player is not Null");
+            }
+
+            if(uGUI.isMainLevel)
+            {
+                MyLogger.Logger.Log(MyLogger.Logger.Level.Debug, "testtest: MainLevel is true");
+            }
+            else
+            {
+                MyLogger.Logger.Log(MyLogger.Logger.Level.Debug, "testtest: MainLevel is false");
+            }
+            */
+
+            //When in Main Menu:
+            //Player.main is Null
+            //uGUI.isMainLevel is false
+
+            //When in Savegame:
+            //Player.main is not Null
+            //uGUI.isMainLevel is true
+
+            if (Player.main == null)
+            {
+                __instance.AddHeading(ChangedModsTab, $"> Current View: Gamewide Mod changes.");
+
+                // --- --- --- Game Wide - Removing
+                __instance.AddHeading(ChangedModsTab, $"-- List of removed Mods compared to last Game start ---");
+                if (File.Exists(Gameboot.GetPath_ModListChange_Removed()))
+                {
+                    List<Moddata> ExistingModList = JsonConvert.DeserializeObject<List<Moddata>>(File.ReadAllText(Gameboot.GetPath_ModListChange_Removed()));
+                    if (ExistingModList.Count == 0)
+                    {
+                        __instance.AddHeading(ChangedModsTab, $"No Mods were removed compared to last Time");
+                    }
+                    else
+                    {
+                        foreach (Moddata moddata in ExistingModList)
+                        {
+                            __instance.AddHeading(ChangedModsTab, $"{moddata.Displayname} from {moddata.Author}");
+                        }
+                    }
+                }
+                else
+                {
+                    __instance.AddHeading(ChangedModsTab, $"There is no previouis Mod list file to indicate changes.");
+                }
+
+                // --- --- --- Game Wide - Adding
+                __instance.AddHeading(ChangedModsTab, $"-- List of added Mods compared to last Game start---");
+                if (File.Exists(Gameboot.GetPath_ModListChange_Added()))
+                {
+                    List<Moddata> ExistingModList = JsonConvert.DeserializeObject<List<Moddata>>(File.ReadAllText(Gameboot.GetPath_ModListChange_Added()));
+                    if (ExistingModList.Count == 0)
+                    {
+                        __instance.AddHeading(ChangedModsTab, $"No Mods were added compared to last Time");
+                    }
+                    else
+                    {
+                        foreach (Moddata moddata in ExistingModList)
+                        {
+                            __instance.AddHeading(ChangedModsTab, $"{moddata.Displayname} from {moddata.Author}");
+                        }
+                    }
+                }
+                else
+                {
+                    __instance.AddHeading(ChangedModsTab, $"There is no previouis Mod list file to indicate changes.");
+                }
+            }
+            else
+            {
                 __instance.AddHeading(ChangedModsTab, $"> Current View: Savegame individual changes.");
 
                 // --- --- --- Savegame - Removing
@@ -76,54 +151,6 @@ namespace ModInstalLogger.Patches
                 if (File.Exists(CurrentSavegameDatadir_add))
                 {
                     List<Moddata> ExistingModList = JsonConvert.DeserializeObject<List<Moddata>>(File.ReadAllText(CurrentSavegameDatadir_add));
-                    if (ExistingModList.Count == 0)
-                    {
-                        __instance.AddHeading(ChangedModsTab, $"No Mods were added compared to last Time");
-                    }
-                    else
-                    {
-                        foreach (Moddata moddata in ExistingModList)
-                        {
-                            __instance.AddHeading(ChangedModsTab, $"{moddata.Displayname} from {moddata.Author}");
-                        }
-                    }
-                }
-                else
-                {
-                    __instance.AddHeading(ChangedModsTab, $"There is no previouis Mod list file to indicate changes.");
-                }
-            }
-            catch
-            {
-                __instance.AddHeading(ChangedModsTab, $"> Current View: Gamewide Mod changes.");
-
-                // --- --- --- Game Wide - Removing
-                __instance.AddHeading(ChangedModsTab, $"-- List of removed Mods compared to last Game start ---");
-                if (File.Exists(Gameboot.GetPath_ModListChange_Removed()))
-                {
-                    List<Moddata> ExistingModList = JsonConvert.DeserializeObject<List<Moddata>>(File.ReadAllText(Gameboot.GetPath_ModListChange_Removed()));
-                    if (ExistingModList.Count == 0)
-                    {
-                        __instance.AddHeading(ChangedModsTab, $"No Mods were removed compared to last Time");
-                    }
-                    else
-                    {
-                        foreach (Moddata moddata in ExistingModList)
-                        {
-                            __instance.AddHeading(ChangedModsTab, $"{moddata.Displayname} from {moddata.Author}");
-                        }
-                    }
-                }
-                else
-                {
-                    __instance.AddHeading(ChangedModsTab, $"There is no previouis Mod list file to indicate changes.");
-                }
-
-                // --- --- --- Game Wide - Adding
-                __instance.AddHeading(ChangedModsTab, $"-- List of added Mods compared to last Game start---");
-                if (File.Exists(Gameboot.GetPath_ModListChange_Added()))
-                {
-                    List<Moddata> ExistingModList = JsonConvert.DeserializeObject<List<Moddata>>(File.ReadAllText(Gameboot.GetPath_ModListChange_Added()));
                     if (ExistingModList.Count == 0)
                     {
                         __instance.AddHeading(ChangedModsTab, $"No Mods were added compared to last Time");
