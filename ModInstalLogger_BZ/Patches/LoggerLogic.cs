@@ -258,7 +258,7 @@ namespace ModInstalLogger_BZ.Patches
             //Phase 2.1 - Init 
             StringBuilder stringBuilder = new StringBuilder();
             string timeStamp = DateTime.Now.ToString("yyyy.MM.dd - HH:mm");
-            stringBuilder.AppendLine("Mod Instal Logger - Modlist Export");
+            stringBuilder.AppendLine($"Mod Instal Logger - Modlist Export for {QModServices.Main.CurrentlyRunningGame.ToString()}");
             stringBuilder.AppendLine($"This Export was created at {timeStamp}");
             //stringBuilder.AppendLine($"This list was running with QModManager v{QModServices.Main.QMMrunningVersion.ToString()}.");
             if(QModServices.Main.NitroxRunning)
