@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio Version 16
-VisualStudioVersion = 16.0.30804.86
+# Visual Studio Version 17
+VisualStudioVersion = 17.1.32407.343
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CyclopsEngineOverheat", "CyclopsEngineOverheatMonitor\CyclopsEngineOverheat.csproj", "{28981319-7831-4B4A-B2A7-C36106F25B08}"
 EndProject
@@ -38,6 +38,10 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StorageInfo_SN", "StorageInfo_SN\StorageInfo_SN.csproj", "{E269A8FA-3E30-4E08-93C0-EEC3EE9474FF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropulsionCannonEnergyModifier_SN", "PropulsionCannonEnergyModifier_SN\PropulsionCannonEnergyModifier_SN.csproj", "{EC11C1F0-AAC3-4D32-B3BF-61F027959ACC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModInstalLogger", "ModInstalLogger\ModInstalLogger.csproj", "{7CAF2729-83A1-477A-97B1-5F873F445EC2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ModInstalLogger_BZ", "ModInstalLogger_BZ\ModInstalLogger_BZ.csproj", "{ABB99D22-309A-45E8-B135-6E0E37BBE7E0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -117,6 +121,14 @@ Global
 		{EC11C1F0-AAC3-4D32-B3BF-61F027959ACC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EC11C1F0-AAC3-4D32-B3BF-61F027959ACC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EC11C1F0-AAC3-4D32-B3BF-61F027959ACC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7CAF2729-83A1-477A-97B1-5F873F445EC2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7CAF2729-83A1-477A-97B1-5F873F445EC2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7CAF2729-83A1-477A-97B1-5F873F445EC2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7CAF2729-83A1-477A-97B1-5F873F445EC2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ABB99D22-309A-45E8-B135-6E0E37BBE7E0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ABB99D22-309A-45E8-B135-6E0E37BBE7E0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ABB99D22-309A-45E8-B135-6E0E37BBE7E0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ABB99D22-309A-45E8-B135-6E0E37BBE7E0}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
