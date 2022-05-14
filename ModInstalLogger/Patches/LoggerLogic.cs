@@ -260,11 +260,17 @@ namespace ModInstalLogger.Patches
             string timeStamp = DateTime.Now.ToString("yyyy.MM.dd - HH:mm");
             stringBuilder.AppendLine("Mod Instal Logger - Modlist Export");
             stringBuilder.AppendLine($"This Export was created at {timeStamp}");
+            //stringBuilder.AppendLine($"This list was running with QModManager v{QModServices.Main.QMMrunningVersion.ToString()}.");
+            if(QModServices.Main.NitroxRunning)
+            {
+                stringBuilder.AppendLine($"Nitrox is installed");
+            }
             stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
 
 
-            if (!business.itsok())
+            if (!business.itsok() | QModServices.Main.PirateDetected)
             {
+                stringBuilder.AppendLine($"Game is Pirated");
                 stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
                 stringBuilder.AppendLine($"] - - - --- - - - --- <<< ||| \\\\\\ /// ||| >>> --- - - - --- - - -[");
                 stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
@@ -276,7 +282,7 @@ namespace ModInstalLogger.Patches
                 stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
             }
 
-            stringBuilder.AppendLine($"Mod Counter ; Mod Display Name ; Mod Author ; Mod Version ; Mod Internal ID");
+            stringBuilder.AppendLine($"Mod Counter ; Mod Display Name ; Mod Author ; Mod Version");
             stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
 
             List<Moddata> enabledmods = mymodlist;

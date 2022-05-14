@@ -9,6 +9,7 @@ using System.IO;
 using Oculus.Newtonsoft.Json;
 //for getting Savegame infos from Game
 using SMLHelper.V2.Utility;
+using QModManager.API;
 //for Logging
 using MyLogger = QModManager.Utility;
 
@@ -25,7 +26,7 @@ namespace ModInstalLogger.Patches
         {
             ChangedModsTab = __instance.AddTab(ChangedModsTabName);
 
-            if(!business.itsok())
+            if(!business.itsok() | QModServices.Main.PirateDetected)
             {
                 __instance.AddHeading(ChangedModsTab, $"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
                 __instance.AddHeading(ChangedModsTab, $"] - --- - - - --- <<< ||| \\\\\\ /// ||| >>> --- - - - --- - [");
@@ -36,6 +37,7 @@ namespace ModInstalLogger.Patches
                 __instance.AddHeading(ChangedModsTab, $"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
                 __instance.AddHeading(ChangedModsTab, $"] - --- - - - --- <<< ||| /// \\\\\\ ||| >>> --- - - - --- - [");
                 __instance.AddHeading(ChangedModsTab, $"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
+                __instance.AddHeading(ChangedModsTab, $"Game is Pirated");
             }
 
             /*
@@ -65,6 +67,11 @@ namespace ModInstalLogger.Patches
             //When in Savegame:
             //Player.main is not Null
             //uGUI.isMainLevel is true
+
+            if (QModServices.Main.NitroxRunning)
+            {
+                __instance.AddHeading(ChangedModsTab, $"Nitrox is running.");
+            }
 
             if (Player.main == null)
             {
