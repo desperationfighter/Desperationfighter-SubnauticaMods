@@ -26,7 +26,8 @@ namespace ModInstalLogger.Patches
         {
             ChangedModsTab = __instance.AddTab(ChangedModsTabName);
 
-            if(!business.itsok() | QModServices.Main.PirateDetected)
+            //if(!business.itsok() | QModServices.Main.PirateDetected)
+            if (!business.itsok() )
             {
                 __instance.AddHeading(ChangedModsTab, $"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
                 __instance.AddHeading(ChangedModsTab, $"] - --- - - - --- <<< ||| \\\\\\ /// ||| >>> --- - - - --- - [");
