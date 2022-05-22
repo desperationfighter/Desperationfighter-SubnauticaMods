@@ -267,8 +267,8 @@ namespace ModInstalLogger_BZ.Patches
             }
             stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");
 
-
-            if (!business.itsok() | QModServices.Main.PirateDetected)
+            //if (!business.itsok() | QModServices.Main.PirateDetected)
+            if ( !business.itsok() )
             {
                 stringBuilder.AppendLine($"Game is Pirated");
                 stringBuilder.AppendLine($"- - - --- - - - --- --- - - - --- - - - --- --- - - - --- - - -");

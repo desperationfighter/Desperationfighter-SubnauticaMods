@@ -2,7 +2,7 @@
   "Id": "ModInstalLogger_BZ",
   "DisplayName": "Mod Instal Logger BZ",
   "Author": "Desperationfighter",
-  "Version": "1.0.0",
+  "Version": "1.0.2",
   "VersionDependencies": { "SMLHelper": "2.11.0" },
   "Enable": true,
   "Game": "BelowZero",
