@@ -111,5 +111,6 @@
   <ItemGroup>
     <None Include="MetalHands\mod.json" />
   </ItemGroup>
+  <Import Project="..\SharedSNCode\SharedSNCode.projitems" Label="Shared" />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
