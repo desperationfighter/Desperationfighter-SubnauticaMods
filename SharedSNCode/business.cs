@@ -6,6 +6,8 @@ namespace SharedSNCode
 {
     internal class business
     {
+        public static bool itsok => finalcheck();
+        /*
         public static bool itsok {
             get {
                 if (runonce)
@@ -23,6 +25,7 @@ namespace SharedSNCode
         }
 
         private static bool runonce;
+        */
 
         private const string SteamApiName = "steam_api64.dll";
         private const int SteamApiLength = 220000;
