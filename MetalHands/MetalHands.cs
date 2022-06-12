@@ -1,4 +1,5 @@
-﻿//for Assembly info
+﻿using System;
+//for Assembly info
 using System.Reflection;
 //Loading Harmony for Patching
 using HarmonyLib;
@@ -15,7 +16,12 @@ using MetalHands.Managment;
 using MetalHands.Items;
 //adding Custom Databox
 using CustomDataboxes.API;
+//loading Testfile
+using System.IO;
+using SharedSNCode;
+//
 using System.Collections.Generic;
+
 
 namespace MetalHands
 {
@@ -28,10 +34,27 @@ namespace MetalHands
         internal static TechType MetalHandsClawModuleTechType { get; private set; }       
         internal static List<LootDistributionData.BiomeData> BiomesToSpawnIn_pre { get; private set; }
         public static bool IncreasedChunkDrops_exist { get; private set; }
+        internal static bool iknowwhatido { get; private set; }
 
         [QModPatch]
         public static void MetalHands_InitializationMethod()
         {
+            if(File.Exists(Path.Combine(Environment.CurrentDirectory,"iknowwhatido.override")))
+            {
+                iknowwhatido = true;
+            }
+            else
+            {
+                if(business.itsok && QModServices.Main.PirateDetected)
+                {
+                    iknowwhatido = true;
+                }
+                else
+                {
+                    iknowwhatido = false;
+                }
+            }
+            
             Config = OptionsPanelHandler.Main.RegisterModOptions<IngameConfigMenu>();
 
             var GloveBlueprint = new MetalHandsMK1();
