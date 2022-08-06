@@ -1,4 +1,5 @@
 ﻿using HarmonyLib;
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace CargerWirelessCharging.Patches
@@ -22,23 +23,21 @@ namespace CargerWirelessCharging.Patches
     {
         public static float wirelesschargertimer;
         public static float wirelesschargertimerreset = 5f;
-        internal static float chargeSpeed = 0.005f;
+        internal static float chargeSpeed = 0.0035f;
 
         [HarmonyPostfix]
         //private static void PostFix(BatteryCharger __instance)
         private static void PostFix(Charger __instance)
-        {
-            BatteryCharger batteryCharger = __instance as BatteryCharger;
-            if (batteryCharger == null) return;
+        {           
+            //BatteryCharger batteryCharger = __instance as BatteryCharger;
+            //if (batteryCharger == null) return;
             //ErrorMessage.AddMessage("WirelessTest - Battery Charger");
 
             if (Player.main.currentSub == null) return;
             //ErrorMessage.AddMessage("WirelessTest - Player in Base");
 
-            if (Time.deltaTime == 0f)
-            {
-                return;
-            }
+            if (Time.deltaTime == 0f) return;
+
             if (wirelesschargertimer > 0f)
             {
                 wirelesschargertimer -= DayNightCycle.main.deltaTime;
@@ -57,12 +56,56 @@ namespace CargerWirelessCharging.Patches
                 {
                     float num2 = 0f;
                     Battery targetbattery = null;
+                    List<Battery> batteries = new List<Battery>();
+
+                    List<TechType>invitemtypes = Inventory.main.container.GetItemTypes();
+                    foreach (TechType t in invitemtypes)
+                    {
+                        if (!__instance.allowedTech.Contains(t))
+                        {
+                            ErrorMessage.AddMessage($"{t.ToString()} is not allowed");
+                        }
+                        else
+                        {
+                            IList<InventoryItem> inventoryItems = Inventory.main.container.GetItems(t); //Inventory.main.container.GetItems();
+                            foreach (InventoryItem inventoryItem in inventoryItems)
+                            {
+                                if (inventoryItem == null)
+                                {
+                                    //ErrorMessage.AddMessage($"null");
+                                }
+                                else
+                                {
+                                    try
+                                    {
+                                        //ErrorMessage.AddMessage($"{CraftData.GetTechType(inventoryItem.item.gameObject)}");
+                                        Battery battery = inventoryItem.item.gameObject.GetComponent<Battery>();
+                                        if (battery != null)
+                                        {
+                                            //ErrorMessage.AddMessage($"identify bat ? {battery.name} - {battery.charge}");
+                                            batteries.Add(battery);
+                                        }
+                                    }
+                                    catch
+                                    {
+
+                                    }
+                                }
+                            }
+                        }
+                    }
+
 
                     //Charge Tool Prior
-                    GameObject storageRoot = Inventory.main?.storageRoot;
-                    Battery[] batteries = storageRoot.GetComponentsInChildren<Battery>(true);
+                    //GameObject storageRoot = Inventory.main?.storageRoot;
+                    //Battery[] batteries = storageRoot.GetComponentsInChildren<Battery>(true);
                     foreach (Battery battery in batteries)
                     {
+                        TechType found = CraftData.GetTechType(battery.gameObject);
+                        string text = $"WirelessTest - Techtype {found.ToString()}";
+                        //ErrorMessage.AddMessage(text);
+                        //if (false) break;
+                       
                         float charge = battery.charge;
                         float capacity = battery.capacity;
                         if (charge < capacity)
@@ -88,7 +131,7 @@ namespace CargerWirelessCharging.Patches
                     if (num4 > 0f)
                     {
                         charging = true;
-                        float num5 = num4 / (float)num;
+                        float num5 = num4 / 4;
                         float charge2 = targetbattery.charge;
                         float capacity2 = targetbattery.capacity;
                         if (charge2 < capacity2)
@@ -108,7 +151,10 @@ namespace CargerWirelessCharging.Patches
                     wirelesschargertimer = wirelesschargertimerreset;
                 }
             }
-            if(charging){ ErrorMessage.AddMessage("WirelessTest - 1 - it was charged"); }
+            if (charging)
+            { 
+                //ErrorMessage.AddMessage("WirelessTest - 1 - it was charged"); 
+            }
 
             //---------------------------
             /*
