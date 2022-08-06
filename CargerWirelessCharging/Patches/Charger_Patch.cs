@@ -79,6 +79,28 @@ namespace CargerWirelessCharging.Patches
                                     try
                                     {
                                         //ErrorMessage.AddMessage($"{CraftData.GetTechType(inventoryItem.item.gameObject)}");
+                                        if (inventoryItem.item.gameObject.TryGetComponent(out EnergyMixin eminmax))
+                                        {
+                                            if(eminmax.HasItem())
+                                            {
+                                                ErrorMessage.AddMessage($"Tool has a Battery");
+                                                GameObject gameObject = eminmax.GetBatteryGameObject();
+                                                if(gameObject != null)
+                                                {
+                                                    ErrorMessage.AddMessage($"Gameobject double check");
+                                                    Battery intoolbattery = gameObject.GetComponent<Battery>();
+                                                    batteries.Add(intoolbattery);
+                                                    //if (gameObject.TryGetComponent(out Battery intoolbattery))
+                                                    //{
+                                                    //batteries.Add(intoolbattery);
+                                                    //}
+                                                }
+                                            }
+                                            else
+                                            {
+                                                ErrorMessage.AddMessage($"Tool has no Battery");
+                                            }
+                                        }
                                         Battery battery = inventoryItem.item.gameObject.GetComponent<Battery>();
                                         if (battery != null)
                                         {
@@ -101,8 +123,8 @@ namespace CargerWirelessCharging.Patches
                     //Battery[] batteries = storageRoot.GetComponentsInChildren<Battery>(true);
                     foreach (Battery battery in batteries)
                     {
-                        TechType found = CraftData.GetTechType(battery.gameObject);
-                        string text = $"WirelessTest - Techtype {found.ToString()}";
+                        //TechType found = CraftData.GetTechType(battery.gameObject);
+                        //string text = $"WirelessTest - Techtype {found.ToString()}";
                         //ErrorMessage.AddMessage(text);
                         //if (false) break;
                        
