@@ -1,9 +1,12 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
+//for Logging
+using QLogger = QModManager.Utility;
 
 namespace CargerWirelessCharging.Patches
 {
+    /*
     [HarmonyPatch(typeof(Charger))]
     [HarmonyPatch(nameof(Charger.Awake))]
     public static class Charger_Awake_Patch
@@ -14,7 +17,7 @@ namespace CargerWirelessCharging.Patches
             //Charger_Update_Patch.wirelesschargertimer = 6f;
         }
     }
-
+    */
 
     [HarmonyPatch(typeof(Charger))]
     [HarmonyPatch(nameof(Charger.Update))]
@@ -146,7 +149,7 @@ namespace CargerWirelessCharging.Patches
                                     //-------------------------------------------------------------------------------------------
                                     //Part for Batteries directly in the inventory
                                     //Battery battery = inventoryItem.item.gameObject.GetComponent<Battery>();
-                                    if(inventoryItem.item.gameObject.TryGetComponent(out Battery battery) && __instance.allowedTech.Contains(CraftData.GetTechType(inventoryItem.item.gameObject)))
+                                    if(__instance.allowedTech.Contains(CraftData.GetTechType(inventoryItem.item.gameObject)) && inventoryItem.item.gameObject.TryGetComponent(out Battery battery) )
                                     //if (battery != null)
                                     {
                                         //ErrorMessage.AddMessage($"identify bat ? {battery.name} - {battery.charge}");
@@ -159,10 +162,12 @@ namespace CargerWirelessCharging.Patches
 
                     foreach (Battery b_h in batterieshighprio)
                     {
+                        //QLogger.Logger.Log(QLogger.Logger.Level.Debug, $"HighPrio - {b_h.name} - {b_h.capacity} - {b_h.charge}");
                         batteries.Add(b_h);
                     }
                     foreach(Battery b_l in batterieslowprio)
                     {
+                        //QLogger.Logger.Log(QLogger.Logger.Level.Debug, $"HighPrio - {b_l.name} - {b_l.capacity} - {b_l.charge}");
                         batteries.Add(b_l);
                     }
                     //Charge Tool Prior
@@ -201,18 +206,40 @@ namespace CargerWirelessCharging.Patches
                     {
                         charging = true;
                         float num5 = num4 / 4;
+
+                        //--------------------
+                        //float charge2 = targetbattery.charge;
+                        //float capacity2 = targetbattery.capacity;
+                        //if (charge2 < capacity2)
+                        //{
+                        //    float num6 = num5;
+                        //    float num7 = capacity2 - charge2;
+                        //    if (num6 > num7)
+                        //    {
+                        //        num6 = num7;
+                        //    }
+                        //    targetbattery.charge += num6;
+                        //}  
+                        //--------------------
                         float charge2 = targetbattery.charge;
                         float capacity2 = targetbattery.capacity;
                         if (charge2 < capacity2)
                         {
                             float num6 = num5;
                             float num7 = capacity2 - charge2;
-                            if (num6 > num7)
+                            if(num7 < 0.005f)
                             {
-                                num6 = num7;
+                                targetbattery.charge = targetbattery.capacity;
                             }
-                            targetbattery.charge += num6;
-                        }                        
+                            else
+                            {
+                                if (num6 > num7)
+                                {
+                                    num6 = num7;
+                                }
+                                targetbattery.charge += num6;
+                            }
+                        }
                     }
                 }
                 if (num == 0 || !flag)

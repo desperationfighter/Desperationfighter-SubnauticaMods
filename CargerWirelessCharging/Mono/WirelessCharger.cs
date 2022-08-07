@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿/*
+using UnityEngine;
 using Logger = QModManager.Utility.Logger;
 
 namespace CargerWirelessCharging.Mono
@@ -21,3 +22,4 @@ namespace CargerWirelessCharging.Mono
         }
     }
 }
+*/

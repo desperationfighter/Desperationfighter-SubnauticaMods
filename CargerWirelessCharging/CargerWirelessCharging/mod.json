@@ -2,7 +2,7 @@
   "Id": "CargerWirelessCharging",
   "DisplayName": "Carger Wireless Charging",
   "Author": "Desperationfighter",
-  "Version": "0.9.0",
+  "Version": "1.0.0",
   "Enable": true,
   "Game": "Subnautica",
   "AssemblyName": "CargerWirelessCharging.dll",
