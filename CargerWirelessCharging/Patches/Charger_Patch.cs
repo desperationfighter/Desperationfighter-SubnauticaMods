@@ -23,7 +23,7 @@ namespace CargerWirelessCharging.Patches
     {
         public static float wirelesschargertimer;
         public static float wirelesschargertimerreset = 5f;
-        internal static float chargeSpeed = 0.0035f;
+        internal static float chargeSpeed = 0.004f;
 
         [HarmonyPostfix]
         //private static void PostFix(BatteryCharger __instance)
@@ -57,67 +57,114 @@ namespace CargerWirelessCharging.Patches
                     float num2 = 0f;
                     Battery targetbattery = null;
                     List<Battery> batteries = new List<Battery>();
+                    List<Battery> batterieslowprio = new List<Battery>();
+                    List<Battery> batterieshighprio = new List<Battery>();
 
                     List<TechType>invitemtypes = Inventory.main.container.GetItemTypes();
                     foreach (TechType t in invitemtypes)
                     {
-                        if (!__instance.allowedTech.Contains(t))
+                        IList<InventoryItem> inventoryItems = Inventory.main.container.GetItems(t); //Inventory.main.container.GetItems();
+                        foreach (InventoryItem inventoryItem in inventoryItems)
                         {
-                            ErrorMessage.AddMessage($"{t.ToString()} is not allowed");
-                        }
-                        else
-                        {
-                            IList<InventoryItem> inventoryItems = Inventory.main.container.GetItems(t); //Inventory.main.container.GetItems();
-                            foreach (InventoryItem inventoryItem in inventoryItems)
-                            {
-                                if (inventoryItem == null)
+                            //if (!__instance.allowedTech.Contains(t))
+                            //{
+                                //ErrorMessage.AddMessage($"{t.ToString()} is not allowed");
+
+                                //ErrorMessage.AddMessage($"{CraftData.GetTechType(inventoryItem.item.gameObject)}");
+
+                                //if (inventoryItem.item.TryGetComponent<EnergyMixin>(out EnergyMixin eminmax2))
+                                //{
+                                //    ErrorMessage.AddMessage($"test2 - short has");
+                                //}
+                                //else
+                                //{
+                                //    ErrorMessage.AddMessage($"test2 - short nope");
+                                //}
+                                //if (inventoryItem.item.gameObject.TryGetComponent<EnergyMixin>(out EnergyMixin eminmax3))
+                                //{
+                                //    ErrorMessage.AddMessage($"test3 - short has");
+                                //}
+                                //else
+                                //{
+                                //    ErrorMessage.AddMessage($"test3 - short nope");
+                                //}
+                                //Battery testbat = inventoryItem.item.gameObject.GetComponentInChildren<Battery>();
+                                //if (testbat != null)
+                                //{
+                                //    ErrorMessage.AddMessage($"TestBat - Tool has a Battery");
+                                //}
+                                //else
+                                //{
+                                //    ErrorMessage.AddMessage($"TestBat - Tool has no Battery");
+                                //}
+
+                                if (inventoryItem.item.gameObject.TryGetComponent(out EnergyMixin eminmax))
                                 {
-                                    //ErrorMessage.AddMessage($"null");
-                                }
-                                else
-                                {
-                                    try
+                                    if(eminmax != null) //eminmax.HasItem())
                                     {
-                                        //ErrorMessage.AddMessage($"{CraftData.GetTechType(inventoryItem.item.gameObject)}");
-                                        if (inventoryItem.item.gameObject.TryGetComponent(out EnergyMixin eminmax))
+                                        //ErrorMessage.AddMessage($"Tool has a Batteryslot");
+                                        GameObject gameObject = eminmax.GetBattery();
+
+                                        //keep in Mind for Below Zero and Upcoming Experimental Branch of SN
+
+                                        //GameObject gameObject = eminmax.GetBatteryGameObject();
+                                        if (gameObject != null)
                                         {
-                                            if(eminmax.HasItem())
+                                            //ErrorMessage.AddMessage($"Gameobject double check");
+                                            //Battery intoolbattery = gameObject.GetComponent<Battery>();
+                                            //batteries.Add(intoolbattery);
+
+                                            if (__instance.allowedTech.Contains(CraftData.GetTechType(gameObject)))
                                             {
-                                                ErrorMessage.AddMessage($"Tool has a Battery");
-                                                GameObject gameObject = eminmax.GetBatteryGameObject();
-                                                if(gameObject != null)
+                                                if (gameObject.TryGetComponent(out Battery intoolbattery))
                                                 {
-                                                    ErrorMessage.AddMessage($"Gameobject double check");
-                                                    Battery intoolbattery = gameObject.GetComponent<Battery>();
-                                                    batteries.Add(intoolbattery);
-                                                    //if (gameObject.TryGetComponent(out Battery intoolbattery))
-                                                    //{
-                                                    //batteries.Add(intoolbattery);
-                                                    //}
+                                                    batterieshighprio.Add(intoolbattery);
                                                 }
                                             }
-                                            else
-                                            {
-                                                ErrorMessage.AddMessage($"Tool has no Battery");
-                                            }
                                         }
-                                        Battery battery = inventoryItem.item.gameObject.GetComponent<Battery>();
-                                        if (battery != null)
-                                        {
-                                            //ErrorMessage.AddMessage($"identify bat ? {battery.name} - {battery.charge}");
-                                            batteries.Add(battery);
-                                        }
-                                    }
-                                    catch
-                                    {
 
                                     }
+                                    else
+                                    {
+                                        //ErrorMessage.AddMessage($"Tool has no Battery");
+                                    }
+
                                 }
-                            }
+                                //else
+                                //{
+                                    //ErrorMessage.AddMessage($"No Mixin");
+                                //}
+                            //}
+                            //else
+                            //{
+                                //if (inventoryItem == null)
+                                //{
+                                    //ErrorMessage.AddMessage($"null");
+                                //}
+                                //else
+                                //{
+                                    //-------------------------------------------------------------------------------------------
+                                    //Part for Batteries directly in the inventory
+                                    //Battery battery = inventoryItem.item.gameObject.GetComponent<Battery>();
+                                    if(inventoryItem.item.gameObject.TryGetComponent(out Battery battery) && __instance.allowedTech.Contains(CraftData.GetTechType(inventoryItem.item.gameObject)))
+                                    //if (battery != null)
+                                    {
+                                        //ErrorMessage.AddMessage($"identify bat ? {battery.name} - {battery.charge}");
+                                        batterieslowprio.Add(battery);
+                                    }
+                                //}
+                            //}
                         }
                     }
 
-
+                    foreach (Battery b_h in batterieshighprio)
+                    {
+                        batteries.Add(b_h);
+                    }
+                    foreach(Battery b_l in batterieslowprio)
+                    {
+                        batteries.Add(b_l);
+                    }
                     //Charge Tool Prior
                     //GameObject storageRoot = Inventory.main?.storageRoot;
                     //Battery[] batteries = storageRoot.GetComponentsInChildren<Battery>(true);
