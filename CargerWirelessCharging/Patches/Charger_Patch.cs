@@ -18,20 +18,38 @@ namespace CargerWirelessCharging.Patches
         {
             if(!CargerWirelessCharging.Config.Config_modEnable) return;
 
-            //old simple way
+            //old simple test way
             //if (Player.main.currentSub == null) return;
 
             //new good way
-            if (Player.main.currentSub != null && Player.main.currentSub.TryGetComponent<Base>(out Base baseplayercurrently))
+            bool basefound = false;
+            if (Player.main.currentSub != null)
             {
-                ErrorMessage.AddMessage("Base found where the player is");
-                if(__instance.GetComponentInParent<Base>() == baseplayercurrently)
+                /*
+                if(Player.main.currentSub.TryGetComponent<Base>(out Base baseplayercurrently))
                 {
-                    ErrorMessage.AddMessage("Player is in base of the Charger");
+                    ErrorMessage.AddMessage("Base found where the player is");
+                    if (__instance.GetComponentInParent<Base>() == baseplayercurrently)
+                    {
+                        ErrorMessage.AddMessage("Player is in base of the Charger");
+                        basefound = true;
+                    }
+                    //else
+                    //{
+                        //ErrorMessage.AddMessage("Charger is in different base");
+                        return;
+                    //}
+                }
+                */
+
+                if(__instance.GetComponentInParent<SubRoot>() == Player.main.currentSub)
+                {
+                    ErrorMessage.AddMessage("Subroot found");
+                    basefound = true;
                 }
                 else
                 {
-                    ErrorMessage.AddMessage("Charger is in different base");
+                    ErrorMessage.AddMessage("no Subroot");
                     return;
                 }
             }
@@ -40,6 +58,7 @@ namespace CargerWirelessCharging.Patches
                 ErrorMessage.AddMessage("Player is in no base");
                 return;
             }
+            if (!basefound) return;
 
             float distance = (Vector3.Distance(Player.main.gameObject.transform.position, __instance.gameObject.transform.position));
             if (distance > wirelesschargingdistance)
@@ -47,10 +66,10 @@ namespace CargerWirelessCharging.Patches
                 //ErrorMessage.AddMessage($"distance is bigger {wirelesschargingdistance} -> {distance}");
                 return;
             }
-            else
-            {
+            //else
+            //{
                 //ErrorMessage.AddMessage($"{ wirelesschargingdistance} -> { distance}");
-            }
+            //}
 
             if (Time.deltaTime == 0f) return;
             if (wirelesschargertimer > 0f)
