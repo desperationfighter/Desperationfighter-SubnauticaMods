@@ -1,46 +1,58 @@
 ﻿using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
-//for Logging
-using QLogger = QModManager.Utility;
 
 namespace CargerWirelessCharging.Patches
 {
-    /*
-    [HarmonyPatch(typeof(Charger))]
-    [HarmonyPatch(nameof(Charger.Awake))]
-    public static class Charger_Awake_Patch
-    {
-        [HarmonyPostfix]
-        private static void PostFix(Charger __instance)
-        {
-            //Charger_Update_Patch.wirelesschargertimer = 6f;
-        }
-    }
-    */
-
     [HarmonyPatch(typeof(Charger))]
     [HarmonyPatch(nameof(Charger.Update))]
-    //[HarmonyPatch(typeof(BatteryCharger), nameof(Charger.Update))]
     public static class Charger_Update_Patch
     {
         public static float wirelesschargertimer;
         public static float wirelesschargertimerreset = 5f;
         internal static float chargeSpeed = 0.004f;
+        public static float wirelesschargingdistance = 40f;
 
         [HarmonyPostfix]
-        //private static void PostFix(BatteryCharger __instance)
         private static void PostFix(Charger __instance)
-        {           
-            //BatteryCharger batteryCharger = __instance as BatteryCharger;
-            //if (batteryCharger == null) return;
-            //ErrorMessage.AddMessage("WirelessTest - Battery Charger");
+        {
+            if(!CargerWirelessCharging.Config.Config_modEnable) return;
 
-            if (Player.main.currentSub == null) return;
-            //ErrorMessage.AddMessage("WirelessTest - Player in Base");
+            //old simple way
+            //if (Player.main.currentSub == null) return;
+
+            //new good way
+            if (Player.main.currentSub != null && Player.main.currentSub.TryGetComponent<Base>(out Base baseplayercurrently))
+            {
+                ErrorMessage.AddMessage("Base found where the player is");
+                if(__instance.GetComponentInParent<Base>() == baseplayercurrently)
+                {
+                    ErrorMessage.AddMessage("Player is in base of the Charger");
+                }
+                else
+                {
+                    ErrorMessage.AddMessage("Charger is in different base");
+                    return;
+                }
+            }
+            else
+            {
+                ErrorMessage.AddMessage("Player is in no base");
+                return;
+            }
+
+            float distance = (Vector3.Distance(Player.main.gameObject.transform.position, __instance.gameObject.transform.position));
+            if (distance > wirelesschargingdistance)
+            {
+                //ErrorMessage.AddMessage($"distance is bigger {wirelesschargingdistance} -> {distance}");
+                return;
+            }
+            else
+            {
+                //ErrorMessage.AddMessage($"{ wirelesschargingdistance} -> { distance}");
+            }
 
             if (Time.deltaTime == 0f) return;
-
             if (wirelesschargertimer > 0f)
             {
                 wirelesschargertimer -= DayNightCycle.main.deltaTime;
@@ -49,7 +61,6 @@ namespace CargerWirelessCharging.Patches
                     wirelesschargertimer = 0f;
                 }
             }
-            bool charging = false;
             if (wirelesschargertimer <= 0f)
             {
                 int num = 0;
@@ -63,123 +74,71 @@ namespace CargerWirelessCharging.Patches
                     List<Battery> batterieslowprio = new List<Battery>();
                     List<Battery> batterieshighprio = new List<Battery>();
 
-                    List<TechType>invitemtypes = Inventory.main.container.GetItemTypes();
+                    List<TechType> invitemtypes = Inventory.main.container.GetItemTypes();
                     foreach (TechType t in invitemtypes)
                     {
-                        IList<InventoryItem> inventoryItems = Inventory.main.container.GetItems(t); //Inventory.main.container.GetItems();
+                        IList<InventoryItem> inventoryItems = Inventory.main.container.GetItems(t);
                         foreach (InventoryItem inventoryItem in inventoryItems)
                         {
-                            //if (!__instance.allowedTech.Contains(t))
-                            //{
-                                //ErrorMessage.AddMessage($"{t.ToString()} is not allowed");
-
-                                //ErrorMessage.AddMessage($"{CraftData.GetTechType(inventoryItem.item.gameObject)}");
-
-                                //if (inventoryItem.item.TryGetComponent<EnergyMixin>(out EnergyMixin eminmax2))
-                                //{
-                                //    ErrorMessage.AddMessage($"test2 - short has");
-                                //}
-                                //else
-                                //{
-                                //    ErrorMessage.AddMessage($"test2 - short nope");
-                                //}
-                                //if (inventoryItem.item.gameObject.TryGetComponent<EnergyMixin>(out EnergyMixin eminmax3))
-                                //{
-                                //    ErrorMessage.AddMessage($"test3 - short has");
-                                //}
-                                //else
-                                //{
-                                //    ErrorMessage.AddMessage($"test3 - short nope");
-                                //}
-                                //Battery testbat = inventoryItem.item.gameObject.GetComponentInChildren<Battery>();
-                                //if (testbat != null)
-                                //{
-                                //    ErrorMessage.AddMessage($"TestBat - Tool has a Battery");
-                                //}
-                                //else
-                                //{
-                                //    ErrorMessage.AddMessage($"TestBat - Tool has no Battery");
-                                //}
-
-                                if (inventoryItem.item.gameObject.TryGetComponent(out EnergyMixin eminmax))
+                            if (inventoryItem.item.gameObject.TryGetComponent(out EnergyMixin eminmax))
+                            {
+                                if (eminmax != null && eminmax.HasItem())
                                 {
-                                    if(eminmax != null) //eminmax.HasItem())
+                                    GameObject gameObject = eminmax.GetBattery();
+                                    //keep in Mind for Below Zero and Upcoming Experimental Branch of SN
+                                    //GameObject gameObject = eminmax.GetBatteryGameObject();
+                                    if (gameObject != null)
                                     {
-                                        //ErrorMessage.AddMessage($"Tool has a Batteryslot");
-                                        GameObject gameObject = eminmax.GetBattery();
-
-                                        //keep in Mind for Below Zero and Upcoming Experimental Branch of SN
-
-                                        //GameObject gameObject = eminmax.GetBatteryGameObject();
-                                        if (gameObject != null)
+                                        if (__instance.allowedTech.Contains(CraftData.GetTechType(gameObject)))
                                         {
-                                            //ErrorMessage.AddMessage($"Gameobject double check");
-                                            //Battery intoolbattery = gameObject.GetComponent<Battery>();
-                                            //batteries.Add(intoolbattery);
-
-                                            if (__instance.allowedTech.Contains(CraftData.GetTechType(gameObject)))
+                                            if (gameObject.TryGetComponent(out Battery intoolbattery))
                                             {
-                                                if (gameObject.TryGetComponent(out Battery intoolbattery))
-                                                {
-                                                    batterieshighprio.Add(intoolbattery);
-                                                }
+                                                batterieshighprio.Add(intoolbattery);
                                             }
                                         }
-
-                                    }
-                                    else
-                                    {
-                                        //ErrorMessage.AddMessage($"Tool has no Battery");
                                     }
 
                                 }
-                                //else
-                                //{
-                                    //ErrorMessage.AddMessage($"No Mixin");
-                                //}
-                            //}
-                            //else
-                            //{
-                                //if (inventoryItem == null)
-                                //{
-                                    //ErrorMessage.AddMessage($"null");
-                                //}
-                                //else
-                                //{
-                                    //-------------------------------------------------------------------------------------------
-                                    //Part for Batteries directly in the inventory
-                                    //Battery battery = inventoryItem.item.gameObject.GetComponent<Battery>();
-                                    if(__instance.allowedTech.Contains(CraftData.GetTechType(inventoryItem.item.gameObject)) && inventoryItem.item.gameObject.TryGetComponent(out Battery battery) )
-                                    //if (battery != null)
-                                    {
-                                        //ErrorMessage.AddMessage($"identify bat ? {battery.name} - {battery.charge}");
-                                        batterieslowprio.Add(battery);
-                                    }
-                                //}
-                            //}
+                            }
+                            if (__instance.allowedTech.Contains(CraftData.GetTechType(inventoryItem.item.gameObject)) && inventoryItem.item.gameObject.TryGetComponent(out Battery battery))
+                            {
+                                batterieslowprio.Add(battery);
+                            }
                         }
                     }
 
                     foreach (Battery b_h in batterieshighprio)
                     {
-                        //QLogger.Logger.Log(QLogger.Logger.Level.Debug, $"HighPrio - {b_h.name} - {b_h.capacity} - {b_h.charge}");
                         batteries.Add(b_h);
                     }
-                    foreach(Battery b_l in batterieslowprio)
+
+                    bool playerHasChipEquipted = false;
+                    Dictionary<string, InventoryItem>.Enumerator keyValuePairs = Inventory.main.equipment.GetEquipment();
+                    while(keyValuePairs.MoveNext())
                     {
-                        //QLogger.Logger.Log(QLogger.Logger.Level.Debug, $"HighPrio - {b_l.name} - {b_l.capacity} - {b_l.charge}");
-                        batteries.Add(b_l);
+                        if(keyValuePairs.Current.Value != null)
+                        {
+                            InventoryItem inventoryItem = keyValuePairs.Current.Value;
+                            if (inventoryItem.item.GetTechType() == CargerWirelessCharging.WirelessChargerChipTechType)
+                            {
+                                playerHasChipEquipted = true;
+                            }
+                        }
                     }
-                    //Charge Tool Prior
-                    //GameObject storageRoot = Inventory.main?.storageRoot;
-                    //Battery[] batteries = storageRoot.GetComponentsInChildren<Battery>(true);
-                    foreach (Battery battery in batteries)
+
+                    //and here is the Workaround ..... ..... .... yeah .... well....
+                    if (CargerWirelessCharging.Config.Config_chargeLooseBatteryWithoutChip || playerHasChipEquipted)
+                    //The easy way does not work with the MoreChipSlots Mod so yeah i need to find a workaround
+                    //if (CargerWirelessCharging.Config.Config_chargeLooseBatteryWithoutChip | Inventory.main.equipment.GetTechTypeInSlot("Chip") == CargerWirelessCharging.WirelessChargerChipTechType)
                     {
-                        //TechType found = CraftData.GetTechType(battery.gameObject);
-                        //string text = $"WirelessTest - Techtype {found.ToString()}";
-                        //ErrorMessage.AddMessage(text);
-                        //if (false) break;
-                       
+                        foreach (Battery b_l in batterieslowprio)
+                        {
+                            batteries.Add(b_l);
+                        }
+                    }
+
+                    foreach (Battery battery in batteries)
+                    {                      
                         float charge = battery.charge;
                         float capacity = battery.capacity;
                         if (charge < capacity)
@@ -197,30 +156,14 @@ namespace CargerWirelessCharging.Patches
                         }
                     }
                     float num4 = 0f;
-                    if (num2 > 0f && powerRelay.GetPower() > num2 && powerRelay.GetPower() > (powerRelay.GetMaxPower() * 0.3))
+                    if (num2 > 0f && powerRelay.GetPower() > num2 && powerRelay.GetPower() > (powerRelay.GetMaxPower()/3) )
                     {
                         flag = true;
                         powerRelay.ConsumeEnergy(num2, out num4);
                     }
                     if (num4 > 0f)
                     {
-                        charging = true;
                         float num5 = num4 / 4;
-
-                        //--------------------
-                        //float charge2 = targetbattery.charge;
-                        //float capacity2 = targetbattery.capacity;
-                        //if (charge2 < capacity2)
-                        //{
-                        //    float num6 = num5;
-                        //    float num7 = capacity2 - charge2;
-                        //    if (num6 > num7)
-                        //    {
-                        //        num6 = num7;
-                        //    }
-                        //    targetbattery.charge += num6;
-                        //}  
-                        //--------------------
                         float charge2 = targetbattery.charge;
                         float capacity2 = targetbattery.capacity;
                         if (charge2 < capacity2)
@@ -247,79 +190,6 @@ namespace CargerWirelessCharging.Patches
                     wirelesschargertimer = wirelesschargertimerreset;
                 }
             }
-            if (charging)
-            { 
-                //ErrorMessage.AddMessage("WirelessTest - 1 - it was charged"); 
-            }
-
-            //---------------------------
-            /*
-            if (wirelesschargertimer <= 0f)
-            {
-                float chargeAmount = 0.004f * DayNightCycle.main.deltaTime;
-                float energyconsumtion = 0.006f * DayNightCycle.main.deltaTime;
-                PowerRelay powerRelay = PowerSource.FindRelay(__instance.transform);
-                if (powerRelay != null && powerRelay.GetPower() > 25)
-                {
-                    BatteryCharger batteryCharger = __instance as BatteryCharger;
-                    if (batteryCharger == null) return;
-                    //ErrorMessage.AddMessage("WirelessTest - Battery Charger");
-
-                    if (Player.main.currentSub == null) return;
-                    ErrorMessage.AddMessage("WirelessTest - Player in Base");
-
-                    //Charge Tool Prior
-                    GameObject storageRoot = Inventory.main?.storageRoot;
-                    Battery[] batteries = storageRoot.GetComponentsInChildren<Battery>(true);
-
-                    bool toolsgotloaded = false;
-                    foreach (Battery battery in batteries)
-                    {
-                        float missingCharge = battery.capacity - battery.charge;
-                        if (missingCharge > 0)
-                        {
-                            float realcharge = chargeAmount * battery.capacity;
-                            float amountGiven = realcharge;
-                            if (missingCharge < realcharge)
-                            {
-                                amountGiven = missingCharge;
-                            }
-                            battery.charge += amountGiven;
-                            float realenergyconsumtion = energyconsumtion * battery.capacity;
-                            powerRelay.ConsumeEnergy(realenergyconsumtion, out float econsumtionbase);
-                            ErrorMessage.AddMessage("WirelessTest - charged Tool");
-                            toolsgotloaded = true;
-                            break;
-                            
-                            //chargeAmount -= amountGiven;
-
-                            //if (chargeAmount <= 0)
-                            //{
-                                //break;
-                            //}
-        }
-                    }
-
-                    if (!toolsgotloaded)
-                    {
-                        //Charge Batteries without Tools in the Inventory AFTER Tools are charged.
-                        Inventory inventory = Inventory.Get();
-                        foreach (var item in inventory.container)
-                        {
-                            if (item.item.TryGetComponent<IBattery>(out IBattery ibatteryComponent) && ibatteryComponent.charge < ibatteryComponent.capacity)
-                            {
-                                ErrorMessage.AddMessage("WirelessTest - charging battery");
-                                ibatteryComponent.charge += chargeAmount * ibatteryComponent.capacity;
-                                float realenergyconsumtion = energyconsumtion * ibatteryComponent.capacity;
-                                powerRelay.ConsumeEnergy(realenergyconsumtion, out float econsumtionbase);
-                                break;
-                            }
-                        }
-                    }
-                }
-            }
-            wirelesschargertimer = 6f;
-            */
         }
     }
 }

@@ -44,6 +44,10 @@
       <HintPath>C:\Program Files (x86)\Steam\steamapps\common\SubnauticaBranches\QMod\BepInEx\plugins\QModManager\QModInstaller.dll</HintPath>
       <Private>False</Private>
     </Reference>
+    <Reference Include="SMLHelper">
+      <HintPath>C:\Program Files (x86)\Steam\steamapps\common\Subnautica.stable_68598\QMods\Modding Helper\SMLHelper.dll</HintPath>
+      <Private>False</Private>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -63,7 +67,8 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CargerWirelessCharging.cs" />
-    <Compile Include="Mono\WirelessCharger.cs" />
+    <Compile Include="Item\WirelessChargingChip.cs" />
+    <Compile Include="Managment\IngameConfigMenu.cs" />
     <Compile Include="Patches\Charger_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
