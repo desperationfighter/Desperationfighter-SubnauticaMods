@@ -1,4 +1,5 @@
-﻿using HarmonyLib;
+﻿/*
+using HarmonyLib;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,21 +24,6 @@ namespace ChargerWirelessCharging.Patches
             bool basefound = false;
             if (Player.main.currentSub != null)
             {
-                //if(Player.main.currentSub.TryGetComponent<Base>(out Base baseplayercurrently))
-                //{
-                //    ErrorMessage.AddMessage("Base found where the player is");
-                //    if (__instance.GetComponentInParent<Base>() == baseplayercurrently)
-                //    {
-                //        ErrorMessage.AddMessage("Player is in base of the Charger");
-                //        basefound = true;
-                //    }
-                //    //else
-                //    //{
-                //        //ErrorMessage.AddMessage("Charger is in different base");
-                //        return;
-                //    //}
-                //}
-
                 if(__instance.GetComponentInParent<SubRoot>() == Player.main.currentSub)
                 {
                     basefound = true;
@@ -57,13 +43,9 @@ namespace ChargerWirelessCharging.Patches
             float distance = (Vector3.Distance(Player.main.gameObject.transform.position, __instance.gameObject.transform.position));
             if (distance > ChargerWirelessCharging.Config.Config_maxPlayerDistanceToCharger)
             {
-                //ErrorMessage.AddMessage($"distance is bigger {wirelesschargingdistance} -> {distance}");
                 return;
             }
-            //else
-            //{
-                //ErrorMessage.AddMessage($"{ wirelesschargingdistance} -> { distance}");
-            //}
+
 
             if (Time.deltaTime == 0f) return;
             if (wirelesschargertimer > 0f)
@@ -206,3 +188,4 @@ namespace ChargerWirelessCharging.Patches
         }
     }
 }
+*/

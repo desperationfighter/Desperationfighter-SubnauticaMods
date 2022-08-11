@@ -11,6 +11,7 @@ namespace ChargerWirelessCharging.Mono
         public static float wirelesschargertimer;
         public static float wirelesschargertimerreset = 5f;
         public bool basefound;
+        public float interrimdistance;
 
         public void Awake()
         {
@@ -29,6 +30,8 @@ namespace ChargerWirelessCharging.Mono
             {
                 basefound = false;
             }
+
+            interrimdistance  = (Vector3.Distance(Player.main.gameObject.transform.position, charger.gameObject.transform.position));
         }
 
         public void Update()
@@ -36,8 +39,8 @@ namespace ChargerWirelessCharging.Mono
             if (!ChargerWirelessCharging.Config.Config_modEnable) return;
             if (!basefound) return;
 
-            float distance = (Vector3.Distance(Player.main.gameObject.transform.position, charger.gameObject.transform.position));
-            if (distance > ChargerWirelessCharging.Config.Config_maxPlayerDistanceToCharger)
+            
+            if (interrimdistance > ChargerWirelessCharging.Config.Config_maxPlayerDistanceToCharger)
             {
                 return;
             }
