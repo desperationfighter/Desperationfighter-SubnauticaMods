@@ -4,10 +4,11 @@ using ChargerWirelessCharging.Patches;
 
 namespace ChargerWirelessCharging.Mono
 {
-    public class WirelessChargerObject : MonoBehaviour
+    public class WirelessChargerMonoObject : MonoBehaviour
     {
         public SubRoot subRoot;
         public Charger charger;
+        public string classofcharger;
         public static float wirelesschargertimer;
         public static float wirelesschargertimerreset = 5f;
         public bool basefound;
@@ -17,6 +18,41 @@ namespace ChargerWirelessCharging.Mono
         {
             subRoot = GetComponentInParent<SubRoot>();
             charger = GetComponentInParent<Charger>();
+
+            if(TryGetComponent<BatteryCharger>(out BatteryCharger bc))
+            {
+                ErrorMessage.AddMessage("1 i am a BatteryCharger");
+            }
+            if(TryGetComponent<PowerCellCharger>(out PowerCellCharger pc))
+            {
+                ErrorMessage.AddMessage("2 i am a PowercellCharger");
+            }
+            try
+            {
+                BatteryCharger pcc = GetComponentInParent<BatteryCharger>();
+                if (pcc != null)
+                {
+                    ErrorMessage.AddMessage("3 i am a BatteryCharger");
+                }
+            }
+            catch
+            {
+                ErrorMessage.AddMessage("3 meep");
+            }
+            try
+            {
+                PowerCellCharger pcc = GetComponentInParent<PowerCellCharger>();
+                if (pcc != null)
+                {
+                    ErrorMessage.AddMessage("4 i am a PowercellCharger");
+                }
+            }
+            catch
+            {
+                ErrorMessage.AddMessage("4 meep");
+            }
+
+
             basefound = false;
         }
 
