@@ -19,6 +19,7 @@ namespace ChargerWirelessCharging.Patches
         }
     }
 
+    //this is the very first version that do all stuff at once in the Update. Now everything is splitted to reduce workload including moving it to a Mono Object.
     /*
     [HarmonyPatch(typeof(Charger))]
     [HarmonyPatch(nameof(Charger.Update))]

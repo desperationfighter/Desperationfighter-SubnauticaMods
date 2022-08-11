@@ -8,9 +8,8 @@ namespace ChargerWirelessCharging.Mono
     {
         public SubRoot subRoot;
         public Charger charger;
-        public string classofcharger;
-        public static float wirelesschargertimer;
-        public static float wirelesschargertimerreset = 5f;
+        public float wirelesschargertimer;
+        public float wirelesschargertimerreset = 5f;
         public bool basefound;
         public float interrimdistance;
 
@@ -18,42 +17,8 @@ namespace ChargerWirelessCharging.Mono
         {
             subRoot = GetComponentInParent<SubRoot>();
             charger = GetComponentInParent<Charger>();
-
-            if(TryGetComponent<BatteryCharger>(out BatteryCharger bc))
-            {
-                ErrorMessage.AddMessage("1 i am a BatteryCharger");
-            }
-            if(TryGetComponent<PowerCellCharger>(out PowerCellCharger pc))
-            {
-                ErrorMessage.AddMessage("2 i am a PowercellCharger");
-            }
-            try
-            {
-                BatteryCharger pcc = GetComponentInParent<BatteryCharger>();
-                if (pcc != null)
-                {
-                    ErrorMessage.AddMessage("3 i am a BatteryCharger");
-                }
-            }
-            catch
-            {
-                ErrorMessage.AddMessage("3 meep");
-            }
-            try
-            {
-                PowerCellCharger pcc = GetComponentInParent<PowerCellCharger>();
-                if (pcc != null)
-                {
-                    ErrorMessage.AddMessage("4 i am a PowercellCharger");
-                }
-            }
-            catch
-            {
-                ErrorMessage.AddMessage("4 meep");
-            }
-
-
             basefound = false;
+            wirelesschargertimer = 0f;
         }
 
         public void FixedUpdate()
@@ -74,16 +39,15 @@ namespace ChargerWirelessCharging.Mono
         {
             if (!ChargerWirelessCharging.Config.Config_modEnable) return;
             if (!basefound) return;
-
-            
-            if (interrimdistance > ChargerWirelessCharging.Config.Config_maxPlayerDistanceToCharger)
-            {
-                return;
-            }
+            if (interrimdistance > ChargerWirelessCharging.Config.Config_maxPlayerDistanceToCharger) return;
             if (Time.deltaTime == 0f) return;
+
+            float DNCdelta = DayNightCycle.main.deltaTime;
+
+
             if (wirelesschargertimer > 0f)
             {
-                wirelesschargertimer -= DayNightCycle.main.deltaTime;
+                wirelesschargertimer -= DNCdelta;
                 if (wirelesschargertimer < 0f)
                 {
                     wirelesschargertimer = 0f;
@@ -91,23 +55,20 @@ namespace ChargerWirelessCharging.Mono
             }
             if (wirelesschargertimer <= 0f)
             {
-                int num = 0;
                 bool flag = false;
+                Battery targetbattery = null;
                 PowerRelay powerRelay = PowerSource.FindRelay(charger.transform);
                 if (powerRelay != null)
                 {
                     float num2 = 0f;
-                    Battery targetbattery = null;
-
-                    foreach (Battery battery in Player_FixedUpdate_Patch.batteries)
+                    foreach (Battery battery in Player_BatteryStorage.batteries)
                     {
-                        if (!charger.allowedTech.Contains(CraftData.GetTechType(battery.gameObject))) break;
+                        if (!charger.allowedTech.Contains(CraftData.GetTechType(battery.gameObject))) continue;
                         float charge = battery.charge;
                         float capacity = battery.capacity;
                         if (charge < capacity)
                         {
-                            num++;
-                            float num3 = DayNightCycle.main.deltaTime * ChargerWirelessCharging.Config.Config_WirelessChargeSpeed * capacity;
+                            float num3 = DNCdelta * (charger.chargeSpeed/100*ChargerWirelessCharging.Config.Config_WirelessChargeSpeed) * capacity;
                             if (charge + num3 > capacity)
                             {
                                 num3 = capacity - charge;
@@ -126,7 +87,7 @@ namespace ChargerWirelessCharging.Mono
                     }
                     if (num4 > 0f)
                     {
-                        float num5 = num4 / 4;
+                        float num5 = num4;
                         float charge2 = targetbattery.charge;
                         float capacity2 = targetbattery.capacity;
                         if (charge2 < capacity2)
@@ -148,7 +109,7 @@ namespace ChargerWirelessCharging.Mono
                         }
                     }
                 }
-                if (num == 0 || !flag)
+                if (targetbattery == null || !flag)
                 {
                     wirelesschargertimer = wirelesschargertimerreset;
                 }

@@ -4,16 +4,20 @@ using UnityEngine;
 
 namespace ChargerWirelessCharging.Patches
 {
+    public class Player_BatteryStorage
+    {
+        public static List<Battery> batteries;
+    }
+
+
     [HarmonyPatch(typeof(Player))]
     [HarmonyPatch(nameof(Player.FixedUpdate))]
     public static class Player_FixedUpdate_Patch
     {
-        public static List<Battery> batteries;
-
         [HarmonyPostfix]
         private static void PostFix(Player __instance)
         {
-            batteries = null;
+            Player_BatteryStorage.batteries = new List<Battery>();
             List<Battery> batterieslowprio = new List<Battery>();
             List<Battery> batterieshighprio = new List<Battery>();
 
@@ -32,12 +36,10 @@ namespace ChargerWirelessCharging.Patches
                             //GameObject gameObject = eminmax.GetBatteryGameObject();
                             if (gameObject != null)
                             {
-
                                     if (gameObject.TryGetComponent(out Battery intoolbattery))
                                     {
                                         batterieshighprio.Add(intoolbattery);
                                     }
-                                
                             }
 
                         }
@@ -51,7 +53,7 @@ namespace ChargerWirelessCharging.Patches
 
             foreach (Battery b_h in batterieshighprio)
             {
-                batteries.Add(b_h);
+                Player_BatteryStorage.batteries.Add(b_h);
             }
 
             bool playerHasChipEquipted = false;
@@ -68,14 +70,14 @@ namespace ChargerWirelessCharging.Patches
                 }
             }
 
-            //and here is the Workaround ..... ..... .... yeah .... well....
-            if (ChargerWirelessCharging.Config.Config_chargeLooseBatteryWithoutChip || playerHasChipEquipted)
             //The easy way does not work with the MoreChipSlots Mod so yeah i need to find a workaround
             //if (CargerWirelessCharging.Config.Config_chargeLooseBatteryWithoutChip | Inventory.main.equipment.GetTechTypeInSlot("Chip") == CargerWirelessCharging.WirelessChargerChipTechType)
+            //and here is the Workaround ..... ..... .... yeah .... well....
+            if (ChargerWirelessCharging.Config.Config_chargeLooseBatteryWithoutChip || playerHasChipEquipted)
             {
                 foreach (Battery b_l in batterieslowprio)
                 {
-                    batteries.Add(b_l);
+                    Player_BatteryStorage.batteries.Add(b_l);
                 }
             }
         }

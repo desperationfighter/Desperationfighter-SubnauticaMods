@@ -9,9 +9,9 @@ namespace ChargerWirelessCharging.Item
     internal class WirelessChargingChip : Equipable
     {
         public static TechType TechTypeID { get; protected set; }
-        public WirelessChargingChip() : base("WirelessChargingChip",
-            "Wireless Charging Chip",
-            "This Chip managed Wireless charging for Loose Batteries in your Inventory.")
+        public WirelessChargingChip() : base("WirelesschargingChip",
+            "Wireless charging Chip",
+            "This Chip managed Wireless charging for Loose Batteries in your Inventory. (Does not Stack for Loading Speed)")
         { }
 
         public override string DiscoverMessage => "Wireless Charging Chip discovered";

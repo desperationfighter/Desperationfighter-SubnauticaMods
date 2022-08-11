@@ -70,7 +70,6 @@
     <Compile Include="Item\WirelessChargingChip.cs" />
     <Compile Include="Managment\IngameConfigMenu.cs" />
     <Compile Include="Mono\WirelessChargerObject.cs" />
-    <Compile Include="Patches\BatteryCharger_Patch.cs" />
     <Compile Include="Patches\Charger_Patch.cs" />
     <Compile Include="Patches\Player_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
