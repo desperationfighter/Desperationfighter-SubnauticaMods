@@ -17,6 +17,8 @@ using System;
 
 namespace ChargerWirelessCharging
 {
+    //Thanks to EldritchCarMaker for giving me some advices for this Project
+
     [QModCore]
     public class ChargerWirelessCharging
     {
