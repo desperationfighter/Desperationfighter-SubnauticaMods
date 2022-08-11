@@ -1,7 +1,7 @@
 ﻿using SMLHelper.V2.Json;
 using SMLHelper.V2.Options.Attributes;
 
-namespace CargerWirelessCharging.Managment
+namespace ChargerWirelessCharging.Managment
 {
     [Menu("Charger Wireless Charging Settings", SaveOn = MenuAttribute.SaveEvents.ChangeValue)]
     public class IngameConfigMenu : ConfigFile

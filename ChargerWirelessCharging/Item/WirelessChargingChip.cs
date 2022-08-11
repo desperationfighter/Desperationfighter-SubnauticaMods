@@ -4,7 +4,7 @@ using System.IO;
 using System.Reflection;
 using UnityEngine;
 
-namespace CargerWirelessCharging.Item
+namespace ChargerWirelessCharging.Item
 {
     internal class WirelessChargingChip : Equipable
     {

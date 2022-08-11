@@ -7,8 +7,8 @@
     <ProjectGuid>{B54A4315-BF07-46C5-AA73-5B21C1C6ED19}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>CargerWirelessCharging</RootNamespace>
-    <AssemblyName>CargerWirelessCharging</AssemblyName>
+    <RootNamespace>ChargerWirelessCharging</RootNamespace>
+    <AssemblyName>ChargerWirelessCharging</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
@@ -66,14 +66,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CargerWirelessCharging.cs" />
+    <Compile Include="ChargerWirelessCharging.cs" />
     <Compile Include="Item\WirelessChargingChip.cs" />
     <Compile Include="Managment\IngameConfigMenu.cs" />
+    <Compile Include="Mono\WirelessChargerObject.cs" />
     <Compile Include="Patches\Charger_Patch.cs" />
+    <Compile Include="Patches\Player_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="CargerWirelessCharging\mod.json" />
+    <None Include="ChargerWirelessCharging\mod.json" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

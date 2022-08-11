@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace CargerWirelessCharging.Patches
+namespace ChargerWirelessCharging.Patches
 {
     [HarmonyPatch(typeof(Charger))]
     [HarmonyPatch(nameof(Charger.Update))]
@@ -10,13 +10,11 @@ namespace CargerWirelessCharging.Patches
     {
         public static float wirelesschargertimer;
         public static float wirelesschargertimerreset = 5f;
-        internal static float chargeSpeed = 0.004f;
-        public static float wirelesschargingdistance = 40f;
 
         [HarmonyPostfix]
         private static void PostFix(Charger __instance)
         {
-            if(!CargerWirelessCharging.Config.Config_modEnable) return;
+            if(!ChargerWirelessCharging.Config.Config_modEnable) return;
 
             //old simple test way
             //if (Player.main.currentSub == null) return;
@@ -25,31 +23,27 @@ namespace CargerWirelessCharging.Patches
             bool basefound = false;
             if (Player.main.currentSub != null)
             {
-                /*
-                if(Player.main.currentSub.TryGetComponent<Base>(out Base baseplayercurrently))
-                {
-                    ErrorMessage.AddMessage("Base found where the player is");
-                    if (__instance.GetComponentInParent<Base>() == baseplayercurrently)
-                    {
-                        ErrorMessage.AddMessage("Player is in base of the Charger");
-                        basefound = true;
-                    }
-                    //else
-                    //{
-                        //ErrorMessage.AddMessage("Charger is in different base");
-                        return;
-                    //}
-                }
-                */
+                //if(Player.main.currentSub.TryGetComponent<Base>(out Base baseplayercurrently))
+                //{
+                //    ErrorMessage.AddMessage("Base found where the player is");
+                //    if (__instance.GetComponentInParent<Base>() == baseplayercurrently)
+                //    {
+                //        ErrorMessage.AddMessage("Player is in base of the Charger");
+                //        basefound = true;
+                //    }
+                //    //else
+                //    //{
+                //        //ErrorMessage.AddMessage("Charger is in different base");
+                //        return;
+                //    //}
+                //}
 
                 if(__instance.GetComponentInParent<SubRoot>() == Player.main.currentSub)
                 {
-                    ErrorMessage.AddMessage("Subroot found");
                     basefound = true;
                 }
                 else
                 {
-                    ErrorMessage.AddMessage("no Subroot");
                     return;
                 }
             }
@@ -61,7 +55,7 @@ namespace CargerWirelessCharging.Patches
             if (!basefound) return;
 
             float distance = (Vector3.Distance(Player.main.gameObject.transform.position, __instance.gameObject.transform.position));
-            if (distance > wirelesschargingdistance)
+            if (distance > ChargerWirelessCharging.Config.Config_maxPlayerDistanceToCharger)
             {
                 //ErrorMessage.AddMessage($"distance is bigger {wirelesschargingdistance} -> {distance}");
                 return;
@@ -138,7 +132,7 @@ namespace CargerWirelessCharging.Patches
                         if(keyValuePairs.Current.Value != null)
                         {
                             InventoryItem inventoryItem = keyValuePairs.Current.Value;
-                            if (inventoryItem.item.GetTechType() == CargerWirelessCharging.WirelessChargerChipTechType)
+                            if (inventoryItem.item.GetTechType() == ChargerWirelessCharging.WirelessChargerChipTechType)
                             {
                                 playerHasChipEquipted = true;
                             }
@@ -146,7 +140,7 @@ namespace CargerWirelessCharging.Patches
                     }
 
                     //and here is the Workaround ..... ..... .... yeah .... well....
-                    if (CargerWirelessCharging.Config.Config_chargeLooseBatteryWithoutChip || playerHasChipEquipted)
+                    if (ChargerWirelessCharging.Config.Config_chargeLooseBatteryWithoutChip || playerHasChipEquipted)
                     //The easy way does not work with the MoreChipSlots Mod so yeah i need to find a workaround
                     //if (CargerWirelessCharging.Config.Config_chargeLooseBatteryWithoutChip | Inventory.main.equipment.GetTechTypeInSlot("Chip") == CargerWirelessCharging.WirelessChargerChipTechType)
                     {
@@ -163,7 +157,7 @@ namespace CargerWirelessCharging.Patches
                         if (charge < capacity)
                         {
                             num++;
-                            float num3 = DayNightCycle.main.deltaTime * chargeSpeed * capacity;
+                            float num3 = DayNightCycle.main.deltaTime * ChargerWirelessCharging.Config.Config_WirelessChargeSpeed * capacity;
                             if (charge + num3 > capacity)
                             {
                                 num3 = capacity - charge;
