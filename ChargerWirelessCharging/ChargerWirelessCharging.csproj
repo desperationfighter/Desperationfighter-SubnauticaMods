@@ -77,6 +77,11 @@
   <ItemGroup>
     <None Include="ChargerWirelessCharging\mod.json" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Include="AssetsLib\chip_wireless.png" />
+    <Content Include="AssetsLib\chip_wireless_a.png" />
+    <Content Include="ChargerWirelessCharging\Assets\WirelesschargingChip.png" />
+  </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

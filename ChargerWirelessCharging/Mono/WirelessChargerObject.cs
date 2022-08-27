@@ -12,13 +12,21 @@ namespace ChargerWirelessCharging.Mono
         public float wirelesschargertimerreset = 5f;
         public bool basefound;
         public float interrimdistance;
+        public string lastchargetarget;
+        public float lastchargediff;
+        public float lastcharge;
 
         public void Awake()
         {
             subRoot = GetComponentInParent<SubRoot>();
             charger = GetComponentInParent<Charger>();
             basefound = false;
-            wirelesschargertimer = 0f;
+            wirelesschargertimer = 3f;
+        }
+
+        public void Start()
+        {
+            wirelesschargertimer = 2f;
         }
 
         public void FixedUpdate()
@@ -32,7 +40,14 @@ namespace ChargerWirelessCharging.Mono
                 basefound = false;
             }
 
-            interrimdistance  = (Vector3.Distance(Player.main.gameObject.transform.position, charger.gameObject.transform.position));
+            if(basefound)
+            {
+                interrimdistance = (Vector3.Distance(Player.main.gameObject.transform.position, charger.gameObject.transform.position));
+            }
+            else
+            {
+                interrimdistance = 9999;
+            }
         }
 
         public void Update()
@@ -42,12 +57,9 @@ namespace ChargerWirelessCharging.Mono
             if (interrimdistance > ChargerWirelessCharging.Config.Config_maxPlayerDistanceToCharger) return;
             if (Time.deltaTime == 0f) return;
 
-            float DNCdelta = DayNightCycle.main.deltaTime;
-
-
             if (wirelesschargertimer > 0f)
             {
-                wirelesschargertimer -= DNCdelta;
+                wirelesschargertimer -= DayNightCycle.main.deltaTime;
                 if (wirelesschargertimer < 0f)
                 {
                     wirelesschargertimer = 0f;
@@ -68,7 +80,7 @@ namespace ChargerWirelessCharging.Mono
                         float capacity = battery.capacity;
                         if (charge < capacity)
                         {
-                            float num3 = DNCdelta * (charger.chargeSpeed/100*ChargerWirelessCharging.Config.Config_WirelessChargeSpeed) * capacity;
+                            float num3 = DayNightCycle.main.deltaTime * (charger.chargeSpeed/100*ChargerWirelessCharging.Config.Config_WirelessChargeSpeed) * capacity;
                             if (charge + num3 > capacity)
                             {
                                 num3 = capacity - charge;
@@ -97,6 +109,7 @@ namespace ChargerWirelessCharging.Mono
                             if (num7 < 0.005f)
                             {
                                 targetbattery.charge = targetbattery.capacity;
+                                lastchargediff = num7;
                             }
                             else
                             {
@@ -105,11 +118,14 @@ namespace ChargerWirelessCharging.Mono
                                     num6 = num7;
                                 }
                                 targetbattery.charge += num6;
+                                lastchargediff = num6;
                             }
+                            lastcharge = targetbattery.charge;
+                            lastchargetarget = $"{targetbattery.name} - {CraftData.GetTechType(targetbattery.gameObject)}";
                         }
                     }
                 }
-                if (targetbattery == null || !flag)
+                if (targetbattery == null | !flag)
                 {
                     wirelesschargertimer = wirelesschargertimerreset;
                 }

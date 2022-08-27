@@ -11,7 +11,7 @@ namespace ChargerWirelessCharging.Item
         public static TechType TechTypeID { get; protected set; }
         public WirelessChargingChip() : base("WirelesschargingChip",
             "Wireless charging Chip",
-            "This Chip managed Wireless charging for Loose Batteries in your Inventory. (Does not Stack for Loading Speed)")
+            "This Chip managed Wireless charging for Loose Batteries in your Inventory. (Does not Stack for Loading Speed, build more Charger instead)")
         { }
 
         public override string DiscoverMessage => "Wireless Charging Chip discovered";
@@ -25,13 +25,15 @@ namespace ChargerWirelessCharging.Item
         public override float CraftingTime => 3f;
         public override string[] StepsToFabricatorTab => new string[] { "Personal", "Equipment" };
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
-        //public override string IconFileName => ".png";
+        public override string IconFileName => "WirelesschargingChip.png";
+
         public override GameObject GetGameObject()
         {
             GameObject originGlove_prefab = CraftData.GetPrefabForTechType(TechType.MapRoomHUDChip);
             GameObject gameobj = Object.Instantiate(originGlove_prefab);
             return gameobj;
         }
+
         protected override TechData GetBlueprintRecipe()
         {
             return new TechData()
