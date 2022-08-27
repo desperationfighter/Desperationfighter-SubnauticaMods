@@ -18,6 +18,7 @@ using System;
 namespace ChargerWirelessCharging
 {
     //Thanks to EldritchCarMaker for giving me some advices for this Project
+    //Thanks to "Tom Stone / The Hive" for creating the Charger Chip Icon
 
     [QModCore]
     public class ChargerWirelessCharging
