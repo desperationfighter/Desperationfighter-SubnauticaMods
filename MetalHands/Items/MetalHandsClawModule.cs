@@ -1,13 +1,9 @@
 ﻿using SMLHelper.V2.Assets;
 using SMLHelper.V2.Crafting;
-using MetalHands.Managment;
-
-using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
-using SMLHelper.V2.Utility;
 using UnityEngine;
-using SMLHelper.V2.Handlers;
+using System.Collections;
 
 namespace MetalHands.Items
 {
@@ -30,11 +26,23 @@ namespace MetalHands.Items
         public override string[] StepsToFabricatorTab => new string[] { "ExosuitModules" };
         public override string AssetsFolder => Path.Combine(Path.GetDirectoryName(Assembly.GetExecutingAssembly().Location), "Assets");
         public override string IconFileName => "MetalHandsClawModule.png";
+        /*
         public override GameObject GetGameObject()
         {
             GameObject originGlove_prefab = CraftData.GetPrefabForTechType(TechType.ExosuitJetUpgradeModule);
             GameObject gameobj = Object.Instantiate(originGlove_prefab);
             return gameobj;
+        }
+        */
+        public override IEnumerator GetGameObjectAsync(IOut<GameObject> gameObject)
+        {
+            CoroutineTask<GameObject> task = CraftData.GetPrefabForTechTypeAsync(TechType.ExosuitJetUpgradeModule);
+            yield return task;
+            GameObject prefab = task.GetResult();
+            GameObject obj = GameObject.Instantiate(prefab);
+            prefab.SetActive(false);
+
+            gameObject.Set(obj);
         }
 
         protected override TechData GetBlueprintRecipe()

@@ -12,7 +12,7 @@ namespace MetalHands.Items
     {
         public MetalHandsClawModule() : base("MetalHandsClawModule",
             "Grav Hand Plugin",
-            "This Plugin intregates a Gravitations function to the PRAWN Hands and allow a shortrange "
+            "This Plugin intregates a Gravitations function to the PRAWN Hands and allow a shortrange Magnetic Ressource Collection"
             )
         { }
         public override CraftTree.Type FabricatorType => CraftTree.Type.SeamothUpgrades;

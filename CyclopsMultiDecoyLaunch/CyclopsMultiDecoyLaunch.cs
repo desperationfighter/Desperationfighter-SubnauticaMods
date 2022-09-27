@@ -51,6 +51,20 @@ namespace CyclopsMultiDecoyLaunch
                     iknowwhatido = false;
                 }
             }
+
+            Logger.Log(Logger.Level.Debug, $"test start");
+            foreach (var entry in Equipment.slotMapping)
+            {
+                Logger.Log(Logger.Level.Debug, $"{entry.Key} - {entry.Value.ToString()}");
+            }
+            Equipment.slotMapping.Add("DecoySlot6", EquipmentType.DecoySlot);
+            Equipment.slotMapping.Add("DecoySlot7", EquipmentType.DecoySlot);
+            Equipment.slotMapping.Add("DecoySlot8", EquipmentType.DecoySlot);
+            Logger.Log(Logger.Level.Debug, $"after adding");
+            foreach (var entry in Equipment.slotMapping)
+            {
+                Logger.Log(Logger.Level.Debug, $"{entry.Key} - {entry.Value.ToString()}");
+            }
         }
     }
 }

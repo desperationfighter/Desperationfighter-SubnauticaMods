@@ -1,5 +1,4 @@
-﻿/*
-using HarmonyLib;
+﻿using HarmonyLib;
 using CyclopsMultiDecoyLaunch.Management;
 
 namespace CyclopsMultiDecoyLaunch.Patches
@@ -34,4 +33,3 @@ namespace CyclopsMultiDecoyLaunch.Patches
         }
     }
 }
-*/

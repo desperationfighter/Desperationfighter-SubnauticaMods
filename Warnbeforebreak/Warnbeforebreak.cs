@@ -13,7 +13,7 @@ namespace Warnbeforebreak
     public static class Warnbeforebreak
     {
         [QModPatch]
-        public static void wrnbeforebreak_InitializationMethod()
+        public static void warnbeforebreak_InitializationMethod()
         {
             Logger.Log(Logger.Level.Debug, "Warnbeforebreak Initialization");
             Harmony harmony = new Harmony("Warnbeforebreak");

@@ -26,7 +26,7 @@ namespace StorageInfo_SN.Patches
                 Logger.Log(Logger.Level.Debug, "Deeploging deactivated");
             }
             
-            Logger.Log(Logger.Level.Debug, "Start Transpiler");
+            Logger.Log(Logger.Level.Debug, "Start Transpiler - StorageContainer_OnHandHover_Patch");
 
             var getFullState = typeof(StorageContainer_OnHandHover_Patch).GetMethod("Getfullstate", BindingFlags.Public | BindingFlags.Static);
             var stringEmpty = AccessTools.Field(typeof(string), "Empty");
@@ -48,6 +48,15 @@ namespace StorageInfo_SN.Patches
             Logger.Log(Logger.Level.Debug, "Start code analyses");
             for (var i = 0; i < codes.Count; i++)
             {
+            /*
+            1 IL_003F: call instance bool StorageContainer::IsEmpty()
+            2 IL_0044: brtrue.s IL_004D
+            3 IL_0046: ldsfld    string[mscorlib] System.String::Empty
+            4 IL_004B: br.s IL_0052
+            5 IL_004D: ldstr     "Empty"
+            
+             */
+                
                 if (codes[i].opcode == OpCodes.Call && codes[i+2].opcode == OpCodes.Ldsfld && codes[i + 4].opcode == OpCodes.Ldstr)
                 {
                     Logger.Log(Logger.Level.Debug, "Found IL Code Line for Index");

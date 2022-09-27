@@ -65,7 +65,9 @@
     <Compile Include="CyclopsMultiDecoyLaunch.cs" />
     <Compile Include="Management\IngameConfigMenu.cs" />
     <Compile Include="Patches\CyclopsDecoyLaunchButton_Patch.cs" />
+    <Compile Include="Patches\CyclopsDecoyLoadingTube_Patch.cs" />
     <Compile Include="Patches\CyclopsDecoyManager_Patch.cs" />
+    <Compile Include="Patches\Equipment_Patch.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />
